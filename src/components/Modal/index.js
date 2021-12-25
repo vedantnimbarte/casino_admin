@@ -1,3 +1,4 @@
+import propTypes from 'prop-types';
 import { Modal, IconButton } from '@mui/material';
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
@@ -32,5 +33,12 @@ function ModalComponent({ title, children, open, onClose }) {
         </Modal>
     );
 }
+
+ModalComponent.propTypes = {
+    title: propTypes.string.isRequired,
+    open: propTypes.string.isRequired,
+    onClose: propTypes.func.isRequired,
+    children: propTypes.any.isRequired
+};
 
 export default ModalComponent;

@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import MUIDataTable from 'mui-datatables';
 import { Box } from '@mui/material';
 
@@ -10,5 +9,12 @@ function DataTable({ title, data, columns, options }) {
         </Box>
     );
 }
+
+DataTable.propTypes = {
+    title: propTypes.string.isRequired,
+    data: propTypes.array.isRequired,
+    columns: propTypes.array.isRequired,
+    options: propTypes.array.isRequired
+};
 
 export default DataTable;

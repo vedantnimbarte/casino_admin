@@ -22,6 +22,7 @@ const GameGroupPage = Loadable(lazy(() => import('views/pages/cms/gameGroup')));
 // configuration routing
 const RolesPage = Loadable(lazy(() => import('views/pages/configuration/roles')));
 const PermissionsPage = Loadable(lazy(() => import('views/pages/configuration/permissions')));
+const CommissionPlansPage = Loadable(lazy(() => import('views/pages/configuration/commissionPlans')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -90,8 +91,8 @@ const MainRoutes = {
             element: <PermissionsPage />
         },
         {
-            path: '/utils/util-color',
-            element: <UtilsColor />
+            path: '/commission',
+            element: <CommissionPlansPage />
         },
         {
             path: '/utils/util-shadow',

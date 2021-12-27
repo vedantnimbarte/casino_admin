@@ -14,6 +14,13 @@ const cmsMenuItems = [
         breadcrumbs: false
     },
     {
+        id: 'games-group',
+        title: 'Game Groups',
+        type: 'item',
+        url: '/game-group',
+        breadcrumbs: false
+    },
+    {
         id: 'faq',
         title: 'FAQ',
         type: 'item',
@@ -31,35 +38,35 @@ const cmsMenuItems = [
         id: 'terms-conditions',
         title: 'Terms & Conditions',
         type: 'item',
-        url: '/icons/material-icons',
+        url: '/terms-conditions',
         breadcrumbs: false
     },
     {
         id: 'payment-terms',
         title: 'Payment Terms',
         type: 'item',
-        url: '/icons/material-icons',
+        url: '/payment-terms',
         breadcrumbs: false
     },
     {
         id: 'privacy-policy',
         title: 'Privacy Policy',
         type: 'item',
-        url: '/icons/material-icons',
+        url: '/privacy-policy',
         breadcrumbs: false
     },
     {
         id: 'about-us',
         title: 'About Us',
         type: 'item',
-        url: '/icons/material-icons',
+        url: '/about',
         breadcrumbs: false
     },
     {
         id: 'disclaimer',
         title: 'Disclaimer',
         type: 'item',
-        url: '/icons/material-icons',
+        url: '/disclaimer',
         breadcrumbs: false
     }
 ];

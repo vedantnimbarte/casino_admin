@@ -3,21 +3,21 @@ const configurationMenuItems = [
         id: 'commission-plans',
         title: 'Commission Plans',
         type: 'item',
-        url: '/commission',
+        url: '/configuration/commission',
         breadcrumbs: false
     },
     {
         id: 'roles',
         title: 'Roles',
         type: 'item',
-        url: '/roles',
+        url: '/configuration/roles',
         breadcrumbs: false
     },
     {
         id: 'permissions',
         title: 'Permissions',
         type: 'item',
-        url: '/permissions',
+        url: '/configuration/permissions',
         breadcrumbs: false
     }
 ];

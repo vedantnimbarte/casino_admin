@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl, Select, MenuItem } from '@mui/material';
+import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl, Select, MenuItem, Typography } from '@mui/material';
 // import DataTable from 'mui-datatables';
-import { IconEditCircle as EditIcon } from '@tabler/icons';
+import { IconEditCircle as EditIcon, IconHistory as HistoryIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import Modal from 'components/Modal';
+import EditCommissionPlanModal from './components/Modal/EditCommissionPlan';
+import CommissionHistoryModal from './components/Modal/CommissionHistory';
 
 function CommissionPlans() {
     const [openModal, setOpenModal] = useState(false);
+    const [commissionHistory, setCommissionHistory] = useState(false);
     const [role, setRole] = useState('');
     const [description, setDescription] = useState('');
 
@@ -40,45 +42,28 @@ function CommissionPlans() {
                 }
             >
                 <Box>
+                    <Box style={{ display: 'flex', justifyContent: 'right', marginBottom: 10 }} fullWidth>
+                        <Button
+                            startIcon={<HistoryIcon />}
+                            style={{ color: 'gray' }}
+                            onClick={() => setCommissionHistory(!commissionHistory)}
+                        >
+                            Commission History
+                        </Button>
+                    </Box>
                     <DataTable title="Commission Plans" data={data} columns={columns} options={options} />
                 </Box>
             </MainCard>
 
-            <Modal title="Edit Commission Plans" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <FormControl fullWidth style={{ margin: 10 }}>
-                        <InputLabel id="agent-group-select">Agent Group</InputLabel>
-                        <Select labelId="agent-group-select" label="Agent Group">
-                            <MenuItem>Master Distributer</MenuItem>
-                            <MenuItem>Distributer</MenuItem>
-                            <MenuItem>Sub Distributer</MenuItem>
-                            <MenuItem>Store</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth style={{ margin: 10 }}>
-                        <InputLabel>Commission %</InputLabel>
-                        <TextField
-                            value={description}
-                            type="text"
-                            rows={4}
-                            label="Commission %"
-                            onChange={(e) => setDescription(e.target.value)}
-                            variant="outlined"
-                        />
-                    </FormControl>
-                    <Button
-                        style={{
-                            backgroundColor: '#673AB7',
-                            color: '#fff',
-                            margin: 10,
-                            width: '50%',
-                            alignSelf: 'center'
-                        }}
-                    >
-                        Update Commission Plan
-                    </Button>
-                </Box>
-            </Modal>
+            <EditCommissionPlanModal
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                role={role}
+                setRole={setRole}
+                description={description}
+                setDescription={setDescription}
+            />
+            <CommissionHistoryModal openModal={commissionHistory} setOpenModal={setCommissionHistory} />
         </Box>
     );
 }

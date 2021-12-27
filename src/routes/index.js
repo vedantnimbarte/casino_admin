@@ -3,6 +3,8 @@ import { useRoutes } from 'react-router-dom';
 // routes
 import MainRoutes from './MainRoutes';
 import AuthenticationRoutes from './AuthenticationRoutes';
+import CMSRoutes from './CMSRoutes';
+import ConfigurationRoutes from './ConfigurationRoutes';
 
 import { useSelector } from 'react-redux';
 
@@ -19,5 +21,5 @@ export default function ThemeRoutes() {
     });
 
     // return useRoutes(localStorage.getItem('user-authenticated') ? [MainRoutes] : [AuthenticationRoutes]);
-    return useRoutes([AuthenticationRoutes, MainRoutes]);
+    return useRoutes([AuthenticationRoutes, MainRoutes, CMSRoutes, ConfigurationRoutes]);
 }

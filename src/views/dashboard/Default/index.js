@@ -12,15 +12,10 @@ import TotalIncomeLightCard from './TotalIncomeLightCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'store/constant';
 
-import { useDispatch } from 'react-redux';
-import { getRoutes } from 'store/userReducer';
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
     const [isLoading, setLoading] = useState(true);
-    const dispatch = useDispatch();
-
-    dispatch(getRoutes());
 
     useEffect(() => {
         setLoading(false);

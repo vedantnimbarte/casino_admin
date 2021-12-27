@@ -17,7 +17,8 @@ const gameSchema = yup.object().shape({
             'Only .jpg, .jpeg, .png files are supported',
             (value) => !value || (value && SUPPORTED_FILETYPES.includes(value.type))
         ),
-    gameGroup: yup.string().required('Please select the game group')
+    gameGroup: yup.string().required('Please select the game group'),
+    description: yup.string().optional().max(255, 'Description should be maximum 255 characters')
 });
 
 export default gameSchema;

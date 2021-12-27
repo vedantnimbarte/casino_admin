@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getRoutes } from '../../../../../store/userReducer';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -19,7 +18,6 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons';
 const NavCollapse = ({ menu, level }) => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
-    const user = useSelector((state) => state.user);
 
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState(null);
@@ -29,14 +27,7 @@ const NavCollapse = ({ menu, level }) => {
         setSelected(!selected ? menu.id : null);
     };
 
-    // menu collapse & item
-    // console.log(menu);
     const menus = menu.children?.map((item) => {
-        // let element;
-        // if (item.type === 'item' && item.url.includes(user.allowedRoutes)) {
-        //     element = <NavItem key={item.id} item={item} level={level + 1} />;
-        // }
-        // return element;
         switch (item.type) {
             case 'collapse':
                 return <NavCollapse key={item.id} menu={item} level={level + 1} />;

@@ -8,19 +8,19 @@ const userReducer = createSlice({
         role: 'ADMIN',
         allowedRoutes: [
             '/dashboard',
-            '/notification',
-            '/faq',
-            '/terms-conditions',
-            'privacy-policy',
-            '/disclaimer',
-            '/about',
-            '/payment-terms',
-            '/game',
-            '/game-group',
-            '/roles',
-            '/slider',
-            '/permissions',
-            '/commission'
+            '/cms/notification',
+            '/cms/faq',
+            '/cms/terms-conditions',
+            '/cms/privacy-policy',
+            '/cms/disclaimer',
+            '/cms/about',
+            '/cms/payment-terms',
+            '/cms/game',
+            '/cms/game-group',
+            '/cms/slider',
+            '/configuration/roles',
+            '/configuration/permissions',
+            '/configuration/commission'
         ]
     }
 });

@@ -19,7 +19,8 @@ const userReducer = createSlice({
             '/game-group',
             '/roles',
             '/slider',
-            '/permissions'
+            '/permissions',
+            '/commission'
         ]
     }
 });

@@ -3,7 +3,7 @@ const configurationMenuItems = [
         id: 'commission-plans',
         title: 'Commission Plans',
         type: 'item',
-        url: '/commission_plan',
+        url: '/commission',
         breadcrumbs: false
     },
     {

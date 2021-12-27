@@ -48,13 +48,6 @@ const Login = () => {
                                                     >
                                                         Hi, Welcome Back
                                                     </Typography>
-                                                    <Typography
-                                                        variant="caption"
-                                                        fontSize="16px"
-                                                        textAlign={matchDownSM ? 'center' : 'inherit'}
-                                                    >
-                                                        Enter your credentials to continue
-                                                    </Typography>
                                                 </Stack>
                                             </Grid>
                                         </Grid>

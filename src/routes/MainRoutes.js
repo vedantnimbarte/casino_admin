@@ -6,10 +6,21 @@ import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
-const FAQPage = Loadable(lazy(() => import('views/faq')));
-const GamesPage = Loadable(lazy(() => import('views/games')));
-const SliderPage = Loadable(lazy(() => import('views/slider')));
-const NotificationPage = Loadable(lazy(() => import('views/notification')));
+
+// cms routing
+const FAQPage = Loadable(lazy(() => import('views/pages/cms/faq')));
+const GamesPage = Loadable(lazy(() => import('views/pages/cms/games')));
+const SliderPage = Loadable(lazy(() => import('views/pages/cms/slider')));
+const NotificationPage = Loadable(lazy(() => import('views/pages/cms/notification')));
+const TermsAndConditionsPage = Loadable(lazy(() => import('views/pages/cms/termsAndConditions')));
+const DisclaimerPage = Loadable(lazy(() => import('views/pages/cms/disclaimer')));
+const AboutUsPage = Loadable(lazy(() => import('views/pages/cms/aboutUs')));
+const PaymentTermsPage = Loadable(lazy(() => import('views/pages/cms/paymentTerms')));
+const PrivacyPolicyPage = Loadable(lazy(() => import('views/pages/cms/privacyPolicy')));
+const GameGroupPage = Loadable(lazy(() => import('views/pages/cms/gameGroup')));
+
+// configuration routing
+const RolesPage = Loadable(lazy(() => import('views/pages/configuration/roles')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -38,12 +49,40 @@ const MainRoutes = {
             element: <GamesPage />
         },
         {
+            path: '/game-group',
+            element: <GameGroupPage />
+        },
+        {
             path: '/slider',
             element: <SliderPage />
         },
         {
             path: '/notification',
             element: <NotificationPage />
+        },
+        {
+            path: '/privacy-policy',
+            element: <PrivacyPolicyPage />
+        },
+        {
+            path: '/about',
+            element: <AboutUsPage />
+        },
+        {
+            path: '/disclaimer',
+            element: <DisclaimerPage />
+        },
+        {
+            path: '/payment-terms',
+            element: <PaymentTermsPage />
+        },
+        {
+            path: '/terms-conditions',
+            element: <TermsAndConditionsPage />
+        },
+        {
+            path: '/roles',
+            element: <RolesPage />
         },
         {
             path: '/utils/util-typography',

@@ -12,7 +12,6 @@ import NotFoundCard from 'components/NotFoundCard';
 
 function GameGroup() {
     const [openModal, setOpenModal] = useState(false);
-    const [groupName, setGroupName] = useState('');
 
     const columns = ['ID', 'Name', 'Action'];
 

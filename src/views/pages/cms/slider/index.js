@@ -99,7 +99,7 @@ function Slider() {
                                             alignSelf: 'center'
                                         }}
                                     >
-                                        Add Slider
+                                        Submit
                                     </Button>
                                     <Button
                                         type="reset"

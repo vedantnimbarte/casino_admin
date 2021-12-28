@@ -166,7 +166,7 @@ function Games() {
                                             alignSelf: 'center'
                                         }}
                                     >
-                                        Add Slider
+                                        Submit
                                     </Button>
                                     <Button
                                         variant="contained"

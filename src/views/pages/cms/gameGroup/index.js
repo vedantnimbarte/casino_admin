@@ -95,7 +95,7 @@ function GameGroup() {
                                             alignSelf: 'center'
                                         }}
                                     >
-                                        Add Slider
+                                        Submit
                                     </Button>
                                     <Button
                                         variant="contained"

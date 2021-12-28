@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, TextField } from '@mui/material';
-// import DataTable from 'mui-datatables';
+import { IconButton, Tooltip, Box, Button, TextField, FormControl } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
+import { Formik, Form } from 'formik';
 
 // Components
 import DataTable from 'components/DataTable';
 import Modal from 'components/Modal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
+
+import FAQSchema from 'schema/faq.schema';
 
 function FAQ() {
     const [openModal, setOpenModal] = useState(false);
@@ -50,35 +52,69 @@ function FAQ() {
 
             <Modal title="Add New FAQ" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <TextField
-                        value={faqState.question}
-                        onChange={(e) => setFaqState({ ...faqState, question: e.target.value })}
-                        variant="outlined"
-                        label="Question"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                    />
-                    <TextField
-                        value={faqState.answer}
-                        onChange={(e) => setFaqState({ ...faqState, answer: e.target.value })}
-                        multiline
-                        rows={4}
-                        variant="outlined"
-                        label="Answer"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                    />
-                    <Button
-                        style={{
-                            backgroundColor: '#673AB7',
-                            color: '#fff',
-                            margin: 10,
-                            width: '50%',
-                            alignSelf: 'center'
+                    <Formik
+                        initialValues={{ question: '', answer: '' }}
+                        validationSchema={FAQSchema}
+                        onSubmit={(values) => {
+                            console.log(values);
                         }}
                     >
-                        Add FAQ
-                    </Button>
+                        {(formik) => (
+                            <Form noValidate onSubmit={formik.handleSubmit}>
+                                <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                    <TextField
+                                        value={formik.values.question}
+                                        onChange={formik.handleChange}
+                                        variant="outlined"
+                                        label="Question"
+                                        name="question"
+                                        fullWidth
+                                        error={formik.touched.question && Boolean(formik.errors.question)}
+                                        helperText={formik.touched.question && formik.errors.question}
+                                    />
+                                </FormControl>
+                                <FormControl fullWidth style={{ margin: '10px 0' }}>
+                                    <TextField
+                                        value={formik.answer}
+                                        onChange={formik.handleChange}
+                                        multiline
+                                        rows={4}
+                                        variant="outlined"
+                                        label="Answer"
+                                        name="answer"
+                                        fullWidth
+                                        error={formik.touched.answer && Boolean(formik.errors.answer)}
+                                        helperText={formik.touched.answer && formik.errors.answer}
+                                    />
+                                </FormControl>
+                                <Box style={{ display: 'flex' }}>
+                                    <Button
+                                        type="submit"
+                                        style={{
+                                            backgroundColor: '#673AB7',
+                                            color: '#fff',
+                                            margin: 10,
+                                            width: '50%',
+                                            alignSelf: 'center'
+                                        }}
+                                    >
+                                        Submit
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="info"
+                                        style={{
+                                            margin: 10,
+                                            width: '50%'
+                                        }}
+                                        onClick={() => setOpenModal(!openModal)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Box>
+                            </Form>
+                        )}
+                    </Formik>
                 </Box>
             </Modal>
         </Box>

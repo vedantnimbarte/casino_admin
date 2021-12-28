@@ -10,9 +10,6 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
 import sliderSchema from 'schema/slider.schema';
 
-// utils
-import allInputValuesExists from 'utils/inputValueExists';
-
 function Slider() {
     const [openModal, setOpenModal] = useState(false);
 
@@ -28,11 +25,6 @@ function Slider() {
         selectableRows: false,
         rowsPerPage: 10,
         rowsPerPageOptions: [10, 20]
-    };
-
-    const checkFormValues = (values) => {
-        const result = allInputValuesExists(values);
-        console.log(result);
     };
 
     return (
@@ -100,17 +92,18 @@ function Slider() {
                                     <Button
                                         type="submit"
                                         style={{
-                                            backgroundColor: !allInputValuesExists(formik.values) ? 'lightgray' : '#673AB7',
+                                            backgroundColor: '#673AB7',
                                             color: '#fff',
                                             margin: 10,
                                             width: '50%',
                                             alignSelf: 'center'
                                         }}
-                                        disabled={!allInputValuesExists(formik.values)}
                                     >
                                         Add Slider
                                     </Button>
                                     <Button
+                                        type="reset"
+                                        onClick={() => setOpenModal(!openModal)}
                                         variant="contained"
                                         color="info"
                                         style={{

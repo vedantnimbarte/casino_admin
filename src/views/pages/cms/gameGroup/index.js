@@ -84,16 +84,31 @@ function GameGroup() {
                                         helperText={formik.touched.description && formik.errors.description}
                                     />
                                 </FormControl>
-                                <Button
-                                    type="submit"
-                                    style={{
-                                        backgroundColor: '#673AB7',
-                                        color: '#fff'
-                                    }}
-                                    fullWidth
-                                >
-                                    Add Game Group
-                                </Button>
+                                <Box style={{ display: 'flex' }}>
+                                    <Button
+                                        type="submit"
+                                        style={{
+                                            backgroundColor: '#673AB7',
+                                            color: '#fff',
+                                            margin: 10,
+                                            width: '50%',
+                                            alignSelf: 'center'
+                                        }}
+                                    >
+                                        Add Slider
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="info"
+                                        style={{
+                                            margin: 10,
+                                            width: '50%'
+                                        }}
+                                        onClick={() => setOpenModal(!openModal)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Box>
                             </Form>
                         )}
                     </Formik>

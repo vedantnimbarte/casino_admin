@@ -7,7 +7,7 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import Modal from 'components/Modal';
 import NotFoundCard from 'components/NotFoundCard';
-import { Form, Formik, useFormik } from 'formik';
+import { Form, Formik } from 'formik';
 
 // Validation Schema
 import gameSchema from 'schema/game.schema';
@@ -155,17 +155,31 @@ function Games() {
                                     error={formik.touched.description && Boolean(formik.errors.description)}
                                     helperText={formik.touched.description && formik.errors.description}
                                 />
-                                <Button
-                                    type="submit"
-                                    style={{
-                                        backgroundColor: '#673AB7',
-                                        color: '#fff',
-                                        margin: 10
-                                    }}
-                                    fullWidth
-                                >
-                                    Add Game
-                                </Button>
+                                <Box style={{ display: 'flex' }}>
+                                    <Button
+                                        type="submit"
+                                        style={{
+                                            backgroundColor: '#673AB7',
+                                            color: '#fff',
+                                            margin: 10,
+                                            width: '50%',
+                                            alignSelf: 'center'
+                                        }}
+                                    >
+                                        Add Slider
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="info"
+                                        style={{
+                                            margin: 10,
+                                            width: '50%'
+                                        }}
+                                        onClick={() => setOpenModal(!openModal)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Box>
                             </Form>
                         )}
                     </Formik>

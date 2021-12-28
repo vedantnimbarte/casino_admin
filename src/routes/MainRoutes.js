@@ -4,8 +4,9 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
-// dashboard routing
+// main routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const TransactionPage = Loadable(lazy(() => import('views/pages/transaction')));
 
 const AuthRegister3 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register3')));
 
@@ -18,6 +19,10 @@ const MainRoutes = {
         {
             path: '/dashboard',
             element: <DashboardDefault />
+        },
+        {
+            path: '/transaction',
+            element: <TransactionPage />
         },
         {
             path: '*',

@@ -28,14 +28,14 @@ const dashboard = {
             icon: icons.DashboardIcon,
             breadcrumbs: false
         },
-        {
-            id: 'agent_tree',
-            title: 'Agent Tree',
-            type: 'item',
-            url: '/agent',
-            icon: icons.AgentIcon,
-            breadcrumbs: false
-        },
+        // {
+        //     id: 'agent_tree',
+        //     title: 'Agent Tree',
+        //     type: 'item',
+        //     url: '/agent',
+        //     icon: icons.AgentIcon,
+        //     breadcrumbs: false
+        // },
         // {
         //     id: 'transaction',
         //     title: 'Transaction',
@@ -44,13 +44,13 @@ const dashboard = {
         //     icon: icons.TransactionIcon,
         //     breadcrumbs: false
         // },
-        {
-            id: 'configuration',
-            title: 'Configuration',
-            type: 'collapse',
-            icon: icons.ConfigIcon,
-            children: [...configurationMenuItems]
-        },
+        // {
+        //     id: 'configuration',
+        //     title: 'Configuration',
+        //     type: 'collapse',
+        //     icon: icons.ConfigIcon,
+        //     children: [...configurationMenuItems]
+        // },
         {
             id: 'cms',
             title: 'CMS',

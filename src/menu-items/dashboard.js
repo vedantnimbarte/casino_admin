@@ -1,11 +1,17 @@
 // assets
-import { IconDashboard as DashboardIcon, IconDatabase as CMSIcon, IconSettings as ConfigIcon, IconUsers as AgentIcon } from '@tabler/icons';
+import {
+    IconDashboard as DashboardIcon,
+    IconDatabase as CMSIcon,
+    IconSettings as ConfigIcon,
+    IconUsers as AgentIcon,
+    IconCurrencyDollar as TransactionIcon
+} from '@tabler/icons';
 
 // submenu items
 import { configurationMenuItems, cmsMenuItems } from './submenu-items';
 
 // constant
-const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentIcon };
+const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentIcon, TransactionIcon };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -30,6 +36,14 @@ const dashboard = {
             icon: icons.AgentIcon,
             breadcrumbs: false
         },
+        // {
+        //     id: 'transaction',
+        //     title: 'Transaction',
+        //     type: 'item',
+        //     url: '/transaction',
+        //     icon: icons.TransactionIcon,
+        //     breadcrumbs: false
+        // },
         {
             id: 'configuration',
             title: 'Configuration',

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl } from '@mui/material';
-// import DataTable from 'mui-datatables';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { Form, Formik } from 'formik';
+import gameGroupSchema from 'schema/gameGroup.schema';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -51,27 +51,53 @@ function GameGroup() {
 
             <Modal title="Add New Game Group" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <FormControl fullWidth>
-                        <InputLabel>Game Group Name</InputLabel>
-                        <TextField
-                            value={groupName}
-                            type="text"
-                            label="Game Group Name"
-                            onChange={(e) => setGroupName(e.target.value.toUpperCase())}
-                            variant="outlined"
-                        />
-                    </FormControl>
-                    <Button
-                        style={{
-                            backgroundColor: '#673AB7',
-                            color: '#fff',
-                            margin: 10,
-                            width: '50%',
-                            alignSelf: 'center'
-                        }}
+                    <Formik
+                        initialValues={{ name: '', description: '' }}
+                        validationSchema={gameGroupSchema}
+                        onSubmit={(values) => console.log(values)}
                     >
-                        Add Game Group
-                    </Button>
+                        {(formik) => (
+                            <Form noValidate onSubmit={formik.handleSubmit}>
+                                <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
+                                    <InputLabel>Game Group Name</InputLabel>
+                                    <TextField
+                                        value={formik.values.name}
+                                        type="text"
+                                        name="name"
+                                        label="Game Group Name"
+                                        onChange={formik.handleChange}
+                                        variant="outlined"
+                                        error={formik.touched.name && Boolean(formik.errors.name)}
+                                        helperText={formik.touched.name && formik.errors.name}
+                                        required
+                                    />
+                                </FormControl>
+                                <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
+                                    <InputLabel>Description</InputLabel>
+                                    <TextField
+                                        value={formik.values.description}
+                                        type="text"
+                                        name="description"
+                                        label="Description"
+                                        onChange={formik.handleChange}
+                                        variant="outlined"
+                                        error={formik.touched.description && Boolean(formik.errors.description)}
+                                        helperText={formik.touched.description && formik.errors.description}
+                                    />
+                                </FormControl>
+                                <Button
+                                    type="submit"
+                                    style={{
+                                        backgroundColor: '#673AB7',
+                                        color: '#fff'
+                                    }}
+                                    fullWidth
+                                >
+                                    Add Game Group
+                                </Button>
+                            </Form>
+                        )}
+                    </Formik>
                 </Box>
             </Modal>
         </Box>

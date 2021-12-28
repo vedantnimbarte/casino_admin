@@ -9,8 +9,6 @@ const RolesPage = Loadable(lazy(() => import('views/pages/configuration/roles'))
 const PermissionsPage = Loadable(lazy(() => import('views/pages/configuration/permissions')));
 const CommissionPlansPage = Loadable(lazy(() => import('views/pages/configuration/commissionPlans')));
 
-const AuthRegister3 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register3')));
-
 // ==============================|| MAIN ROUTING ||============================== //
 
 const ConfigurationRoutes = {
@@ -28,10 +26,6 @@ const ConfigurationRoutes = {
         {
             path: '/commission',
             element: <CommissionPlansPage />
-        },
-        {
-            path: '*',
-            element: <AuthRegister3 />
         }
     ]
 };

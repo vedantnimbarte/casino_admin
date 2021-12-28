@@ -16,8 +16,6 @@ const PaymentTermsPage = Loadable(lazy(() => import('views/pages/cms/paymentTerm
 const PrivacyPolicyPage = Loadable(lazy(() => import('views/pages/cms/privacyPolicy')));
 const GameGroupPage = Loadable(lazy(() => import('views/pages/cms/gameGroup')));
 
-const AuthRegister3 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Register3')));
-
 // ==============================|| MAIN ROUTING ||============================== //
 
 const CMSRoutes = {
@@ -63,10 +61,6 @@ const CMSRoutes = {
         {
             path: '/terms-conditions',
             element: <TermsAndConditionsPage />
-        },
-        {
-            path: '*',
-            element: <AuthRegister3 />
         }
     ]
 };

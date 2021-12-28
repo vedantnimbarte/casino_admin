@@ -1,33 +1,19 @@
 import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl, Select, MenuItem, Typography } from '@mui/material';
+import { IconButton, Tooltip, Box, Button, Grid, InputLabel, TextField, FormControl, Select, MenuItem, Typography } from '@mui/material';
 // import DataTable from 'mui-datatables';
 import { IconEditCircle as EditIcon, IconHistory as HistoryIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
-import DataTable from 'components/DataTable';
 import EditCommissionPlanModal from './components/Modal/EditCommissionPlan';
 import CommissionHistoryModal from './components/Modal/CommissionHistory';
+import CommissionCard from './components/CommissionCard';
 
 function CommissionPlans() {
     const [openModal, setOpenModal] = useState(false);
     const [commissionHistory, setCommissionHistory] = useState(false);
     const [role, setRole] = useState('');
     const [description, setDescription] = useState('');
-
-    const columns = ['ID', 'Role', 'Action'];
-
-    const data = [];
-
-    const options = {
-        filter: false,
-        print: false,
-        download: false,
-        search: false,
-        selectableRows: false,
-        rowsPerPage: 10,
-        rowsPerPageOptions: [10, 20]
-    };
 
     return (
         <Box>
@@ -51,7 +37,18 @@ function CommissionPlans() {
                             Commission History
                         </Button>
                     </Box>
-                    <DataTable title="Commission Plans" data={data} columns={columns} options={options} />
+                    <Grid container spacing={4}>
+                        <Grid item lg={4} md={6} sm={6} xs={12}>
+                            <CommissionCard />
+                        </Grid>
+                        <Grid item lg={4} md={6} sm={6} xs={12}>
+                            <CommissionCard />
+                        </Grid>
+                        <Grid item lg={4} md={6} sm={6} xs={12}>
+                            <CommissionCard />
+                        </Grid>
+                    </Grid>
+                    {/* <DataTable title="Commission Plans" data={data} columns={columns} options={options} /> */}
                 </Box>
             </MainCard>
 

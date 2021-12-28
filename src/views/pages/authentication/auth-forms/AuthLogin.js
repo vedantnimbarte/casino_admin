@@ -34,12 +34,11 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
-
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
+    const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
     const [checked, setChecked] = useState(true);
@@ -65,7 +64,7 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'vedant.mountgames@gamil.com',
+                    email: user.email,
                     password: '123456',
                     submit: null
                 }}

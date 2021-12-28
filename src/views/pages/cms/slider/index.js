@@ -1,17 +1,20 @@
 import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, InputLabel, TextField } from '@mui/material';
-// import DataTable from 'mui-datatables';
+import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
+import { Formik, Form } from 'formik';
 
 // Components
 import DataTable from 'components/DataTable';
 import ModalComponent from 'components/Modal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
+import sliderSchema from 'schema/slider.schema';
+
+// utils
+import allInputValuesExists from 'utils/inputValueExists';
 
 function Slider() {
     const [openModal, setOpenModal] = useState(false);
-    const [sliderImg, setSliderImg] = useState('');
 
     const columns = ['ID', 'Image', 'Action'];
 
@@ -25,6 +28,11 @@ function Slider() {
         selectableRows: false,
         rowsPerPage: 10,
         rowsPerPageOptions: [10, 20]
+    };
+
+    const checkFormValues = (values) => {
+        const result = allInputValuesExists(values);
+        console.log(result);
     };
 
     return (
@@ -50,27 +58,72 @@ function Slider() {
 
             <ModalComponent title="Add New Slider" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <InputLabel>Slider Image</InputLabel>
-                    <TextField
-                        value={sliderImg}
-                        type="file"
-                        onChange={(e) => setSliderImg(e.target.files[0])}
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                    />
-
-                    <Button
-                        style={{
-                            backgroundColor: '#673AB7',
-                            color: '#fff',
-                            margin: 10,
-                            width: '50%',
-                            alignSelf: 'center'
+                    <Formik
+                        initialValues={{ name: '', image: '' }}
+                        validationSchema={sliderSchema}
+                        onSubmit={(values) => {
+                            console.log(values);
                         }}
                     >
-                        Add Slider
-                    </Button>
+                        {(formik) => (
+                            <Form noValidate onSubmit={formik.handleSubmit}>
+                                <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
+                                    <InputLabel>Slider Name</InputLabel>
+                                    <TextField
+                                        value={formik.values.name}
+                                        type="text"
+                                        label="Slider Name"
+                                        name="name"
+                                        onChange={formik.handleChange}
+                                        variant="outlined"
+                                        fullWidth
+                                        error={formik.touched.name && Boolean(formik.errors.name)}
+                                        helperText={formik.touched.name && formik.errors.name}
+                                        required
+                                    />
+                                </FormControl>
+                                <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
+                                    <TextField
+                                        value={formik.values.image}
+                                        type="file"
+                                        name="image"
+                                        onChange={formik.handleChange}
+                                        variant="outlined"
+                                        fullWidth
+                                        error={formik.touched.image && Boolean(formik.errors.image)}
+                                        helperText={formik.touched.image && formik.errors.image}
+                                        required
+                                    />
+                                </FormControl>
+
+                                <Box style={{ display: 'flex' }}>
+                                    <Button
+                                        type="submit"
+                                        style={{
+                                            backgroundColor: !allInputValuesExists(formik.values) ? 'lightgray' : '#673AB7',
+                                            color: '#fff',
+                                            margin: 10,
+                                            width: '50%',
+                                            alignSelf: 'center'
+                                        }}
+                                        disabled={!allInputValuesExists(formik.values)}
+                                    >
+                                        Add Slider
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="info"
+                                        style={{
+                                            margin: 10,
+                                            width: '50%'
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Box>
+                            </Form>
+                        )}
+                    </Formik>
                 </Box>
             </ModalComponent>
         </Box>

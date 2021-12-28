@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const userReducer = createSlice({
     name: 'user',
     initialState: {
-        name: 'Vedant Nimbarte',
-        email: 'vedant.mountgames@gmail.com',
+        name: 'Pabelo',
+        email: 'pabelo@email.com',
         role: 'ADMIN',
         allowedRoutes: [
             '/dashboard',

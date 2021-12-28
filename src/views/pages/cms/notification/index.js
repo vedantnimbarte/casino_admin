@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, MenuItem, Select, TextField, InputLabel } from '@mui/material';
-// import DataTable from 'mui-datatables';
+import { IconButton, Tooltip, Box, Button, MenuItem, Select, TextField, InputLabel, FormControl } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
+
+import { Formik, Form } from 'formik';
 
 // Components
 import DataTable from 'components/DataTable';
 import Modal from 'components/Modal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
+
+import notificationSchema from 'schema/notification.schema';
 
 function Notification() {
     const [openModal, setOpenModal] = useState(false);
@@ -54,65 +57,108 @@ function Notification() {
 
             <Modal title="Add New Notification" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <InputLabel>Select Notification Type</InputLabel>
-                    <Select value={type} onChange={(e) => setType(e.target.value)}>
-                        <MenuItem value="text">Text</MenuItem>
-                        <MenuItem value="image">Image</MenuItem>
-                        <MenuItem value="video">Video</MenuItem>
-                    </Select>
-                    <TextField
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        variant="outlined"
-                        label="Title"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                    />
-                    <TextField
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        multiline
-                        rows={3}
-                        variant="outlined"
-                        label="Message"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                    />
-                    {type === 'image' && (
-                        <Box>
-                            <InputLabel>Select Image</InputLabel>
-                            <TextField
-                                type="file"
-                                value={img}
-                                onChange={(e) => setImg(e.target.value)}
-                                variant="outlined"
-                                fullWidth
-                                style={{ marginTop: 10, marginBottom: 10 }}
-                            />
-                        </Box>
-                    )}
-                    {type === 'video' && (
-                        <TextField
-                            type="url"
-                            value={videoUrl}
-                            onChange={(e) => setVideoUrl(e.target.value)}
-                            variant="outlined"
-                            label="Video Url"
-                            fullWidth
-                            style={{ marginTop: 10, marginBottom: 10 }}
-                        />
-                    )}
-                    <Button
-                        style={{
-                            backgroundColor: '#673AB7',
-                            color: '#fff',
-                            margin: 10,
-                            width: '50%',
-                            alignSelf: 'center'
+                    <Formik
+                        initialValues={{ type: 'text', title: '', message: '', image: '', url: '' }}
+                        validationSchema={notificationSchema}
+                        onSubmit={(values) => {
+                            console.log(values);
                         }}
                     >
-                        Add Notification
-                    </Button>
+                        {(formik) => (
+                            <Form noValidate onSubmit={formik.handleSubmit}>
+                                <InputLabel id="type">Select Notification Type</InputLabel>
+                                <TextField
+                                    select
+                                    value={formik.values.type}
+                                    onChange={formik.handleChange}
+                                    name="type"
+                                    fullWidth
+                                    error={formik.touched.type && Boolean(formik.errors.type)}
+                                    helperText={formik.touched.type && formik.errors.type}
+                                >
+                                    <MenuItem value="text">Text</MenuItem>
+                                    <MenuItem value="image">Image</MenuItem>
+                                    <MenuItem value="video">Video</MenuItem>
+                                </TextField>
+                                <TextField
+                                    value={formik.values.title}
+                                    onChange={formik.handleChange}
+                                    variant="outlined"
+                                    name="title"
+                                    label="Title"
+                                    fullWidth
+                                    style={{ margin: '10px 0' }}
+                                    error={formik.touched.title && Boolean(formik.errors.title)}
+                                    helperText={formik.touched.title && formik.errors.title}
+                                />
+                                <TextField
+                                    value={formik.values.message}
+                                    onChange={formik.handleChange}
+                                    multiline
+                                    rows={3}
+                                    variant="outlined"
+                                    name="message"
+                                    label="Message"
+                                    fullWidth
+                                    style={{ margin: '10px 0' }}
+                                    error={formik.touched.message && Boolean(formik.errors.message)}
+                                    helperText={formik.touched.message && formik.errors.message}
+                                />
+                                {formik.values.type === 'image' && (
+                                    <Box style={{ margin: '10px 0' }}>
+                                        <InputLabel>Select Image</InputLabel>
+                                        <TextField
+                                            type="file"
+                                            value={formik.values.image}
+                                            onChange={formik.handleChange}
+                                            variant="outlined"
+                                            fullWidth
+                                            error={formik.touched.image && Boolean(formik.errors.image)}
+                                            helperText={formik.touched.image && formik.errors.image}
+                                        />
+                                    </Box>
+                                )}
+                                {formik.values.type === 'video' && (
+                                    <TextField
+                                        type="url"
+                                        value={formik.values.image}
+                                        onChange={formik.handleChange}
+                                        variant="outlined"
+                                        label="Video Url"
+                                        fullWidth
+                                        style={{ margin: '10px 0' }}
+                                        error={formik.touched.url && Boolean(formik.errors.url)}
+                                        helperText={formik.touched.url && formik.errors.url}
+                                    />
+                                )}
+                                <Box style={{ display: 'flex' }}>
+                                    <Button
+                                        type="submit"
+                                        style={{
+                                            backgroundColor: '#673AB7',
+                                            color: '#fff',
+                                            margin: 10,
+                                            width: '50%',
+                                            alignSelf: 'center'
+                                        }}
+                                    >
+                                        Submit
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="info"
+                                        style={{
+                                            margin: 10,
+                                            width: '50%'
+                                        }}
+                                        onClick={() => setOpenModal(!openModal)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Box>
+                            </Form>
+                        )}
+                    </Formik>
                 </Box>
             </Modal>
         </Box>

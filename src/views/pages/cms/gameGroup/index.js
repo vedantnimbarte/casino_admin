@@ -7,6 +7,7 @@ import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import Modal from 'components/Modal';
+import NotFoundCard from 'components/NotFoundCard';
 
 function GameGroup() {
     const [openModal, setOpenModal] = useState(false);
@@ -39,7 +40,11 @@ function GameGroup() {
                 }
             >
                 <Box>
-                    <DataTable title="Game Groups List" data={data} columns={columns} options={options} />
+                    {data.length > 0 ? (
+                        <DataTable title="Games List" data={data} columns={columns} options={options} />
+                    ) : (
+                        <NotFoundCard msg="Sorry, No data found" />
+                    )}
                 </Box>
             </MainCard>
 

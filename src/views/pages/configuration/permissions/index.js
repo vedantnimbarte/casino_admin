@@ -6,7 +6,7 @@ import { IconCirclePlus as AddIcon } from '@tabler/icons';
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import Modal from 'components/Modal';
+import NotFoundCard from 'components/NotFoundCard';
 
 function Permissions() {
     const [openModal, setOpenModal] = useState(false);
@@ -31,7 +31,11 @@ function Permissions() {
         <Box>
             <MainCard title="Permissions Allocated">
                 <Box>
-                    <DataTable title="Permissions List" data={data} columns={columns} options={options} />
+                    {data.length > 0 ? (
+                        <DataTable title="Games List" data={data} columns={columns} options={options} />
+                    ) : (
+                        <NotFoundCard msg="Sorry, No data found" />
+                    )}
                 </Box>
             </MainCard>
         </Box>

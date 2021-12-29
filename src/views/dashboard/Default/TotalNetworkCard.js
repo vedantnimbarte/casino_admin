@@ -77,41 +77,33 @@ const TotalNetworkCard = ({ isLoading }) => {
                                                 ...theme.typography.commonAvatar,
                                                 ...theme.typography.largeAvatar,
                                                 backgroundColor: theme.palette.primary[800],
-                                                color: '#fff',
                                                 mt: 1
                                             }}
                                         >
-                                            <NetworkIcon />
+                                            <NetworkIcon color="#fff" />
                                         </Avatar>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid item sx={{ mb: 0.75 }}>
+                            <Grid item>
                                 <Grid container alignItems="center">
-                                    <Grid item xs={6}>
-                                        <Grid container alignItems="center">
-                                            <Grid item>
-                                                <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                                                    35
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <Typography
-                                                    sx={{
-                                                        fontSize: '1rem',
-                                                        fontWeight: 500,
-                                                        color: theme.palette.primary[200]
-                                                    }}
-                                                >
-                                                    Total Network
-                                                </Typography>
-                                            </Grid>
-                                        </Grid>
+                                    <Grid item>
+                                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                                            35
+                                        </Typography>
                                     </Grid>
-                                    {/* <Grid item xs={6}>
-                                        <Chart {...ChartDataMonth} />
-                                    </Grid> */}
                                 </Grid>
+                            </Grid>
+                            <Grid item xs={12} sx={{ mb: 1.25 }}>
+                                <Typography
+                                    sx={{
+                                        fontSize: '1rem',
+                                        fontWeight: 500,
+                                        color: theme.palette.primary[200]
+                                    }}
+                                >
+                                    Total Network
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Box>

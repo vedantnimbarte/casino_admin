@@ -39,7 +39,8 @@ function GameGroup() {
         download: false,
         selectableRows: false,
         rowsPerPage: 10,
-        rowsPerPageOptions: [10, 20]
+        rowsPerPageOptions: [10, 20],
+        jumpToPage: true
     };
 
     return (

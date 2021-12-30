@@ -22,7 +22,7 @@ function FullScreenDialog({ title, children, dialogStatus, setDialogStatus, form
                                 <CloseIcon />
                             </IconButton>
                             <Typography sx={{ ml: 2, flex: 1 }} variant="h3" color="#fff">
-                                Add New Game Group
+                                {title}
                             </Typography>
                             <Button startIcon={<ResetIcon />} style={{ marginRight: 10 }} type="reset" autoFocus color="inherit">
                                 Reset

@@ -1,4 +1,4 @@
-import { IconUserExclamation as RoleIcon, IconPercentage as CommissionIcon, IconCertificate as PermissionIcon } from '@tabler/icons';
+import { IconSitemap as RoleIcon, IconPercentage as CommissionIcon, IconCertificate as PermissionIcon } from '@tabler/icons';
 
 const icons = { RoleIcon, CommissionIcon, PermissionIcon };
 

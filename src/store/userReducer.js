@@ -22,7 +22,8 @@ const userReducer = createSlice({
             '/configuration/permissions',
             '/configuration/commission',
             '/player',
-            '/agent'
+            '/agent',
+            '/transaction'
         ]
     }
 });

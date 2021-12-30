@@ -20,7 +20,9 @@ const userReducer = createSlice({
             '/cms/slider',
             '/configuration/roles',
             '/configuration/permissions',
-            '/configuration/commission'
+            '/configuration/commission',
+            '/player',
+            '/agent'
         ]
     }
 });

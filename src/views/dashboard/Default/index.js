@@ -7,12 +7,18 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 // project imports
-import TotalPlayersCard from './TotalPlayersCard';
-import PopularGamesCard from './PopularGamesCard';
-import TotalNetworkCard from './TotalNetworkCard';
-import TotalIncomeCard from './TotalIncomeCard';
-import MyProfitCard from './MyProfitCard';
-import TopAgentsCard from './TopAgentsCard';
+import TotalPlayersCard from './components/cards/TotalPlayersCard';
+import PopularGamesCard from './components/cards/PopularGamesCard';
+import TotalNetworkCard from './components/cards/TotalNetworkCard';
+import TotalIncomeCard from './components/cards/TotalIncomeCard';
+import MyProfitCard from './components/cards/MyProfitCard';
+import TopAgentsCard from './components/cards/TopAgentsCard';
+import TotalBetsCard from './components/cards/TotalBetsCard';
+import TotalDepositCard from './components/cards/TotalDepositCard';
+import TotalWinsCard from './components/cards/TotalWinsCard';
+import TotalWIthdrawCard from './components/cards/TotalWIthdrawCard';
+import NetRevenueCard from './components/cards/NetRevenueCard';
+import MaxWinCard from './components/cards/MaxWinCard';
 import { gridSpacing } from 'store/constant';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
@@ -55,7 +61,7 @@ const Dashboard = () => {
                     <Grid item xs={12} md={4}>
                         <FormControl fullWidth style={{ marginBottom: 5 }}>
                             <InputLabel>Select Agent</InputLabel>
-                            <Select>
+                            <Select label="Select Agent">
                                 <MenuItem>All</MenuItem>
                                 <MenuItem>Master Distributor</MenuItem>
                                 <MenuItem>Distributor</MenuItem>
@@ -89,29 +95,29 @@ const Dashboard = () => {
                         </FormControl>
                         <Grid container spacing={2}>
                             <Grid xs={12} md={6} item>
-                                <TotalIncomeCard isLoading={isLoading} />
+                                <TotalDepositCard isLoading={isLoading} />
                             </Grid>
                             <Grid xs={12} md={6} item>
-                                <MyProfitCard isLoading={isLoading} />
+                                <TotalBetsCard isLoading={isLoading} />
                             </Grid>
                             <Grid xs={12} md={6} item>
-                                <MyProfitCard isLoading={isLoading} />
+                                <TotalWIthdrawCard isLoading={isLoading} />
                             </Grid>
                             <Grid xs={12} md={6} item>
-                                <TotalIncomeCard isLoading={isLoading} />
+                                <TotalWinsCard isLoading={isLoading} />
                             </Grid>
                             <Grid xs={12} md={6} item>
-                                <TotalIncomeCard isLoading={isLoading} />
+                                <NetRevenueCard isLoading={isLoading} />
                             </Grid>
                             <Grid xs={12} md={6} item>
-                                <MyProfitCard isLoading={isLoading} />
+                                <MaxWinCard isLoading={isLoading} />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <FormControl fullWidth style={{ marginBottom: 5 }}>
                             <InputLabel>Select Game</InputLabel>
-                            <Select>
+                            <Select label="Select Game">
                                 <MenuItem>All</MenuItem>
                                 <MenuItem>Fish</MenuItem>
                                 <MenuItem>Slot</MenuItem>

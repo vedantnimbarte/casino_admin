@@ -44,7 +44,8 @@ function Players() {
         selectableRows: false,
         rowsPerPage: 10,
         rowsPerPageOptions: [10, 20],
-        jumpToPage: true
+        jumpToPage: true,
+        elevation: 2
     };
 
     return (
@@ -68,7 +69,7 @@ function Players() {
                     >
                         <Box>
                             {playersList.length > 0 ? (
-                                <DataTable title="Players List" data={playersList} columns={columns} options={options} elevation={0} />
+                                <DataTable title="Players List" data={playersList} columns={columns} options={options} />
                             ) : (
                                 <NotFoundCard msg="Sorry, No data found" />
                             )}

@@ -5,7 +5,7 @@ import {
     IconSettings as ConfigIcon,
     IconUsers as AgentIcon,
     IconCurrencyDollar as TransactionIcon,
-    IconPlayCard as PlayerIcon
+    IconUser as PlayerIcon
 } from '@tabler/icons';
 
 // submenu items

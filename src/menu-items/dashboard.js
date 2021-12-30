@@ -4,14 +4,15 @@ import {
     IconDatabase as CMSIcon,
     IconSettings as ConfigIcon,
     IconUsers as AgentIcon,
-    IconCurrencyDollar as TransactionIcon
+    IconCurrencyDollar as TransactionIcon,
+    IconPlayCard as PlayerIcon
 } from '@tabler/icons';
 
 // submenu items
 import { configurationMenuItems, cmsMenuItems } from './submenu-items';
 
 // constant
-const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentIcon, TransactionIcon };
+const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentIcon, TransactionIcon, PlayerIcon };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -28,29 +29,37 @@ const dashboard = {
             icon: icons.DashboardIcon,
             breadcrumbs: false
         },
-        // {
-        //     id: 'agent_tree',
-        //     title: 'Agent Tree',
-        //     type: 'item',
-        //     url: '/agent',
-        //     icon: icons.AgentIcon,
-        //     breadcrumbs: false
-        // },
-        // {
-        //     id: 'transaction',
-        //     title: 'Transaction',
-        //     type: 'item',
-        //     url: '/transaction',
-        //     icon: icons.TransactionIcon,
-        //     breadcrumbs: false
-        // },
-        // {
-        //     id: 'configuration',
-        //     title: 'Configuration',
-        //     type: 'collapse',
-        //     icon: icons.ConfigIcon,
-        //     children: [...configurationMenuItems]
-        // },
+        {
+            id: 'agent_tree',
+            title: 'Agent Tree',
+            type: 'item',
+            url: '/agent',
+            icon: icons.AgentIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'player',
+            title: 'Player',
+            type: 'item',
+            url: '/player',
+            icon: icons.PlayerIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'transaction',
+            title: 'Transaction',
+            type: 'item',
+            url: '/transaction',
+            icon: icons.TransactionIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'configuration',
+            title: 'Configuration',
+            type: 'collapse',
+            icon: icons.ConfigIcon,
+            children: [...configurationMenuItems]
+        },
         {
             id: 'cms',
             title: 'CMS',

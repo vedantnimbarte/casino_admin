@@ -1,82 +1,119 @@
-import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, InputLabel, TextField } from '@mui/material';
-// import DataTable from 'mui-datatables';
-import { IconCirclePlus as AddIcon, IconUser as PlayerIcon, IconUsers as AgentIcon } from '@tabler/icons';
+import React, { useState } from 'react';
+import { Box, Tabs, Tab, Paper, Button } from '@mui/material';
+import { IconCurrencyDollar as TransactionIcon } from '@tabler/icons';
+import { useFormik } from 'formik';
+
+import playerSchema from 'schema/player.schema';
+
+// __mock__ data
+import playersList from './__mock__/player-list';
+import approvalList from './__mock__/approval-list';
 
 // Components
+import MainCard from 'ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import ModalComponent from 'components/Modal';
-import MainCard from '../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
+import FullScreenDialog from 'components/FullScreenDialog';
+
+import PlayerDeposit from './components/Forms/player/PlayerDepositForm';
+import PlayerWithdraw from './components/Forms/player/PlayerWithdrawForm';
+import TabPanel from './components/TabPanel';
 
 function Transaction() {
     const [openModal, setOpenModal] = useState(false);
-    const [sliderImg, setSliderImg] = useState('');
+    const [value, setValue] = React.useState(0);
+    const [transaction, setTransaction] = useState(0);
 
-    const columns = ['Player ID', 'Username', 'UserID', 'Date and Time', 'Store Username', 'Amount', 'Type', 'Action'];
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
-    const data = [];
+    const formik = useFormik({
+        initialValues: { username: '', name: '', email: '', password: '', confirm_password: '', phone_no: '', agent: '' },
+        validationSchema: playerSchema,
+        onSubmit: (values) => {
+            console.log(values);
+        }
+    });
+
+    const columns = ['ID', 'username', 'name', 'email', 'phone_no', 'agent', 'status'];
 
     const options = {
         filter: false,
         print: false,
         download: false,
-        search: false,
         selectableRows: false,
         rowsPerPage: 10,
-        rowsPerPageOptions: [10, 20]
+        rowsPerPageOptions: [10, 20],
+        jumpToPage: true,
+        elevation: 2
     };
 
     return (
         <Box>
-            <MainCard
-                title="Transactions"
-                secondary={
-                    <Tooltip title="Add New Slider">
-                        <IconButton onClick={() => setOpenModal(!openModal)}>
-                            <AddIcon />
-                        </IconButton>
-                    </Tooltip>
-                }
-            >
-                <Box>
-                    <Box>
-                        <Button startIcon={<PlayerIcon />}>Player Transaction</Button>
-                        <Button>Agent Transaction</Button>
-                    </Box>
-                    {data.length > 0 ? (
-                        <DataTable title="Games List" data={data} columns={columns} options={options} />
-                    ) : (
-                        <NotFoundCard msg="Sorry, No data found" />
-                    )}
-                </Box>
-            </MainCard>
+            <Paper>
+                <Tabs value={value} onChange={handleChange} variant="fullWidth" aria-label="basic tabs example">
+                    <Tab label="Player Transaction" />
+                    <Tab label="Agent Transaction" />
+                </Tabs>
 
-            <ModalComponent title="Add New Slider" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <InputLabel>Slider Image</InputLabel>
-                    <TextField
-                        value={sliderImg}
-                        type="file"
-                        onChange={(e) => setSliderImg(e.target.files[0])}
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                    />
-
-                    <Button
-                        style={{
-                            backgroundColor: '#673AB7',
-                            color: '#fff',
-                            margin: 10,
-                            width: '50%',
-                            alignSelf: 'center'
-                        }}
+                <TabPanel value={value} index={0}>
+                    <MainCard
+                        title="Players Transactions"
+                        secondary={
+                            <Box>
+                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ mr: 3 }}>
+                                    Deposit
+                                </Button>
+                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ ml: 3 }}>
+                                    Withdraw
+                                </Button>
+                            </Box>
+                        }
                     >
-                        Add Slider
-                    </Button>
-                </Box>
-            </ModalComponent>
+                        <Box>
+                            {playersList.length > 0 ? (
+                                <DataTable title="Players Transaction List" data={playersList} columns={columns} options={options} />
+                            ) : (
+                                <NotFoundCard msg="Sorry, No data found" />
+                            )}
+                        </Box>
+                    </MainCard>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <MainCard
+                        title="Agents Transactions"
+                        secondary={
+                            <Box>
+                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ mr: 3 }}>
+                                    Deposit
+                                </Button>
+                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ ml: 3 }}>
+                                    Withdraw
+                                </Button>
+                            </Box>
+                        }
+                    >
+                        <Box>
+                            {approvalList.length > 0 ? (
+                                <DataTable title="Agents Transactions List" data={approvalList} columns={columns} options={options} />
+                            ) : (
+                                <NotFoundCard msg="Sorry, No data found" />
+                            )}
+                        </Box>
+                    </MainCard>
+                </TabPanel>
+            </Paper>
+
+            <FullScreenDialog
+                title={transaction === 0 ? 'Deposit' : 'Withdraw'}
+                dialogStatus={openModal}
+                setDialogStatus={setOpenModal}
+                formik={formik}
+            >
+                {transaction === 0 && <PlayerDeposit formik={formik} />}
+                {transaction === 1 && <PlayerWithdraw formik={formik} />}
+            </FullScreenDialog>
         </Box>
     );
 }

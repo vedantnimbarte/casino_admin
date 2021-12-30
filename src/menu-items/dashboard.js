@@ -29,14 +29,14 @@ const dashboard = {
             icon: icons.DashboardIcon,
             breadcrumbs: false
         },
-        {
-            id: 'agent_tree',
-            title: 'Agent Tree',
-            type: 'item',
-            url: '/agent',
-            icon: icons.AgentIcon,
-            breadcrumbs: false
-        },
+        // {
+        //     id: 'agent_tree',
+        //     title: 'Agent Tree',
+        //     type: 'item',
+        //     url: '/agent',
+        //     icon: icons.AgentIcon,
+        //     breadcrumbs: false
+        // },
         {
             id: 'player',
             title: 'Player',

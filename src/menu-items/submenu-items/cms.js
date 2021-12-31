@@ -1,5 +1,5 @@
 import {
-    IconTournament as GamesGroupIcon,
+    IconBallBasketball as GamesGroupIcon,
     IconSlideshow as SliderIcon,
     IconBell as NotificationIcon,
     IconQuestionMark as FAQIcon,
@@ -20,36 +20,20 @@ const cmsMenuItems = [
         icon: icons.SliderIcon
     },
     {
-        id: 'games',
-        title: 'Games',
-        type: 'item',
-        url: '/cms/game',
-        breadcrumbs: false,
-        icon: icons.GamesIcon
-    },
-    {
-        id: 'games-group',
-        title: 'Game Groups',
+        id: 'games-type',
+        title: 'Game Types',
         type: 'item',
         url: '/cms/game-group',
         breadcrumbs: false,
         icon: icons.GamesGroupIcon
     },
     {
-        id: 'faq',
-        title: 'FAQ',
+        id: 'games',
+        title: 'Games',
         type: 'item',
-        url: '/cms/faq',
+        url: '/cms/game',
         breadcrumbs: false,
-        icon: icons.FAQIcon
-    },
-    {
-        id: 'notification',
-        title: 'Notifications',
-        type: 'item',
-        url: '/cms/notification',
-        breadcrumbs: false,
-        icon: icons.NotificationIcon
+        icon: icons.GamesIcon
     },
     {
         id: 'terms-conditions',
@@ -82,6 +66,22 @@ const cmsMenuItems = [
         url: '/cms/about',
         breadcrumbs: false,
         icon: icons.AboutUsIcon
+    },
+    {
+        id: 'faq',
+        title: 'FAQ',
+        type: 'item',
+        url: '/cms/faq',
+        breadcrumbs: false,
+        icon: icons.FAQIcon
+    },
+    {
+        id: 'notification',
+        title: 'Notifications',
+        type: 'item',
+        url: '/cms/notification',
+        breadcrumbs: false,
+        icon: icons.NotificationIcon
     },
     {
         id: 'disclaimer',

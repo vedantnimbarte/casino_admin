@@ -100,9 +100,6 @@ const PopularGamesCard = ({ isLoading }) => {
                 ggr: 128
             }
         ];
-
-        agentsData.push(...data);
-        setTopAgents([...agentsData]);
     };
 
     return (

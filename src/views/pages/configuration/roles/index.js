@@ -3,6 +3,9 @@ import { Tooltip, Box, Button, TextField, MenuItem, useTheme } from '@mui/materi
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
+// services
+import create from 'services/agentType.service';
+
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
@@ -56,7 +59,7 @@ function Roles() {
                         initialValues={{ name: '', description: '', parentRole: '' }}
                         validationSchema={roleSchema}
                         onSubmit={(values) => {
-                            console.log(values);
+                            create(values);
                         }}
                     >
                         {(formik) => (

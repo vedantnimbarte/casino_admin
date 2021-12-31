@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { Avatar, Box, Grid, Menu, MenuItem, Typography, Button } from '@mui/material';
+import { TextField, Box, Grid, Typography, Card } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -19,7 +19,7 @@ import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.secondary.light,
     color: '#fff',
     overflow: 'hidden',
     position: 'relative',
@@ -74,14 +74,23 @@ const EarningCard = ({ isLoading, title }) => {
             {isLoading ? (
                 <SkeletonEarningCard />
             ) : (
-                <CardWrapper border={false} content={false}>
+                <CardWrapper border={false} content={false} elevation={4}>
                     <Box sx={{ p: 2.25 }}>
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container alignItems="center">
                                     <Grid item>
-                                        <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
-                                            20 %
+                                        <TextField value="20" sx={{ width: 50, mr: 2 }} />
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography
+                                            sx={{
+                                                fontSize: '1rem',
+                                                fontWeight: 500,
+                                                color: theme.palette.secondary[800]
+                                            }}
+                                        >
+                                            %
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -91,7 +100,8 @@ const EarningCard = ({ isLoading, title }) => {
                                     sx={{
                                         fontSize: '1rem',
                                         fontWeight: 500,
-                                        color: theme.palette.secondary[200]
+                                        color: theme.palette.secondary[800],
+                                        mt: 3
                                     }}
                                 >
                                     {title}

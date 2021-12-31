@@ -63,10 +63,6 @@ const Dashboard = () => {
                             <InputLabel>Select Agent</InputLabel>
                             <Select label="Select Agent">
                                 <MenuItem>All</MenuItem>
-                                <MenuItem>Master Distributor</MenuItem>
-                                <MenuItem>Distributor</MenuItem>
-                                <MenuItem>Sub Distributor</MenuItem>
-                                <MenuItem>Stores</MenuItem>
                             </Select>
                         </FormControl>
                         <TopAgentsCard isLoading={isLoading} />
@@ -116,12 +112,9 @@ const Dashboard = () => {
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <FormControl fullWidth style={{ marginBottom: 5 }}>
-                            <InputLabel>Select Game</InputLabel>
+                            <InputLabel>Select Game Type</InputLabel>
                             <Select label="Select Game">
                                 <MenuItem>All</MenuItem>
-                                <MenuItem>Fish</MenuItem>
-                                <MenuItem>Slot</MenuItem>
-                                <MenuItem>Table</MenuItem>
                             </Select>
                         </FormControl>
                         <PopularGamesCard isLoading={isLoading} />

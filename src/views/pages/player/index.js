@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconButton, Tooltip, Box, TextField, MenuItem, Grid, Chip, Tabs, Tab, Typography, Card, Paper } from '@mui/material';
+import { IconButton, Tooltip, Box, Tabs, Tab, Button, Paper } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 
@@ -60,11 +60,9 @@ function Players() {
                     <MainCard
                         title="Players List"
                         secondary={
-                            <Tooltip title="Add New Player">
-                                <IconButton onClick={() => setOpenModal(!openModal)} sx={{ m: 0 }}>
-                                    <AddIcon />
-                                </IconButton>
-                            </Tooltip>
+                            <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                                Add Player
+                            </Button>
                         }
                     >
                         <Box>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tooltip, Box, Button, MenuItem, TextField, InputLabel, useTheme } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 
 import { Formik, Form } from 'formik';
 
@@ -138,9 +138,21 @@ function Notification() {
                                             margin: 10,
                                             color: 'white'
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={<CancelIcon />}
                                     >
                                         Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        type="reset"
+                                        color="error"
+                                        style={{
+                                            color: '#fff',
+                                            margin: 10
+                                        }}
+                                        startIcon={<ResetIcon />}
+                                    >
+                                        Reset
                                     </Button>
                                     <Button
                                         variant="contained"

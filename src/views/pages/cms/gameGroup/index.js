@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, useTheme } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import gameGroupSchema from 'schema/gameGroup.schema';
 
@@ -99,9 +99,21 @@ function GameGroup() {
                                     margin: 10,
                                     color: 'white'
                                 }}
-                                startIcon={<ResetIcon />}
+                                startIcon={<CancelIcon />}
                             >
                                 Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                type="reset"
+                                color="error"
+                                style={{
+                                    color: '#fff',
+                                    margin: 10
+                                }}
+                                startIcon={<ResetIcon />}
+                            >
+                                Submit
                             </Button>
                             <Button
                                 variant="contained"

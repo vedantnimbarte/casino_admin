@@ -140,26 +140,15 @@ function Transaction() {
                     <MainCard
                         title="Agents Transactions"
                         secondary={
-                            <Box>
-                                <Button
-                                    startIcon={<TransactionIcon />}
-                                    variant="contained"
-                                    color="warning"
-                                    sx={{ mr: 3 }}
-                                    onClick={() => setOpenModal(!openModal)}
-                                >
-                                    Deposit
-                                </Button>
-                                <Button
-                                    startIcon={<TransactionIcon />}
-                                    variant="contained"
-                                    color="error"
-                                    sx={{ ml: 3 }}
-                                    onClick={() => setOpenModal(!openModal)}
-                                >
-                                    Revoke Transaction
-                                </Button>
-                            </Box>
+                            <Button
+                                startIcon={<TransactionIcon />}
+                                variant="contained"
+                                color="warning"
+                                sx={{ mr: 3 }}
+                                onClick={() => setOpenModal(!openModal)}
+                            >
+                                Deposit
+                            </Button>
                         }
                     >
                         <Box>

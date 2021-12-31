@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tooltip, Box, Button, TextField, MenuItem, useTheme } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
 // Components
@@ -60,10 +60,10 @@ function Roles() {
                         }}
                     >
                         {(formik) => (
-                            <Form noValidate onSubmit={formik.handleSubmit}>
+                            <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
                                 {console.log(formik.errors)}
                                 <TextField
-                                    value={formik.values.role}
+                                    value={formik.values.name}
                                     type="text"
                                     label="Agent Type Name"
                                     name="name"
@@ -112,9 +112,21 @@ function Roles() {
                                             margin: 10,
                                             color: 'white'
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={<CancelIcon />}
                                     >
                                         Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        type="reset"
+                                        color="error"
+                                        style={{
+                                            color: '#fff',
+                                            margin: 10
+                                        }}
+                                        startIcon={<ResetIcon />}
+                                    >
+                                        Reset
                                     </Button>
                                     <Button
                                         variant="contained"

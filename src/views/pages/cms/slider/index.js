@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl, useTheme } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
 // Components
@@ -60,21 +60,18 @@ function Slider() {
                     >
                         {(formik) => (
                             <Form noValidate onSubmit={formik.handleSubmit}>
-                                <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
-                                    <InputLabel>Slider Name</InputLabel>
-                                    <TextField
-                                        value={formik.values.name}
-                                        type="text"
-                                        label="Slider Name"
-                                        name="name"
-                                        onChange={formik.handleChange}
-                                        variant="outlined"
-                                        fullWidth
-                                        error={formik.touched.name && Boolean(formik.errors.name)}
-                                        helperText={formik.touched.name && formik.errors.name}
-                                        required
-                                    />
-                                </FormControl>
+                                <TextField
+                                    value={formik.values.name}
+                                    type="text"
+                                    label="Slider Name"
+                                    name="name"
+                                    onChange={formik.handleChange}
+                                    variant="outlined"
+                                    fullWidth
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                    required
+                                />
                                 <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
                                     <TextField
                                         value={formik.values.image}
@@ -99,9 +96,21 @@ function Slider() {
                                             margin: 10,
                                             color: 'white'
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={<CancelIcon />}
                                     >
                                         Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        type="reset"
+                                        color="error"
+                                        style={{
+                                            color: '#fff',
+                                            margin: 10
+                                        }}
+                                        startIcon={<ResetIcon />}
+                                    >
+                                        Reset
                                     </Button>
                                     <Button
                                         variant="contained"

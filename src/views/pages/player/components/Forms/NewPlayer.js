@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, TextField, MenuItem, Grid, Button, useTheme } from '@mui/material';
-import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 
 function NewPlayerForm({ formik, onClose, openModal }) {
     const theme = useTheme();
@@ -119,9 +119,21 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                             margin: 10,
                             color: 'white'
                         }}
-                        startIcon={<ResetIcon />}
+                        startIcon={<CancelIcon />}
                     >
                         Cancel
+                    </Button>
+                    <Button
+                        variant="contained"
+                        type="reset"
+                        color="error"
+                        style={{
+                            color: '#fff',
+                            margin: 10
+                        }}
+                        startIcon={<ResetIcon />}
+                    >
+                        Reset
                     </Button>
                     <Button
                         variant="contained"

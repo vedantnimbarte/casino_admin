@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Button, TextField, FormControl, useTheme } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
 // Components
@@ -73,7 +73,7 @@ function FAQ() {
                                 </FormControl>
                                 <FormControl fullWidth style={{ margin: '10px 0' }}>
                                     <TextField
-                                        value={formik.answer}
+                                        value={formik.values.answer}
                                         onChange={formik.handleChange}
                                         multiline
                                         rows={4}
@@ -95,9 +95,21 @@ function FAQ() {
                                             margin: 10,
                                             color: 'white'
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={<CancelIcon />}
                                     >
                                         Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        type="reset"
+                                        color="error"
+                                        style={{
+                                            color: '#fff',
+                                            margin: 10
+                                        }}
+                                        startIcon={<ResetIcon />}
+                                    >
+                                        Submit
                                     </Button>
                                     <Button
                                         variant="contained"

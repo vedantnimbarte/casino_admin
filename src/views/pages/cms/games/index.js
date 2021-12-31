@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Tooltip, Box, Button, InputLabel, TextField, useTheme, MenuItem, FormControl } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -62,12 +62,13 @@ function Games() {
                         }}
                     >
                         {(formik) => (
-                            <Form noValidate onSubmit={formik.handleSubmit}>
+                            <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
                                 <TextField
                                     variant="outlined"
                                     label="Game Name"
                                     name="name"
                                     fullWidth
+                                    value={formik.values.name}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     onChange={formik.handleChange}
                                     error={formik.touched.name && Boolean(formik.errors.name)}
@@ -92,6 +93,7 @@ function Games() {
                                     label="Game URL"
                                     name="url"
                                     fullWidth
+                                    value={formik.values.url}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     onChange={formik.handleChange}
                                     error={formik.touched.url && Boolean(formik.errors.url)}
@@ -123,6 +125,7 @@ function Games() {
                                     fullWidth
                                     multiline
                                     rows={5}
+                                    value={formik.values.description}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     onChange={formik.handleChange}
                                     error={formik.touched.description && Boolean(formik.errors.description)}
@@ -130,7 +133,7 @@ function Games() {
                                 />
                                 <Box style={{ display: 'flex', justifyContent: 'right' }}>
                                     <Button
-                                        type="reset"
+                                        type="cancel"
                                         onClick={() => setOpenModal(!openModal)}
                                         variant="contained"
                                         color={theme.palette.secondary.light[800]}
@@ -138,9 +141,21 @@ function Games() {
                                             margin: 10,
                                             color: 'white'
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={<CancelIcon />}
                                     >
                                         Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        type="reset"
+                                        color="error"
+                                        style={{
+                                            color: '#fff',
+                                            margin: 10
+                                        }}
+                                        startIcon={<ResetIcon />}
+                                    >
+                                        Reset
                                     </Button>
                                     <Button
                                         variant="contained"

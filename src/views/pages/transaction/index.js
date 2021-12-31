@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, Paper, Button } from '@mui/material';
 import { IconCurrencyDollar as TransactionIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
@@ -13,16 +13,18 @@ import approvalList from './__mock__/approval-list';
 import MainCard from 'ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
-import FullScreenDialog from 'components/FullScreenDialog';
-
+import Modal from 'components/Modal';
 import PlayerDeposit from './components/Forms/player/PlayerDepositForm';
 import PlayerWithdraw from './components/Forms/player/PlayerWithdrawForm';
+import AgentDeposit from './components/Forms/agent/AgentDepositForm';
 import TabPanel from './components/TabPanel';
 
 function Transaction() {
     const [openModal, setOpenModal] = useState(false);
     const [value, setValue] = React.useState(0);
-    const [transaction, setTransaction] = useState(0);
+    const [deposit, setDeposit] = useState(false);
+    const [withdraw, setWithdraw] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -36,6 +38,25 @@ function Transaction() {
         }
     });
 
+    function getTitle() {
+        if (value === 0 && deposit) {
+            setModalTitle('Player Deposit');
+        }
+        if (value === 0 && withdraw) {
+            setModalTitle('Player Withdraw');
+        }
+        if (value === 1) {
+            setModalTitle('Agent Deposit');
+        }
+    }
+
+    useEffect(() => {
+        getTitle();
+        return () => {
+            setModalTitle('');
+        };
+    }, [withdraw, deposit, value]);
+
     const columns = ['ID', 'username', 'name', 'email', 'phone_no', 'agent', 'status'];
 
     const options = {
@@ -47,6 +68,29 @@ function Transaction() {
         rowsPerPageOptions: [10, 20],
         jumpToPage: true,
         elevation: 2
+    };
+
+    const handlePlayerTransactionModal = (type) => {
+        if (type === 'deposit') {
+            setDeposit(!deposit);
+            setWithdraw(false);
+        }
+        if (type === 'withdraw') {
+            setWithdraw(!withdraw);
+            setDeposit(false);
+        }
+
+        setOpenModal(!openModal);
+    };
+
+    const handleAgentTransactionModal = (type) => {
+        if (type === 'deposit') {
+            setDeposit(!deposit);
+        }
+        if (type === 'withdraw') {
+            setWithdraw(!withdraw);
+        }
+        setOpenModal(!openModal);
     };
 
     return (
@@ -62,10 +106,22 @@ function Transaction() {
                         title="Players Transactions"
                         secondary={
                             <Box>
-                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ mr: 3 }}>
+                                <Button
+                                    startIcon={<TransactionIcon />}
+                                    variant="contained"
+                                    color="warning"
+                                    sx={{ mr: 3 }}
+                                    onClick={() => handlePlayerTransactionModal('deposit')}
+                                >
                                     Deposit
                                 </Button>
-                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ ml: 3 }}>
+                                <Button
+                                    startIcon={<TransactionIcon />}
+                                    variant="contained"
+                                    color="warning"
+                                    sx={{ ml: 3 }}
+                                    onClick={() => handlePlayerTransactionModal('withdraw')}
+                                >
                                     Withdraw
                                 </Button>
                             </Box>
@@ -85,11 +141,23 @@ function Transaction() {
                         title="Agents Transactions"
                         secondary={
                             <Box>
-                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ mr: 3 }}>
+                                <Button
+                                    startIcon={<TransactionIcon />}
+                                    variant="contained"
+                                    color="warning"
+                                    sx={{ mr: 3 }}
+                                    onClick={() => setOpenModal(!openModal)}
+                                >
                                     Deposit
                                 </Button>
-                                <Button startIcon={<TransactionIcon />} variant="contained" color="warning" sx={{ ml: 3 }}>
-                                    Withdraw
+                                <Button
+                                    startIcon={<TransactionIcon />}
+                                    variant="contained"
+                                    color="error"
+                                    sx={{ ml: 3 }}
+                                    onClick={() => setOpenModal(!openModal)}
+                                >
+                                    Revoke Transaction
                                 </Button>
                             </Box>
                         }
@@ -105,15 +173,15 @@ function Transaction() {
                 </TabPanel>
             </Paper>
 
-            <FullScreenDialog
-                title={transaction === 0 ? 'Deposit' : 'Withdraw'}
-                dialogStatus={openModal}
-                setDialogStatus={setOpenModal}
-                formik={formik}
-            >
-                {transaction === 0 && <PlayerDeposit formik={formik} />}
-                {transaction === 1 && <PlayerWithdraw formik={formik} />}
-            </FullScreenDialog>
+            <Modal title={modalTitle} open={openModal} onClose={() => setOpenModal(!openModal)}>
+                {value === 0 && deposit && (
+                    <PlayerDeposit formik={formik} openModal={openModal} setOpenModal={() => handlePlayerTransactionModal('deposit')} />
+                )}
+                {value === 0 && withdraw && (
+                    <PlayerWithdraw formik={formik} openModal={openModal} setOpenModal={() => handlePlayerTransactionModal('withdraw')} />
+                )}
+                {value === 1 && <AgentDeposit formik={formik} openModal={openModal} setOpenModal={setOpenModal} />}
+            </Modal>
         </Box>
     );
 }

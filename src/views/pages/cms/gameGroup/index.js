@@ -24,7 +24,7 @@ function GameGroup() {
         }
     });
 
-    const columns = ['ID', 'Group', 'Action'];
+    const columns = ['ID', 'Game Type', 'Action'];
 
     const data = [
         {
@@ -46,9 +46,9 @@ function GameGroup() {
     return (
         <Box>
             <MainCard
-                title="Game Groups"
+                title="Game Types"
                 secondary={
-                    <Tooltip title="Add New Group">
+                    <Tooltip title="Add New Type">
                         <IconButton onClick={() => setOpenModal(!openModal)}>
                             <AddIcon />
                         </IconButton>
@@ -57,20 +57,20 @@ function GameGroup() {
             >
                 <Box>
                     {data.length > 0 ? (
-                        <DataTable title="Games List" data={data} columns={columns} options={options} />
+                        <DataTable title="Game Types List" data={data} columns={columns} options={options} />
                     ) : (
                         <NotFoundCard msg="Sorry, No data found" />
                     )}
                 </Box>
             </MainCard>
 
-            <FullScreenDialog title="Add New Game Group" dialogStatus={openModal} setDialogStatus={setOpenModal} formik={formik}>
+            <FullScreenDialog title="Add New Game Type" dialogStatus={openModal} setDialogStatus={setOpenModal} formik={formik}>
                 <Box style={{ padding: 30 }}>
                     <TextField
                         value={formik.values.name}
                         type="text"
                         name="name"
-                        label="Game Group Name"
+                        label="Game Type Name"
                         onChange={formik.handleChange}
                         variant="outlined"
                         fullWidth

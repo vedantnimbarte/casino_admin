@@ -52,8 +52,7 @@ function NewPlayerForm({ formik }) {
                         label="Password"
                         onChange={formik.handleChange}
                         variant="outlined"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
+                        style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
                         error={formik.touched.password && Boolean(formik.errors.password)}
                         helperText={formik.touched.password && formik.errors.password}
                         required
@@ -68,7 +67,7 @@ function NewPlayerForm({ formik }) {
                         onChange={formik.handleChange}
                         variant="outlined"
                         fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
+                        style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
                         error={formik.touched.confirm_password && Boolean(formik.errors.confirm_password)}
                         helperText={formik.touched.confirm_password && formik.errors.confirm_password}
                         required

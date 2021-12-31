@@ -28,7 +28,7 @@ function Network() {
     };
 
     const formik = useFormik({
-        initialValues: { username: '', name: '', email: '', password: '', confirm_password: '', phone_no: '', agent: '' },
+        initialValues: { username: '', name: '', email: '', password: '', confirm_password: '', phone_no: '', agent: '', address: '' },
         validationSchema: playerSchema,
         onSubmit: (values) => {
             console.log(values);

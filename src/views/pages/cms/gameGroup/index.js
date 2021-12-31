@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { IconButton, Tooltip, Box, TextField } from '@mui/material';
-import { IconCirclePlus as AddIcon } from '@tabler/icons';
+import { Box, TextField, Button, useTheme } from '@mui/material';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import gameGroupSchema from 'schema/gameGroup.schema';
 
@@ -9,9 +9,11 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
 import FullScreenDialog from 'components/FullScreenDialog';
+import Modal from 'components/Modal';
 
 function GameGroup() {
     const [openModal, setOpenModal] = useState(false);
+    const theme = useTheme();
 
     const formik = useFormik({
         initialValues: { name: '', description: '' },
@@ -26,12 +28,7 @@ function GameGroup() {
 
     const columns = ['ID', 'Game Type', 'Action'];
 
-    const data = [
-        {
-            ID: 1,
-            Group: 'Fish'
-        }
-    ];
+    const data = [];
 
     const options = {
         filter: false,
@@ -48,11 +45,9 @@ function GameGroup() {
             <MainCard
                 title="Game Types"
                 secondary={
-                    <Tooltip title="Add New Type">
-                        <IconButton onClick={() => setOpenModal(!openModal)}>
-                            <AddIcon />
-                        </IconButton>
-                    </Tooltip>
+                    <Button color="secondary" startIcon={<AddIcon />} variant="contained" onClick={() => setOpenModal(!openModal)}>
+                        Add Game Type
+                    </Button>
                 }
             >
                 <Box>
@@ -64,37 +59,66 @@ function GameGroup() {
                 </Box>
             </MainCard>
 
-            <FullScreenDialog title="Add New Game Type" dialogStatus={openModal} setDialogStatus={setOpenModal} formik={formik}>
-                <Box style={{ padding: 30 }}>
-                    <TextField
-                        value={formik.values.name}
-                        type="text"
-                        name="name"
-                        label="Game Type Name"
-                        onChange={formik.handleChange}
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                        error={formik.touched.name && Boolean(formik.errors.name)}
-                        helperText={formik.touched.name && formik.errors.name}
-                        required
-                    />
-                    <TextField
-                        value={formik.values.description}
-                        multiline
-                        rows={10}
-                        type="text"
-                        name="description"
-                        label="Description"
-                        onChange={formik.handleChange}
-                        variant="outlined"
-                        fullWidth
-                        style={{ marginTop: 10, marginBottom: 10 }}
-                        error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
-                    />
+            <Modal title="Add New Game Type" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                <Box style={{ display: 'flex', flexDirection: 'column' }}>
+                    <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+                        <TextField
+                            value={formik.values.name}
+                            type="text"
+                            name="name"
+                            label="Game Type Name"
+                            onChange={formik.handleChange}
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginTop: 10, marginBottom: 10 }}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
+                            required
+                        />
+                        <TextField
+                            value={formik.values.description}
+                            multiline
+                            rows={10}
+                            type="text"
+                            name="description"
+                            label="Description"
+                            onChange={formik.handleChange}
+                            variant="outlined"
+                            fullWidth
+                            style={{ marginTop: 10, marginBottom: 10 }}
+                            error={formik.touched.description && Boolean(formik.errors.description)}
+                            helperText={formik.touched.description && formik.errors.description}
+                        />
+                        <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                            <Button
+                                type="reset"
+                                onClick={() => setOpenModal(!openModal)}
+                                variant="contained"
+                                color={theme.palette.secondary.light[800]}
+                                style={{
+                                    margin: 10,
+                                    color: 'white'
+                                }}
+                                startIcon={<ResetIcon />}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                type="submit"
+                                color="secondary"
+                                style={{
+                                    color: '#fff',
+                                    margin: 10
+                                }}
+                                startIcon={<SaveIcon />}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
+                    </form>
                 </Box>
-            </FullScreenDialog>
+            </Modal>
         </Box>
     );
 }

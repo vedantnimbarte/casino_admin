@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconButton, Tooltip, Box, Tabs, Tab, Button, Paper } from '@mui/material';
+import { Box, Tabs, Tab, Button, Paper } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 
@@ -14,6 +14,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
 import FullScreenDialog from 'components/FullScreenDialog';
+import Modal from 'components/Modal';
 
 import NewPlayerForm from './components/Forms/NewPlayer';
 import TabPanel from './components/TabPanel';
@@ -87,9 +88,9 @@ function Players() {
                 </TabPanel>
             </Paper>
 
-            <FullScreenDialog title="Add New Player" dialogStatus={openModal} setDialogStatus={setOpenModal} formik={formik}>
-                <NewPlayerForm formik={formik} />
-            </FullScreenDialog>
+            <Modal title="Add New Player" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                <NewPlayerForm formik={formik} open={openModal} onClose={() => setOpenModal(!openModal)} />
+            </Modal>
         </Box>
     );
 }

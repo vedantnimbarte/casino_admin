@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl } from '@mui/material';
-import { IconCirclePlus as AddIcon } from '@tabler/icons';
+import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl, useTheme } from '@mui/material';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
 // Components
@@ -12,6 +12,7 @@ import sliderSchema from 'schema/slider.schema';
 
 function Slider() {
     const [openModal, setOpenModal] = useState(false);
+    const theme = useTheme();
 
     const columns = ['ID', 'Image', 'Action'];
 
@@ -33,9 +34,9 @@ function Slider() {
                 title="Slider"
                 secondary={
                     <Tooltip title="Add New Slider">
-                        <IconButton onClick={() => setOpenModal(!openModal)}>
-                            <AddIcon />
-                        </IconButton>
+                        <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                            Add Slider
+                        </Button>
                     </Tooltip>
                 }
             >
@@ -88,30 +89,31 @@ function Slider() {
                                     />
                                 </FormControl>
 
-                                <Box style={{ display: 'flex' }}>
-                                    <Button
-                                        type="submit"
-                                        style={{
-                                            backgroundColor: '#673AB7',
-                                            color: '#fff',
-                                            margin: 10,
-                                            width: '50%',
-                                            alignSelf: 'center'
-                                        }}
-                                    >
-                                        Submit
-                                    </Button>
+                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
                                     <Button
                                         type="reset"
                                         onClick={() => setOpenModal(!openModal)}
                                         variant="contained"
-                                        color="info"
+                                        color={theme.palette.secondary.light[800]}
                                         style={{
                                             margin: 10,
-                                            width: '50%'
+                                            color: 'white'
                                         }}
+                                        startIcon={<ResetIcon />}
                                     >
                                         Cancel
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        type="submit"
+                                        color="secondary"
+                                        style={{
+                                            color: '#fff',
+                                            margin: 10
+                                        }}
+                                        startIcon={<SaveIcon />}
+                                    >
+                                        Submit
                                     </Button>
                                 </Box>
                             </Form>

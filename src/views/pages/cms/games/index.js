@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { IconButton, Tooltip, Box, Button, InputLabel, TextField, CircularProgress, Select, MenuItem, FormControl } from '@mui/material';
-import { IconCirclePlus as AddIcon } from '@tabler/icons';
+import { useState } from 'react';
+import { Tooltip, Box, Button, InputLabel, TextField, useTheme, MenuItem, FormControl } from '@mui/material';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -14,10 +14,7 @@ import gameSchema from 'schema/game.schema';
 
 function Games() {
     const [openModal, setOpenModal] = useState(false);
-
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [data, setData] = useState(null);
+    const theme = useTheme();
 
     const columns = ['id', 'title', 'description', 'Action'];
 
@@ -31,48 +28,22 @@ function Games() {
         rowsPerPageOptions: [10, 20]
     };
 
-    async function getGamesData() {
-        setLoading(true);
-        try {
-            const response = await fetch('https://fakestoreapi.com/products');
-            if (response.status === 200) {
-                const result = await response.json();
-                if (result) {
-                    setData(result);
-                }
-            } else if (response.status === 403) {
-                setError(new Error("You don't have enough permission to view this data"));
-            }
-        } catch (err) {
-            setError(new Error(err.message));
-        }
-        setLoading(false);
-    }
-
-    useEffect(() => {
-        getGamesData();
-        return () => {
-            setData(null);
-            setError('');
-            setLoading(true);
-        };
-    }, []);
+    const data = [];
 
     return (
         <Box>
             <MainCard
                 title="Games"
                 secondary={
-                    <Tooltip title="Add New Game">
-                        <IconButton onClick={() => setOpenModal(!openModal)}>
-                            <AddIcon />
-                        </IconButton>
+                    <Tooltip title="Add New Slider">
+                        <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                            Add Game
+                        </Button>
                     </Tooltip>
                 }
             >
                 <Box>
-                    {loading && <CircularProgress />}
-                    {!loading && data ? (
+                    {data.length > 0 ? (
                         <DataTable title="Games List" data={data} columns={columns} options={options} />
                     ) : (
                         <NotFoundCard msg="Sorry, No data found" />
@@ -103,7 +74,7 @@ function Games() {
                                     helperText={formik.touched.name && formik.errors.name}
                                     required
                                 />
-                                <InputLabel>Game Image</InputLabel>
+                                <InputLabel>Game Image *</InputLabel>
                                 <TextField
                                     type="file"
                                     variant="outlined"
@@ -128,17 +99,19 @@ function Games() {
                                     required
                                 />
 
+                                <InputLabel>Select Game Type</InputLabel>
                                 <TextField
                                     value={formik.values.group}
                                     select
                                     name="group"
+                                    // label="Select Game Type"
                                     onChange={formik.handleChange}
                                     error={formik.touched.group && Boolean(formik.errors.group)}
                                     helperText={formik.touched.group && formik.errors.group}
                                     required
                                     fullWidth
                                 >
-                                    <MenuItem value="">Select game group</MenuItem>
+                                    <MenuItem value="">Select game type</MenuItem>
                                     <MenuItem value="FISH">Fish</MenuItem>
                                     <MenuItem value="BOARD">Board</MenuItem>
                                     <MenuItem value="CARD">Card</MenuItem>
@@ -155,29 +128,31 @@ function Games() {
                                     error={formik.touched.description && Boolean(formik.errors.description)}
                                     helperText={formik.touched.description && formik.errors.description}
                                 />
-                                <Box style={{ display: 'flex' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
                                     <Button
-                                        type="submit"
+                                        type="reset"
+                                        onClick={() => setOpenModal(!openModal)}
+                                        variant="contained"
+                                        color={theme.palette.secondary.light[800]}
                                         style={{
-                                            backgroundColor: '#673AB7',
-                                            color: '#fff',
                                             margin: 10,
-                                            width: '50%',
-                                            alignSelf: 'center'
+                                            color: 'white'
                                         }}
+                                        startIcon={<ResetIcon />}
                                     >
-                                        Submit
+                                        Cancel
                                     </Button>
                                     <Button
                                         variant="contained"
-                                        color="info"
+                                        type="submit"
+                                        color="secondary"
                                         style={{
-                                            margin: 10,
-                                            width: '50%'
+                                            color: '#fff',
+                                            margin: 10
                                         }}
-                                        onClick={() => setOpenModal(!openModal)}
+                                        startIcon={<SaveIcon />}
                                     >
-                                        Cancel
+                                        Submit
                                     </Button>
                                 </Box>
                             </Form>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, MenuItem, Select, TextField, InputLabel, FormControl } from '@mui/material';
-import { IconCirclePlus as AddIcon } from '@tabler/icons';
+import { Tooltip, Box, Button, MenuItem, TextField, InputLabel, useTheme } from '@mui/material';
+import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
 
 import { Formik, Form } from 'formik';
 
@@ -14,11 +14,8 @@ import notificationSchema from 'schema/notification.schema';
 
 function Notification() {
     const [openModal, setOpenModal] = useState(false);
-    const [type, setType] = useState('text');
-    const [title, setTitle] = useState('');
-    const [message, setMessage] = useState('');
-    const [img, setImg] = useState('');
-    const [videoUrl, setVideoUrl] = useState('');
+
+    const theme = useTheme();
 
     const columns = ['ID', 'Format', 'Title', 'Message', 'Image', 'Video URL', 'Action'];
 
@@ -39,10 +36,10 @@ function Notification() {
             <MainCard
                 title="Notification"
                 secondary={
-                    <Tooltip title="Add Notification">
-                        <IconButton onClick={() => setOpenModal(!openModal)}>
-                            <AddIcon />
-                        </IconButton>
+                    <Tooltip title="Add New Slider">
+                        <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                            Add Notification
+                        </Button>
                     </Tooltip>
                 }
             >
@@ -131,29 +128,31 @@ function Notification() {
                                         helperText={formik.touched.url && formik.errors.url}
                                     />
                                 )}
-                                <Box style={{ display: 'flex' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
                                     <Button
-                                        type="submit"
+                                        type="reset"
+                                        onClick={() => setOpenModal(!openModal)}
+                                        variant="contained"
+                                        color={theme.palette.secondary.light[800]}
                                         style={{
-                                            backgroundColor: '#673AB7',
-                                            color: '#fff',
                                             margin: 10,
-                                            width: '50%',
-                                            alignSelf: 'center'
+                                            color: 'white'
                                         }}
+                                        startIcon={<ResetIcon />}
                                     >
-                                        Submit
+                                        Cancel
                                     </Button>
                                     <Button
                                         variant="contained"
-                                        color="info"
+                                        type="submit"
+                                        color="secondary"
                                         style={{
-                                            margin: 10,
-                                            width: '50%'
+                                            color: '#fff',
+                                            margin: 10
                                         }}
-                                        onClick={() => setOpenModal(!openModal)}
+                                        startIcon={<SaveIcon />}
                                     >
-                                        Cancel
+                                        Submit
                                     </Button>
                                 </Box>
                             </Form>

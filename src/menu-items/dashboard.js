@@ -3,6 +3,7 @@ import {
     IconDashboard as DashboardIcon,
     IconDatabase as CMSIcon,
     IconSettings as ConfigIcon,
+    IconTournament as AgentTreeIcon,
     IconUsers as AgentIcon,
     IconCurrencyDollar as TransactionIcon,
     IconUser as PlayerIcon
@@ -12,7 +13,7 @@ import {
 import { configurationMenuItems, cmsMenuItems } from './submenu-items';
 
 // constant
-const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentIcon, TransactionIcon, PlayerIcon };
+const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentTreeIcon, TransactionIcon, PlayerIcon };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -29,17 +30,17 @@ const dashboard = {
             icon: icons.DashboardIcon,
             breadcrumbs: false
         },
-        // {
-        //     id: 'agent_tree',
-        //     title: 'Agent Tree',
-        //     type: 'item',
-        //     url: '/agent',
-        //     icon: icons.AgentIcon,
-        //     breadcrumbs: false
-        // },
         {
-            id: 'player',
-            title: 'Player',
+            id: 'agent_tree',
+            title: 'Agent Tree',
+            type: 'item',
+            url: '/agent',
+            icon: icons.AgentTreeIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'players',
+            title: 'Players',
             type: 'item',
             url: '/player',
             icon: icons.PlayerIcon,

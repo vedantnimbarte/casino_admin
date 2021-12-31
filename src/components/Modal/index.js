@@ -8,15 +8,19 @@ function ModalComponent({ title, children, open, onClose }) {
         <Modal
             open={open}
             onClose={onClose}
-            style={{
+            sx={{
                 width: '100vw',
                 height: '100%',
                 position: 'absolute',
                 overflowY: 'auto',
-                display: 'flex',
+                display: 'block',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                overflow: 'scroll',
+                maxHeight: '95%',
+                top: '5%',
+                left: '25%'
             }}
         >
             <MainCard

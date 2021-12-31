@@ -4,7 +4,7 @@ import {
     IconDatabase as CMSIcon,
     IconSettings as ConfigIcon,
     IconTournament as AgentTreeIcon,
-    IconUsers as AgentIcon,
+    IconUsers as NetworkIcon,
     IconCurrencyDollar as TransactionIcon,
     IconUser as PlayerIcon
 } from '@tabler/icons';
@@ -13,7 +13,7 @@ import {
 import { configurationMenuItems, cmsMenuItems } from './submenu-items';
 
 // constant
-const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentTreeIcon, TransactionIcon, PlayerIcon };
+const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentTreeIcon, TransactionIcon, PlayerIcon, NetworkIcon };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -31,10 +31,18 @@ const dashboard = {
             breadcrumbs: false
         },
         {
+            id: 'network',
+            title: 'Network',
+            type: 'item',
+            url: '/network',
+            icon: icons.NetworkIcon,
+            breadcrumbs: false
+        },
+        {
             id: 'agent_tree',
             title: 'Agent Tree',
             type: 'item',
-            url: '/agent',
+            url: '/agent-tree',
             icon: icons.AgentTreeIcon,
             breadcrumbs: false
         },

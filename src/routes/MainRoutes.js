@@ -8,6 +8,7 @@ import Loadable from 'ui-component/Loadable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 const TransactionPage = Loadable(lazy(() => import('views/pages/transaction')));
 const PlayerPage = Loadable(lazy(() => import('views/pages/player')));
+const NetworkPage = Loadable(lazy(() => import('views/pages/network')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -18,6 +19,10 @@ const MainRoutes = {
         {
             path: '/dashboard',
             element: <DashboardDefault />
+        },
+        {
+            path: '/network',
+            element: <NetworkPage />
         },
         {
             path: '/transaction',

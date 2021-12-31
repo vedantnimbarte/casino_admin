@@ -22,9 +22,9 @@ const userReducer = createSlice({
             '/configuration/permissions',
             '/configuration/commission',
             '/player',
-            '/agent-tree',
+            '/network/agent-tree',
             '/transaction',
-            '/network'
+            '/network/agents'
         ]
     }
 });

@@ -4,8 +4,8 @@ const icons = { RoleIcon, CommissionIcon, PermissionIcon };
 
 const configurationMenuItems = [
     {
-        id: 'roles',
-        title: 'Roles',
+        id: 'agent_type',
+        title: 'Agent Type',
         type: 'item',
         url: '/configuration/roles',
         breadcrumbs: false,

@@ -10,7 +10,7 @@ import {
 } from '@tabler/icons';
 
 // submenu items
-import { configurationMenuItems, cmsMenuItems } from './submenu-items';
+import { configurationMenuItems, cmsMenuItems, networkMenuItems } from './submenu-items';
 
 // constant
 const icons = { DashboardIcon, CMSIcon, ConfigIcon, AgentTreeIcon, TransactionIcon, PlayerIcon, NetworkIcon };
@@ -33,18 +33,9 @@ const dashboard = {
         {
             id: 'network',
             title: 'Network',
-            type: 'item',
-            url: '/network',
-            icon: icons.NetworkIcon,
-            breadcrumbs: false
-        },
-        {
-            id: 'agent_tree',
-            title: 'Agent Tree',
-            type: 'item',
-            url: '/agent-tree',
-            icon: icons.AgentTreeIcon,
-            breadcrumbs: false
+            type: 'collapse',
+            icon: icons.ConfigIcon,
+            children: [...networkMenuItems]
         },
         {
             id: 'players',

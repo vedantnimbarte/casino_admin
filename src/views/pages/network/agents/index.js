@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Tabs, Tab, Button, Paper, TextField, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { useState } from 'react';
+import { Box, Tabs, Tab, Button, Paper } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 
@@ -21,7 +21,7 @@ import TabPanel from './components/TabPanel';
 function Network() {
     const [openModal, setOpenModal] = useState(false);
 
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

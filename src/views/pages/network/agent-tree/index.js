@@ -1,21 +1,11 @@
 import { useState } from 'react';
-import { IconButton, Box, Button, TextField, MenuItem, useTheme, Grid, Typography } from '@mui/material';
-import {
-    IconCirclePlus as AddIcon,
-    IconDeviceFloppy as SaveIcon,
-    IconRefresh as ResetIcon,
-    IconCaretRight as NextIcon,
-    IconCaretLeft as PreviousIcon
-} from '@tabler/icons';
-import { Formik, Form } from 'formik';
+import { IconButton, Box, Button } from '@mui/material';
+import { IconCaretRight as NextIcon, IconCaretLeft as PreviousIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import Modal from 'components/Modal';
 import NotFoundCard from 'components/NotFoundCard';
-
-import roleSchema from 'schema/role.schema';
 
 // __mock__
 import md from './__mock__/md';
@@ -24,8 +14,6 @@ import sd from './__mock__/sd';
 import s from './__mock__/s';
 
 function AgentTree() {
-    const [openModal, setOpenModal] = useState(false);
-    const theme = useTheme();
     const [agentType, setAgentType] = useState(['Distributor', 'Sub Distributor', 'Store']);
     const [agents, setAgents] = useState(['Master Distributor']);
     const [data, setData] = useState(md);
@@ -155,7 +143,7 @@ function AgentTree() {
             options: {
                 filter: false,
                 sort: true,
-                customBodyRenderLite: (dataIndex) => {
+                customBodyRenderLite: () => {
                     const val = (
                         <IconButton onClick={() => handleAgentChange()}>
                             <NextIcon />

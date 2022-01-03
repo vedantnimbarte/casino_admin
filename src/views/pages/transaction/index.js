@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, Paper, Button } from '@mui/material';
 import { IconCurrencyDollar as TransactionIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
@@ -21,7 +21,7 @@ import TabPanel from './components/TabPanel';
 
 function Transaction() {
     const [openModal, setOpenModal] = useState(false);
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
     const [deposit, setDeposit] = useState(false);
     const [withdraw, setWithdraw] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
@@ -80,16 +80,6 @@ function Transaction() {
             setDeposit(false);
         }
 
-        setOpenModal(!openModal);
-    };
-
-    const handleAgentTransactionModal = (type) => {
-        if (type === 'deposit') {
-            setDeposit(!deposit);
-        }
-        if (type === 'withdraw') {
-            setWithdraw(!withdraw);
-        }
         setOpenModal(!openModal);
     };
 

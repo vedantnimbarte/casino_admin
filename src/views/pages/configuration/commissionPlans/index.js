@@ -1,19 +1,14 @@
 import { useState } from 'react';
 import { Box, Button, Grid } from '@mui/material';
-// import DataTable from 'mui-datatables';
-import { IconEditCircle as EditIcon, IconHistory as HistoryIcon, IconEdit as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconHistory as HistoryIcon, IconEdit as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
-import EditCommissionPlanModal from './components/Modal/EditCommissionPlan';
 import CommissionHistoryModal from './components/Modal/CommissionHistory';
-import CommissionCard from './components/CommissionCard';
+import CommissionCard from './components/Cards/CommissionCard';
 
 function CommissionPlans() {
-    const [openModal, setOpenModal] = useState(false);
     const [commissionHistory, setCommissionHistory] = useState(false);
-    const [role, setRole] = useState('');
-    const [description, setDescription] = useState('');
 
     return (
         <Box>
@@ -48,18 +43,9 @@ function CommissionPlans() {
                             <CommissionCard title="Stores" />
                         </Grid>
                     </Grid>
-                    {/* <DataTable title="Commission Plans" data={data} columns={columns} options={options} /> */}
                 </Box>
             </MainCard>
 
-            <EditCommissionPlanModal
-                openModal={openModal}
-                setOpenModal={setOpenModal}
-                role={role}
-                setRole={setRole}
-                description={description}
-                setDescription={setDescription}
-            />
             <CommissionHistoryModal openModal={commissionHistory} setOpenModal={setCommissionHistory} />
         </Box>
     );

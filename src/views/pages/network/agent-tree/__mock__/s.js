@@ -1,5 +1,3 @@
-import { IconArrowRight as NextIcon } from '@tabler/icons';
-
 const data = [
     {
         role: 'Store',

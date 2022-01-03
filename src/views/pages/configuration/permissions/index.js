@@ -1,7 +1,4 @@
-import { useState } from 'react';
-import { IconButton, Tooltip, Box, Button, InputLabel, TextField, FormControl } from '@mui/material';
-// import DataTable from 'mui-datatables';
-import { IconCirclePlus as AddIcon } from '@tabler/icons';
+import { Box } from '@mui/material';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -9,10 +6,6 @@ import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
 
 function Permissions() {
-    const [openModal, setOpenModal] = useState(false);
-    const [role, setRole] = useState('');
-    const [description, setDescription] = useState('');
-
     const columns = ['ID', 'Permission', 'Allocated', 'Action'];
 
     const data = [];

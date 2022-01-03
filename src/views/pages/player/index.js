@@ -13,7 +13,6 @@ import approvalList from './__mock__/approval-list';
 import MainCard from 'ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
-import FullScreenDialog from 'components/FullScreenDialog';
 import Modal from 'components/Modal';
 
 import NewPlayerForm from './components/Forms/NewPlayer';

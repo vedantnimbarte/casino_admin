@@ -1,5 +1,3 @@
-import { Chip } from '@mui/material';
-
 const playersList = [
     // {
     //     ID: 1,

@@ -38,7 +38,7 @@ function Transaction() {
         }
     });
 
-    function getTitle() {
+    useEffect(() => {
         if (value === 0 && deposit) {
             setModalTitle('Player Deposit');
         }
@@ -48,10 +48,6 @@ function Transaction() {
         if (value === 1) {
             setModalTitle('Agent Deposit');
         }
-    }
-
-    useEffect(() => {
-        getTitle();
         return () => {
             setModalTitle('');
         };

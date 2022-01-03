@@ -2,19 +2,21 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase } from '@mui/material';
+import { Avatar, Box, ButtonBase, IconButton, Tooltip } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 // project imports
 import LogoSection from '../LogoSection';
 import ProfileSection from './ProfileSection';
 
 // assets
-import { IconMenu2 } from '@tabler/icons';
+import { IconMenu2, IconUsers as AgentIcon, IconUser as PlayerIcon } from '@tabler/icons';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
 const Header = ({ handleLeftDrawerToggle }) => {
     const theme = useTheme();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -51,6 +53,28 @@ const Header = ({ handleLeftDrawerToggle }) => {
                         <IconMenu2 stroke={1.5} size="1.3rem" />
                     </Avatar>
                 </ButtonBase>
+            </Box>
+
+            <Box sx={{ ml: 4 }}>
+                <Tooltip title="Create Player">
+                    <IconButton
+                        onClick={() => navigate('/player')}
+                        color="secondary"
+                        sx={{ '&:hover': { backgroundColor: theme.palette.secondary.light }, mr: 2 }}
+                    >
+                        <PlayerIcon />
+                    </IconButton>
+                </Tooltip>
+
+                <Tooltip title="Create Agent">
+                    <IconButton
+                        onClick={() => navigate('/network/agents')}
+                        color="secondary"
+                        sx={{ '&:hover': { backgroundColor: theme.palette.secondary.light }, ml: 2 }}
+                    >
+                        <AgentIcon />
+                    </IconButton>
+                </Tooltip>
             </Box>
 
             <Box sx={{ flexGrow: 1 }} />

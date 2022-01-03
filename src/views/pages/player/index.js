@@ -19,7 +19,7 @@ import Modal from 'components/Modal';
 import NewPlayerForm from './components/Forms/NewPlayer';
 import TabPanel from './components/TabPanel';
 
-function Players(props) {
+function Players() {
     const [openModal, setOpenModal] = useState(false);
     const { state } = useLocation();
 

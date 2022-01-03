@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase, IconButton, Tooltip, Fab, Typography } from '@mui/material';
+import { Avatar, Box, ButtonBase, Fab, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 // project imports

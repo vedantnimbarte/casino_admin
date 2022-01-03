@@ -1,9 +1,7 @@
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import Error404Img from 'assets/images/404Error.png';
 
 function Error404() {
-    const theme = useTheme();
-
     return (
         <Box>
             <img src={Error404Img} style={{ height: '50%', width: '100%' }} alt="Oops, Page your are looking for not found" />

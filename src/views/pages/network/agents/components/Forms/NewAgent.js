@@ -37,12 +37,6 @@ function NewPlayerForm({ formik, onClose, openModal }) {
     const gameTypesList = ['All', 'Fish', 'Table', 'Slot'];
     const permissionsList = ['All'];
 
-    function getStyles(name, personName, theme) {
-        return {
-            fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
-        };
-    }
-
     const handleGameTypeChange = (event) => {
         const {
             target: { value }

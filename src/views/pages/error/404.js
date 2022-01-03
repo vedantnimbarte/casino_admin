@@ -1,5 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material';
-import MainCard from 'ui-component/cards/MainCard';
+import { Box, useTheme } from '@mui/material';
 import Error404Img from 'assets/images/404Error.png';
 
 function Error404() {
@@ -7,9 +6,7 @@ function Error404() {
 
     return (
         <Box>
-            {/* <MainCard> */}
             <img src={Error404Img} style={{ height: '50%', width: '100%' }} alt="Oops, Page your are looking for not found" />
-            {/* </MainCard> */}
         </Box>
     );
 }

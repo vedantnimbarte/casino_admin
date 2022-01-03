@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase, IconButton, Tooltip, Fab } from '@mui/material';
+import { Avatar, Box, ButtonBase, IconButton, Tooltip, Fab, Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 // project imports
@@ -63,7 +63,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     sx={{ mr: 1 }}
                     onClick={() => navigate('/player', { state: { status: true } })}
                 >
-                    <PlayerIcon sx={{ mr: 1 }} /> Create Player
+                    <PlayerIcon style={{ marginRight: 5 }} />
+                    <Typography>Create Player</Typography>
                 </Fab>
                 <Fab
                     variant="extended"
@@ -72,7 +73,8 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     sx={{ mr: 1 }}
                     onClick={() => navigate('/network/agents', { state: { status: true } })}
                 >
-                    <AgentIcon sx={{ mr: 1 }} /> Create Agent
+                    <AgentIcon style={{ marginRight: 5 }} />
+                    <Typography>Create Agent</Typography>
                 </Fab>
             </Box>
 

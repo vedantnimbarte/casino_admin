@@ -34,15 +34,11 @@ const ProfileSection = () => {
     const customization = useSelector((state) => state.customization);
     const user = useSelector((state) => state.user);
 
-    const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
     const anchorRef = useRef(null);
-    const handleLogout = async () => {
-        console.log('Logout');
-    };
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -159,11 +155,7 @@ const ProfileSection = () => {
                                                 }
                                             }}
                                         >
-                                            <ListItemButton
-                                                sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                selected={selectedIndex === 4}
-                                                onClick={handleLogout}
-                                            >
+                                            <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }}>
                                                 <ListItemIcon>
                                                     <IconLogout stroke={1.5} size="1.3rem" />
                                                 </ListItemIcon>
@@ -171,7 +163,6 @@ const ProfileSection = () => {
                                             </ListItemButton>
                                         </List>
                                     </Box>
-                                    {/* </PerfectScrollbar> */}
                                 </MainCard>
                             </ClickAwayListener>
                         </Paper>

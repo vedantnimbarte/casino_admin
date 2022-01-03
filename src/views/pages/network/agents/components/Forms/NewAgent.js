@@ -1,5 +1,20 @@
 import React from 'react';
-import { Box, TextField, MenuItem, Grid, Button, useTheme, Chip, Select, FormControl, InputLabel, OutlinedInput } from '@mui/material';
+import {
+    Box,
+    TextField,
+    MenuItem,
+    Grid,
+    Button,
+    useTheme,
+    Chip,
+    Select,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    Checkbox,
+    ListItemText,
+    Typography
+} from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
 
@@ -157,8 +172,8 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     variant="outlined"
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.agent && Boolean(formik.errors.agent)}
-                    helperText={formik.touched.agent && formik.errors.agent}
+                    error={formik.touched.agent_type && Boolean(formik.errors.agent_type)}
+                    helperText={formik.touched.agent_type && formik.errors.agent_type}
                     required
                 >
                     <MenuItem value="master_distributor">Master Distributor</MenuItem>
@@ -179,6 +194,8 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 value={gameType}
                                 style={{ width: '99%' }}
                                 onChange={handleGameTypeChange}
+                                error={formik.touched.game_type_permissions && Boolean(formik.errors.game_type_permissions)}
+                                helperText={formik.touched.game_type_permissions && formik.errors.game_type_permissions}
                                 input={<OutlinedInput id="select-multiple-chip" label="Select Game Type Permissions" />}
                                 renderValue={(selected) => (
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -189,12 +206,18 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 )}
                                 MenuProps={MenuProps}
                             >
-                                {gameTypesList.map((gameType) => (
-                                    <MenuItem key={gameType} value={gameType} style={getStyles(gameType, gameType, theme)}>
-                                        {gameType}
+                                {gameTypesList.map((gt) => (
+                                    <MenuItem key={gt} value={gt}>
+                                        <Checkbox checked={gameType.indexOf(gt) > -1} />
+                                        <ListItemText primary={gt} />
                                     </MenuItem>
                                 ))}
                             </Select>
+                            {formik.touched.game_type_permissions && Boolean(formik.errors.game_type_permissions) && (
+                                <Typography sx={{ fontSize: 12, ml: 2, mt: 1 }} color="error">
+                                    {formik.errors.game_type_permissions}
+                                </Typography>
+                            )}
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
@@ -208,6 +231,8 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 style={{ width: '99%' }}
                                 value={permissions}
                                 onChange={handlePermissionsChange}
+                                error={formik.touched.permissions && Boolean(formik.errors.permissions)}
+                                helperText={formik.touched.permissions && formik.errors.permissions}
                                 input={<OutlinedInput id="select-multiple-chip" label="Select Permissions" />}
                                 renderValue={(selected) => (
                                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -219,11 +244,17 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 MenuProps={MenuProps}
                             >
                                 {permissionsList.map((permission) => (
-                                    <MenuItem key={permission} value={permission} style={getStyles(permission, permissions, theme)}>
-                                        {permission}
+                                    <MenuItem key={permission} value={permission}>
+                                        <Checkbox checked={permissions.indexOf(permission) > -1} />
+                                        <ListItemText primary={permission} />
                                     </MenuItem>
                                 ))}
                             </Select>
+                            {formik.touched.permissions && Boolean(formik.errors.permissions) && (
+                                <Typography sx={{ fontSize: 12, ml: 2, mt: 1 }} color="error">
+                                    {formik.errors.permissions}
+                                </Typography>
+                            )}
                         </FormControl>
                     </Grid>
                 </Grid>

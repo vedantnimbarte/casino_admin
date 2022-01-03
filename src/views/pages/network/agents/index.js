@@ -3,7 +3,7 @@ import { Box, Tabs, Tab, Button, Paper } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 
-import playerSchema from 'schema/player.schema';
+import agentSchema from 'schema/agent.schema';
 
 // __mock__ data
 import playersList from './__mock__/player-list';
@@ -28,8 +28,19 @@ function Network() {
     };
 
     const formik = useFormik({
-        initialValues: { username: '', name: '', email: '', password: '', confirm_password: '', phone_no: '', agent: '', address: '' },
-        validationSchema: playerSchema,
+        initialValues: {
+            username: '',
+            name: '',
+            email: '',
+            password: '',
+            confirm_password: '',
+            phone_no: '',
+            agent_type: '',
+            address: '',
+            game_type_permissions: '',
+            permissions: ''
+        },
+        validationSchema: agentSchema,
         onSubmit: (values) => {
             console.log(values);
         }

@@ -109,7 +109,7 @@ function FAQ() {
                                         }}
                                         startIcon={<ResetIcon />}
                                     >
-                                        Submit
+                                        Reset
                                     </Button>
                                     <Button
                                         variant="contained"

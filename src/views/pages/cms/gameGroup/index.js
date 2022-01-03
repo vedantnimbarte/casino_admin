@@ -113,7 +113,7 @@ function GameGroup() {
                                 }}
                                 startIcon={<ResetIcon />}
                             >
-                                Submit
+                                Reset
                             </Button>
                             <Button
                                 variant="contained"

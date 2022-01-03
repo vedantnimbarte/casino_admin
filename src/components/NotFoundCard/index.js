@@ -1,6 +1,6 @@
-import React from 'react';
 import { Paper, Typography } from '@mui/material';
 import { IconFilesOff as NoDataIcon } from '@tabler/icons';
+import propTypes from 'prop-types';
 
 function NotFoundCard({ msg }) {
     return (
@@ -10,5 +10,9 @@ function NotFoundCard({ msg }) {
         </Paper>
     );
 }
+
+NotFoundCard.propTypes = {
+    msg: propTypes.string
+};
 
 export default NotFoundCard;

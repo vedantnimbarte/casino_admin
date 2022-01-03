@@ -1,7 +1,7 @@
-import React from 'react';
 import { Box } from '@mui/material';
 import Modal from 'components/Modal';
 import DataTable from 'components/DataTable';
+import propTypes from 'prop-types';
 
 function CommissionHistory({ openModal, setOpenModal }) {
     const columns = ['ID', 'Master Distributer', 'Distributer', 'Sub Distributer', 'Store', 'Date'];
@@ -25,5 +25,10 @@ function CommissionHistory({ openModal, setOpenModal }) {
         </Modal>
     );
 }
+
+CommissionHistory.propTypes = {
+    openModal: propTypes.bool,
+    setOpenModal: propTypes.func
+};
 
 export default CommissionHistory;

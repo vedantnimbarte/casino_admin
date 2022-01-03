@@ -3,7 +3,7 @@ import { Box, Tabs, Tab, Paper, Button } from '@mui/material';
 import { IconCurrencyDollar as TransactionIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 
-import playerSchema from 'schema/player.schema';
+import transactionSchema from 'schema/transaction.schema';
 
 // __mock__ data
 import playersList from './__mock__/player-list';
@@ -31,8 +31,8 @@ function Transaction() {
     };
 
     const formik = useFormik({
-        initialValues: { username: '', name: '', email: '', password: '', confirm_password: '', phone_no: '', agent: '' },
-        validationSchema: playerSchema,
+        initialValues: { username_playerId: '', email: '', password: '', phone_no: '' },
+        validationSchema: transactionSchema,
         onSubmit: (values) => {
             console.log(values);
         }

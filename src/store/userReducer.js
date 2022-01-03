@@ -20,7 +20,6 @@ const userReducer = createSlice({
             '/cms/slider',
             '/configuration/roles',
             '/configuration/permissions',
-            '/configuration/commission',
             '/player',
             '/network/agent-tree',
             '/transaction',

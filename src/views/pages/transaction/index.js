@@ -82,7 +82,14 @@ function Transaction() {
     return (
         <Box>
             <Paper>
-                <Tabs value={value} onChange={handleChange} variant="fullWidth" aria-label="basic tabs example">
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    aria-label="basic tabs example"
+                    textColor="secondary"
+                    indicatorColor="secondary"
+                >
                     <Tab label="Player Transaction" />
                     <Tab label="Agent Transaction" />
                 </Tabs>

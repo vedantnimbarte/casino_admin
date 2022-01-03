@@ -62,7 +62,14 @@ function Network() {
     return (
         <Box>
             <Paper>
-                <Tabs value={value} onChange={handleChange} variant="fullWidth" aria-label="basic tabs example">
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    aria-label="basic tabs example"
+                    textColor="secondary"
+                    indicatorColor="secondary"
+                >
                     <Tab label="Agents List" />
                     <Tab label="Pending Approval" />
                 </Tabs>

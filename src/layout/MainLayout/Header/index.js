@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase, IconButton, Tooltip } from '@mui/material';
+import { Avatar, Box, ButtonBase, IconButton, Tooltip, Fab } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 // project imports
@@ -56,25 +56,24 @@ const Header = ({ handleLeftDrawerToggle }) => {
             </Box>
 
             <Box sx={{ ml: 4 }}>
-                <Tooltip title="Create Player">
-                    <IconButton
-                        onClick={() => navigate('/player', { state: { status: true } })}
-                        color="secondary"
-                        sx={{ '&:hover': { backgroundColor: theme.palette.secondary.light }, mr: 2 }}
-                    >
-                        <PlayerIcon />
-                    </IconButton>
-                </Tooltip>
-
-                <Tooltip title="Create Agent">
-                    <IconButton
-                        onClick={() => navigate('/network/agents', { state: { status: true } })}
-                        color="secondary"
-                        sx={{ '&:hover': { backgroundColor: theme.palette.secondary.light }, ml: 2 }}
-                    >
-                        <AgentIcon />
-                    </IconButton>
-                </Tooltip>
+                <Fab
+                    variant="extended"
+                    size="medium"
+                    color="secondary"
+                    sx={{ mr: 1 }}
+                    onClick={() => navigate('/player', { state: { status: true } })}
+                >
+                    <PlayerIcon sx={{ mr: 1 }} /> Create Player
+                </Fab>
+                <Fab
+                    variant="extended"
+                    size="medium"
+                    color="secondary"
+                    sx={{ mr: 1 }}
+                    onClick={() => navigate('/network/agents', { state: { status: true } })}
+                >
+                    <AgentIcon sx={{ mr: 1 }} /> Create Agent
+                </Fab>
             </Box>
 
             <Box sx={{ flexGrow: 1 }} />

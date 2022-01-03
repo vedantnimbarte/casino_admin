@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // material-ui
-import { FormControl, Grid, InputLabel, MenuItem, Select, Box, TextField, Card } from '@mui/material';
+import { FormControl, Grid, InputLabel, MenuItem, Select, Box, TextField } from '@mui/material';
 import DateRangePicker from '@mui/lab/DateRangePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';

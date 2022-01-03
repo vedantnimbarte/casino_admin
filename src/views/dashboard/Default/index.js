@@ -27,7 +27,6 @@ const Dashboard = () => {
     const [isLoading, setLoading] = useState(true);
 
     const [value, setValue] = useState([null, null]);
-    console.log(value);
 
     useEffect(() => {
         setLoading(false);

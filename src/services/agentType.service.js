@@ -11,7 +11,6 @@ async function create({ name, description }) {
     try {
         const response = await fetch(`${API_URL}${InternalAPI.AGENT}`, requestOptions);
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (error) {
         return new Error(error);

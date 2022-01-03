@@ -149,7 +149,6 @@ function AgentTree() {
                             <NextIcon />
                         </IconButton>
                     );
-                    console.log();
                     return agents[agents.length - 1] !== 'Store' ? val : '';
                 }
             }

@@ -18,7 +18,7 @@ function Roles() {
     const [openModal, setOpenModal] = useState(false);
     const theme = useTheme();
 
-    const columns = ['ID', 'Role', 'Action'];
+    const columns = ['ID', 'Agent Type', 'Parent Type', 'Action'];
 
     const data = [];
 
@@ -64,7 +64,6 @@ function Roles() {
                     >
                         {(formik) => (
                             <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                                {console.log(formik.errors)}
                                 <TextField
                                     value={formik.values.name}
                                     type="text"

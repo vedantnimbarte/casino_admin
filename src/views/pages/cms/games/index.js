@@ -57,7 +57,6 @@ function Games() {
                         initialValues={{ name: '', image: '', url: '', group: '', description: '' }}
                         validationSchema={gameSchema}
                         onSubmit={(values) => {
-                            console.log('submitting');
                             console.log(values);
                         }}
                     >

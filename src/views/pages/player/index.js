@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, Button, Paper } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
+import { useLocation } from 'react-router';
 
 import playerSchema from 'schema/player.schema';
 
@@ -18,8 +19,9 @@ import Modal from 'components/Modal';
 import NewPlayerForm from './components/Forms/NewPlayer';
 import TabPanel from './components/TabPanel';
 
-function Players() {
+function Players(props) {
     const [openModal, setOpenModal] = useState(false);
+    const { state } = useLocation();
 
     const [value, setValue] = React.useState(0);
 
@@ -34,6 +36,12 @@ function Players() {
             console.log(values);
         }
     });
+
+    useEffect(() => {
+        if (state) {
+            setOpenModal(!openModal);
+        }
+    }, [state]);
 
     const columns = ['ID', 'username', 'name', 'email', 'phone_no', 'agent', 'status'];
 

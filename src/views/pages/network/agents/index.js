@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, Button, Paper } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
+import { useLocation } from 'react-router';
 
 import agentSchema from 'schema/agent.schema';
 
@@ -19,6 +20,7 @@ import NewAgentForm from './components/Forms/NewAgent';
 import TabPanel from './components/TabPanel';
 
 function Network() {
+    const { state } = useLocation();
     const [openModal, setOpenModal] = useState(false);
 
     const [value, setValue] = useState(0);
@@ -26,6 +28,12 @@ function Network() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    useEffect(() => {
+        if (state) {
+            setOpenModal(!openModal);
+        }
+    }, [state]);
 
     const formik = useFormik({
         initialValues: {

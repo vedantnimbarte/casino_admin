@@ -6,6 +6,7 @@ import AuthenticationRoutes from './AuthenticationRoutes';
 import CMSRoutes from './CMSRoutes';
 import ConfigurationRoutes from './ConfigurationRoutes';
 import NetworkRoutes from './NetworkRoutes';
+import ErrorRoutes from './ErrorRoutes';
 
 import { useSelector } from 'react-redux';
 
@@ -22,5 +23,5 @@ export default function ThemeRoutes() {
     });
 
     // return useRoutes(localStorage.getItem('user-authenticated') ? [MainRoutes] : [AuthenticationRoutes]);
-    return useRoutes([AuthenticationRoutes, MainRoutes, NetworkRoutes, CMSRoutes, ConfigurationRoutes]);
+    return useRoutes([AuthenticationRoutes, MainRoutes, NetworkRoutes, CMSRoutes, ConfigurationRoutes, ErrorRoutes]);
 }

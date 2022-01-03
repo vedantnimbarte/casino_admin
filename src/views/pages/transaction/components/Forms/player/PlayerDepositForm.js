@@ -1,5 +1,6 @@
 import { Box, TextField, Button, useTheme } from '@mui/material';
 import { IconChecks as ConfirmIcon, IconX as CancelIcon } from '@tabler/icons';
+import propTypes from 'prop-types';
 
 function PlayerDeposit({ formik, openModal, setOpenModal }) {
     const theme = useTheme();
@@ -88,5 +89,11 @@ function PlayerDeposit({ formik, openModal, setOpenModal }) {
         </Box>
     );
 }
+
+PlayerDeposit.propTypes = {
+    formik: propTypes.object,
+    openModal: propTypes.string,
+    setOpenModal: propTypes.func
+};
 
 export default PlayerDeposit;

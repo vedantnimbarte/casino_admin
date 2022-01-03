@@ -1,5 +1,6 @@
 import { Box, TextField, Button, useTheme } from '@mui/material';
 import { IconChecks as ConfirmIcon, IconX as CancelIcon } from '@tabler/icons';
+import propTypes from 'prop-types';
 
 function PlayerWithdraw({ formik, openModal, setOpenModal }) {
     const theme = useTheme();
@@ -88,5 +89,11 @@ function PlayerWithdraw({ formik, openModal, setOpenModal }) {
         </Box>
     );
 }
+
+PlayerWithdraw.propTypes = {
+    formik: propTypes.object,
+    openModal: propTypes.string,
+    setOpenModal: propTypes.func
+};
 
 export default PlayerWithdraw;

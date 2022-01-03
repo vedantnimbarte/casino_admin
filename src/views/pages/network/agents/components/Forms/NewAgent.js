@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, TextField, MenuItem, Grid, Button, useTheme, Chip, Select, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
+import propTypes from 'prop-types';
 
 function NewPlayerForm({ formik, onClose, openModal }) {
     const theme = useTheme();
@@ -269,5 +270,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
         </Box>
     );
 }
+
+NewPlayerForm.propTypes = {
+    formik: propTypes.object,
+    openModal: propTypes.string,
+    onClose: propTypes.func
+};
 
 export default NewPlayerForm;

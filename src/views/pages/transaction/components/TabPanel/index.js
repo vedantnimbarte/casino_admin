@@ -1,6 +1,5 @@
-import React from 'react';
 import { Box } from '@mui/material';
-import MainCard from 'ui-component/cards/MainCard';
+import propTypes from 'prop-types';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -11,5 +10,11 @@ function TabPanel(props) {
         </Box>
     );
 }
+
+TabPanel.propTypes = {
+    children: propTypes.any,
+    value: propTypes.string,
+    index: propTypes.string
+};
 
 export default TabPanel;

@@ -11,14 +11,14 @@ const configurationMenuItems = [
         breadcrumbs: false,
         icon: icons.RoleIcon
     },
-    {
-        id: 'commission-plans',
-        title: 'Commission Plans',
-        type: 'item',
-        url: '/configuration/commission',
-        breadcrumbs: false,
-        icon: icons.CommissionIcon
-    },
+    // {
+    //     id: 'commission-plans',
+    //     title: 'Commission Plans',
+    //     type: 'item',
+    //     url: '/configuration/commission',
+    //     breadcrumbs: false,
+    //     icon: icons.CommissionIcon
+    // },
     {
         id: 'permissions',
         title: 'Permissions',

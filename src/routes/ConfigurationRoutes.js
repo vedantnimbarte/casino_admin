@@ -22,11 +22,11 @@ const ConfigurationRoutes = {
         {
             path: '/permissions',
             element: <PermissionsPage />
-        },
-        {
-            path: '/commission',
-            element: <CommissionPlansPage />
         }
+        // {
+        //     path: '/commission',
+        //     element: <CommissionPlansPage />
+        // }
     ]
 };
 

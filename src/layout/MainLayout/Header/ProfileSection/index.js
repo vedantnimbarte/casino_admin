@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -8,43 +7,31 @@ import { useTheme } from '@mui/material/styles';
 import {
     Avatar,
     Box,
-    Card,
-    CardContent,
     Chip,
     ClickAwayListener,
-    Divider,
-    Grid,
-    InputAdornment,
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    OutlinedInput,
     Paper,
     Popper,
     Stack,
-    Switch,
     Typography
 } from '@mui/material';
-
-// third-party
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
 import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSettings } from '@tabler/icons';
 
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
-    const navigate = useNavigate();
     const user = useSelector((state) => state.user);
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -64,14 +51,6 @@ const ProfileSection = () => {
         setOpen(false);
     };
 
-    const handleListItemClick = (event, index, route = '') => {
-        setSelectedIndex(index);
-        handleClose(event);
-
-        if (route && route !== '') {
-            navigate(route);
-        }
-    };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
@@ -163,7 +142,6 @@ const ProfileSection = () => {
                                             <Typography variant="subtitle2">{user.email}</Typography>
                                         </Stack>
                                     </Box>
-                                    {/* <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}> */}
                                     <Box sx={{ p: 2 }}>
                                         <List
                                             component="nav"
@@ -181,17 +159,6 @@ const ProfileSection = () => {
                                                 }
                                             }}
                                         >
-                                            {/* <ListItemButton
-                                                sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                selected={selectedIndex === 0}
-                                                onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
-                                            >
-                                                <ListItemIcon>
-                                                    <IconSettings stroke={1.5} size="1.3rem" />
-                                                </ListItemIcon>
-                                                <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
-                                            </ListItemButton> */}
-
                                             <ListItemButton
                                                 sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                 selected={selectedIndex === 4}

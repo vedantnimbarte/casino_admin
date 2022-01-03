@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, TextField, Button, useTheme } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
@@ -8,7 +8,6 @@ import gameGroupSchema from 'schema/gameGroup.schema';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
-import FullScreenDialog from 'components/FullScreenDialog';
 import Modal from 'components/Modal';
 
 function GameGroup() {
@@ -20,9 +19,6 @@ function GameGroup() {
         validationSchema: gameGroupSchema,
         onSubmit: (values) => {
             console.log(values);
-        },
-        onReset: (values) => {
-            values = { name: '', description: '' };
         }
     });
 

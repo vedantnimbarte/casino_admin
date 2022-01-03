@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Button, CardActions, CardContent, Divider, Grid, Menu, MenuItem, Typography } from '@mui/material';
-
-import { IconChecks as TickIcon } from '@tabler/icons';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -15,8 +13,6 @@ import { gridSpacing } from 'store/constant';
 // assets
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 
 // ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
 
@@ -57,7 +53,6 @@ const PopularGamesCard = ({ isLoading }) => {
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
-    const [topAgents, setTopAgents] = useState([...agentsData]);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -65,41 +60,6 @@ const PopularGamesCard = ({ isLoading }) => {
 
     const handleClose = () => {
         setAnchorEl(null);
-    };
-
-    const handleMoreView = () => {
-        const data = [
-            {
-                id: 1,
-                name: 'agent 1',
-                commission: 10,
-                ggr: 128
-            },
-            {
-                id: 2,
-                name: 'agent 2',
-                commission: 10,
-                ggr: 128
-            },
-            {
-                id: 3,
-                name: 'agent 3',
-                commission: 10,
-                ggr: 128
-            },
-            {
-                id: 4,
-                name: 'agent 4',
-                commission: 10,
-                ggr: 128
-            },
-            {
-                id: 5,
-                name: 'agent 5',
-                commission: 10,
-                ggr: 128
-            }
-        ];
     };
 
     return (
@@ -153,7 +113,7 @@ const PopularGamesCard = ({ isLoading }) => {
                             </Grid>
 
                             <Grid item xs={12}>
-                                {topAgents.map((agent) => (
+                                {agentsData.map((agent) => (
                                     <>
                                         <Grid container direction="column" key={agent.id}>
                                             <Grid item>
@@ -202,7 +162,7 @@ const PopularGamesCard = ({ isLoading }) => {
                         </Grid>
                     </CardContent>
                     <CardActions sx={{ p: 1.25, pt: 0, justifyContent: 'center' }}>
-                        <Button size="small" disableElevation onClick={handleMoreView}>
+                        <Button size="small" disableElevation>
                             View More
                             <ChevronRightOutlinedIcon />
                         </Button>

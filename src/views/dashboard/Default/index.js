@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
 import { FormControl, Grid, InputLabel, MenuItem, Select, Box, TextField } from '@mui/material';

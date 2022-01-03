@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import ReactDOM from 'react-dom';
-import { Box, InputLabel, TextField, FormControl, Typography } from '@mui/material';
+import { Box, InputLabel, TextField, FormControl } from '@mui/material';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';

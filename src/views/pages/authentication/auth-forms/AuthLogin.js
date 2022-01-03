@@ -7,7 +7,6 @@ import {
     Box,
     Button,
     Checkbox,
-    Divider,
     FormControl,
     FormControlLabel,
     FormHelperText,
@@ -17,8 +16,7 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
-    Typography,
-    useMediaQuery
+    Typography
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 

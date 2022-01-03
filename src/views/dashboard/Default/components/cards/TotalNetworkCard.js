@@ -6,9 +6,6 @@ import { Avatar, Box, Grid, Typography } from '@mui/material';
 
 import { IconDeviceAnalytics as NetworkIcon } from '@tabler/icons';
 
-// third-party
-import Chart from 'react-apexcharts';
-
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';

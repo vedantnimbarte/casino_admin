@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tooltip, Box, Button, InputLabel, TextField, useTheme, MenuItem, FormControl } from '@mui/material';
+import { Tooltip, Box, Button, InputLabel, TextField, useTheme, MenuItem } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 
 // Components

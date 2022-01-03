@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Divider, List, MenuItem, Typography } from '@mui/material';
+import { Divider, List, Typography } from '@mui/material';
 
 import { useSelector } from 'react-redux';
 

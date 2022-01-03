@@ -58,7 +58,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
             <Box sx={{ ml: 4 }}>
                 <Tooltip title="Create Player">
                     <IconButton
-                        onClick={() => navigate('/player')}
+                        onClick={() => navigate('/player', { state: { status: true } })}
                         color="secondary"
                         sx={{ '&:hover': { backgroundColor: theme.palette.secondary.light }, mr: 2 }}
                     >
@@ -68,7 +68,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
 
                 <Tooltip title="Create Agent">
                     <IconButton
-                        onClick={() => navigate('/network/agents')}
+                        onClick={() => navigate('/network/agents', { state: { status: true } })}
                         color="secondary"
                         sx={{ '&:hover': { backgroundColor: theme.palette.secondary.light }, ml: 2 }}
                     >

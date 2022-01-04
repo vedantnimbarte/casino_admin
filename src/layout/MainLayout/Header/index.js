@@ -55,6 +55,9 @@ const Header = ({ handleLeftDrawerToggle }) => {
                 </ButtonBase>
             </Box>
 
+            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ flexGrow: 1 }} />
+
             <Box sx={{ ml: 4 }}>
                 <Fab
                     variant="extended"
@@ -77,9 +80,6 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     <Typography>Create Agent</Typography>
                 </Fab>
             </Box>
-
-            <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ flexGrow: 1 }} />
 
             <ProfileSection />
         </>

@@ -1,9 +1,10 @@
-import { Box, TextField, Button, useTheme } from '@mui/material';
+import { Box, TextField, Button, useTheme, useMediaQuery } from '@mui/material';
 import { IconChecks as ConfirmIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
 
 function AgentDeposit({ formik, openModal, setOpenModal }) {
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit}>
@@ -68,9 +69,11 @@ function AgentDeposit({ formik, openModal, setOpenModal }) {
                         color={theme.palette.secondary.light[800]}
                         style={{
                             margin: 10,
-                            color: 'white'
+                            color: 'white',
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<CancelIcon />}
+                        startIcon={!isMobileDevice && <CancelIcon />}
                     >
                         Cancel Transaction
                     </Button>
@@ -80,9 +83,11 @@ function AgentDeposit({ formik, openModal, setOpenModal }) {
                         color="secondary"
                         style={{
                             color: '#fff',
-                            margin: 10
+                            margin: 10,
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<ConfirmIcon />}
+                        startIcon={!isMobileDevice && <ConfirmIcon />}
                     >
                         Confirm Transaction
                     </Button>

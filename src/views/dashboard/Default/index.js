@@ -20,6 +20,7 @@ import TotalWIthdrawCard from './components/cards/TotalWIthdrawCard';
 import NetRevenueCard from './components/cards/NetRevenueCard';
 import MaxWinCard from './components/cards/MaxWinCard';
 import { gridSpacing } from 'store/constant';
+import TotalActivePlayers from './components/cards/TotalActivePlayers';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -36,13 +37,16 @@ const Dashboard = () => {
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
-                    <Grid item lg={4} md={6} sm={6} xs={12}>
+                    <Grid item lg={3} md={6} sm={6} xs={12}>
                         <TotalPlayersCard isLoading={isLoading} />
                     </Grid>
-                    <Grid item lg={4} md={6} sm={6} xs={12}>
+                    <Grid item lg={3} md={6} sm={6} xs={12}>
                         <TotalNetworkCard isLoading={isLoading} />
                     </Grid>
-                    <Grid item lg={4} md={12} sm={12} xs={12}>
+                    <Grid item lg={3} md={6} sm={6} xs={12}>
+                        <TotalActivePlayers isLoading={isLoading} />
+                    </Grid>
+                    <Grid item lg={3} md={12} sm={12} xs={12}>
                         <Grid container spacing={gridSpacing}>
                             <Grid item sm={6} xs={12} md={6} lg={12}>
                                 <TotalIncomeCard isLoading={isLoading} />
@@ -112,7 +116,7 @@ const Dashboard = () => {
                     <Grid item xs={12} md={4}>
                         <FormControl fullWidth style={{ marginBottom: 5 }}>
                             <InputLabel>Select Game Type</InputLabel>
-                            <Select label="Select Game">
+                            <Select label="Select Game Type">
                                 <MenuItem>All</MenuItem>
                             </Select>
                         </FormControl>

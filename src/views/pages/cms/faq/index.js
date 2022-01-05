@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, TextField, FormControl, useTheme } from '@mui/material';
+import { Box, Button, TextField, FormControl, useTheme, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
@@ -14,6 +14,7 @@ import FAQSchema from 'schema/faq.schema';
 function FAQ() {
     const [openModal, setOpenModal] = useState(false);
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const columns = ['ID', 'Question', 'Answer', 'Action'];
 
@@ -32,13 +33,28 @@ function FAQ() {
     return (
         <Box>
             <MainCard
-                title="FAQ"
+                title={!isMobileDevice && 'FAQ'}
                 secondary={
                     <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
                         Add FAQ
                     </Button>
                 }
             >
+                {isMobileDevice && (
+                    <>
+                        <Button
+                            startIcon={<AddIcon />}
+                            fullWidth
+                            onClick={() => setOpenModal(!openModal)}
+                            variant="contained"
+                            color="secondary"
+                            style={{ marginBottom: 15 }}
+                        >
+                            Add FAQ
+                        </Button>
+                        <Divider />
+                    </>
+                )}
                 <Box>
                     {data.length > 0 ? (
                         <DataTable title="Games List" data={data} columns={columns} options={options} />
@@ -95,7 +111,7 @@ function FAQ() {
                                             margin: 10,
                                             color: 'white'
                                         }}
-                                        startIcon={<CancelIcon />}
+                                        startIcon={!isMobileDevice && <CancelIcon />}
                                     >
                                         Cancel
                                     </Button>
@@ -105,9 +121,11 @@ function FAQ() {
                                         color="error"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={!isMobileDevice && <ResetIcon />}
                                     >
                                         Reset
                                     </Button>
@@ -117,9 +135,11 @@ function FAQ() {
                                         color="secondary"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<SaveIcon />}
+                                        startIcon={!isMobileDevice && <SaveIcon />}
                                     >
                                         Submit
                                     </Button>

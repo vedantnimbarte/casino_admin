@@ -1,31 +1,46 @@
 import propTypes from 'prop-types';
-import { Modal, IconButton } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Modal, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
 
 function ModalComponent({ title, children, open, onClose }) {
+    const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+    const isTabletDevice = useMediaQuery(theme.breakpoints.down('md'));
+    const [deviceStyleProperties, setDeviceStyleProperties] = useState({ maxWidth: '50%' });
+
+    useEffect(() => {
+        if (isMobileDevice) {
+            setDeviceStyleProperties({ maxWidth: '95%', marginTop: '5%' });
+        } else if (isTabletDevice) {
+            setDeviceStyleProperties({ maxWidth: '85%' });
+        } else {
+            setDeviceStyleProperties({ maxWidth: '50%' });
+        }
+    }, [isMobileDevice, isTabletDevice]);
+
     return (
         <Modal
             open={open}
             onClose={onClose}
             sx={{
-                width: '100vw',
-                height: '100%',
-                position: 'absolute',
                 overflowY: 'auto',
                 display: 'block',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'scroll',
-                maxHeight: '95%',
-                top: '5%',
-                left: '25%'
+                overflow: 'scroll'
             }}
         >
             <MainCard
                 title={title}
-                style={{ width: '50%' }}
+                style={{
+                    margin: 0,
+                    width: '100%',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: isMobileDevice ? 'translate(-50%, -30%)' : 'translate(-50%, -50%)',
+                    ...deviceStyleProperties
+                }}
                 secondary={
                     <IconButton onClick={onClose}>
                         <CloseIcon />

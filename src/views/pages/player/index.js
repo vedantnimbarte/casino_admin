@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Tabs, Tab, Button, Paper } from '@mui/material';
+import { Box, Tabs, Tab, Button, Paper, useMediaQuery, useTheme, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import { useLocation } from 'react-router';
@@ -22,6 +22,8 @@ import TabPanel from './components/TabPanel';
 function Players() {
     const [openModal, setOpenModal] = useState(false);
     const { state } = useLocation();
+    const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [value, setValue] = React.useState(0);
 
@@ -73,13 +75,28 @@ function Players() {
 
                 <TabPanel value={value} index={0}>
                     <MainCard
-                        title="Players List"
+                        title={!isMobileDevice && 'Players List'}
                         secondary={
                             <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
                                 Add Player
                             </Button>
                         }
                     >
+                        {isMobileDevice && (
+                            <>
+                                <Button
+                                    startIcon={<AddIcon />}
+                                    fullWidth
+                                    onClick={() => setOpenModal(!openModal)}
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{ marginBottom: 15 }}
+                                >
+                                    Add Player
+                                </Button>
+                                <Divider />
+                            </>
+                        )}
                         <Box>
                             {playersList.length > 0 ? (
                                 <DataTable title="Players List" data={playersList} columns={columns} options={options} />
@@ -90,7 +107,7 @@ function Players() {
                     </MainCard>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <MainCard title="Players Approval List">
+                    <MainCard title={!isMobileDevice && 'Players Approval List'}>
                         <Box>
                             {approvalList.length > 0 ? (
                                 <DataTable title="Players Approval List" data={approvalList} columns={columns} options={options} />

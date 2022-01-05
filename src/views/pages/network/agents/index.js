@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Tabs, Tab, Button, Paper } from '@mui/material';
+import { Box, Tabs, Tab, Button, Paper, useMediaQuery, useTheme, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import { useLocation } from 'react-router';
@@ -21,6 +21,8 @@ import TabPanel from './components/TabPanel';
 
 function Network() {
     const { state } = useLocation();
+    const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const [openModal, setOpenModal] = useState(false);
 
     const [value, setValue] = useState(0);
@@ -84,13 +86,28 @@ function Network() {
 
                 <TabPanel value={value} index={0}>
                     <MainCard
-                        title="Agents List"
+                        title={!isMobileDevice && 'Agents List'}
                         secondary={
                             <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
                                 Add Agent
                             </Button>
                         }
                     >
+                        {isMobileDevice && (
+                            <>
+                                <Button
+                                    startIcon={<AddIcon />}
+                                    onClick={() => setOpenModal(!openModal)}
+                                    variant="contained"
+                                    color="secondary"
+                                    fullWidth
+                                    style={{ marginBottom: 15 }}
+                                >
+                                    Add Agent
+                                </Button>
+                                <Divider />
+                            </>
+                        )}
                         <Box>
                             {playersList.length > 0 ? (
                                 <DataTable title="Agents List" data={playersList} columns={columns} options={options} />
@@ -101,7 +118,7 @@ function Network() {
                     </MainCard>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <MainCard title="Agents Approval List">
+                    <MainCard title={!isMobileDevice && 'Agents Approval List'}>
                         <Box>
                             {approvalList.length > 0 ? (
                                 <DataTable title="Agents Approval List" data={approvalList} columns={columns} options={options} />

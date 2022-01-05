@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase, Fab, Typography } from '@mui/material';
+import { Avatar, Box, ButtonBase, Fab, Typography, useMediaQuery, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 // project imports
@@ -11,11 +11,13 @@ import ProfileSection from './ProfileSection';
 
 // assets
 import { IconMenu2, IconUsers as AgentIcon, IconUser as PlayerIcon } from '@tabler/icons';
+import { isMobile } from 'react-device-detect';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
 const Header = ({ handleLeftDrawerToggle }) => {
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
 
     return (
@@ -58,7 +60,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ flexGrow: 1 }} />
 
-            <Box sx={{ ml: 4 }}>
+            <Box style={{ marginLeft: 5 }}>
                 <Fab
                     variant="extended"
                     size="medium"
@@ -67,7 +69,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     onClick={() => navigate('/player', { state: { status: true } })}
                 >
                     <PlayerIcon style={{ marginRight: 5 }} />
-                    <Typography>Create Player</Typography>
+                    {!isMobileDevice && <Typography>Create Player</Typography>}
                 </Fab>
                 <Fab
                     variant="extended"
@@ -77,7 +79,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     onClick={() => navigate('/network/agents', { state: { status: true } })}
                 >
                     <AgentIcon style={{ marginRight: 5 }} />
-                    <Typography>Create Agent</Typography>
+                    {!isMobileDevice && <Typography>Create Agent</Typography>}
                 </Fab>
             </Box>
 

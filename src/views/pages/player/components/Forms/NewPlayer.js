@@ -1,9 +1,10 @@
-import { Box, TextField, MenuItem, Grid, Button, useTheme } from '@mui/material';
+import { Box, TextField, MenuItem, Grid, Button, useTheme, useMediaQuery } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
 
 function NewPlayerForm({ formik, onClose, openModal }) {
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
@@ -117,9 +118,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         color={theme.palette.secondary.light[800]}
                         style={{
                             margin: 10,
-                            color: 'white'
+                            color: 'white',
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<CancelIcon />}
+                        startIcon={!isMobileDevice && <CancelIcon />}
                     >
                         Cancel
                     </Button>
@@ -129,9 +132,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         color="error"
                         style={{
                             color: '#fff',
-                            margin: 10
+                            margin: 10,
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<ResetIcon />}
+                        startIcon={!isMobileDevice && <ResetIcon />}
                     >
                         Reset
                     </Button>
@@ -141,9 +146,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         color="secondary"
                         style={{
                             color: '#fff',
-                            margin: 10
+                            margin: 10,
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<SaveIcon />}
+                        startIcon={!isMobileDevice && <SaveIcon />}
                     >
                         Submit
                     </Button>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Tabs, Tab, Paper, Button } from '@mui/material';
+import { Box, Tabs, Tab, Paper, Button, useTheme, useMediaQuery, Divider, ButtonGroup } from '@mui/material';
 import { IconCurrencyDollar as TransactionIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 
@@ -18,8 +18,11 @@ import PlayerDeposit from './components/Forms/player/PlayerDepositForm';
 import PlayerWithdraw from './components/Forms/player/PlayerWithdrawForm';
 import AgentDeposit from './components/Forms/agent/AgentDepositForm';
 import TabPanel from './components/TabPanel';
+import { isMobile } from 'react-device-detect';
 
 function Transaction() {
+    const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const [openModal, setOpenModal] = useState(false);
     const [value, setValue] = useState(0);
     const [deposit, setDeposit] = useState(false);
@@ -96,30 +99,47 @@ function Transaction() {
 
                 <TabPanel value={value} index={0}>
                     <MainCard
-                        title="Players Transactions"
+                        title={!isMobileDevice && 'Player Transaction'}
                         secondary={
-                            <Box>
+                            <ButtonGroup variant="contained" color="warning">
                                 <Button
                                     startIcon={<TransactionIcon />}
-                                    variant="contained"
                                     color="warning"
-                                    sx={{ mr: 3 }}
                                     onClick={() => handlePlayerTransactionModal('deposit')}
                                 >
                                     Deposit
                                 </Button>
                                 <Button
                                     startIcon={<TransactionIcon />}
-                                    variant="contained"
                                     color="warning"
-                                    sx={{ ml: 3 }}
                                     onClick={() => handlePlayerTransactionModal('withdraw')}
                                 >
                                     Withdraw
                                 </Button>
-                            </Box>
+                            </ButtonGroup>
                         }
                     >
+                        {isMobileDevice && (
+                            <>
+                                <ButtonGroup variant="contained" color="warning" style={{ marginBottom: 15 }}>
+                                    <Button
+                                        startIcon={<TransactionIcon />}
+                                        color="warning"
+                                        onClick={() => handlePlayerTransactionModal('deposit')}
+                                    >
+                                        Deposit
+                                    </Button>
+                                    <Button
+                                        startIcon={<TransactionIcon />}
+                                        color="warning"
+                                        onClick={() => handlePlayerTransactionModal('withdraw')}
+                                    >
+                                        Withdraw
+                                    </Button>
+                                </ButtonGroup>
+                                <Divider />
+                            </>
+                        )}
                         <Box>
                             {playersList.length > 0 ? (
                                 <DataTable title="Players Transaction List" data={playersList} columns={columns} options={options} />
@@ -131,7 +151,7 @@ function Transaction() {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <MainCard
-                        title="Agents Transactions"
+                        title={!isMobileDevice && 'Agents Transactions'}
                         secondary={
                             <Button
                                 startIcon={<TransactionIcon />}
@@ -144,6 +164,21 @@ function Transaction() {
                             </Button>
                         }
                     >
+                        {isMobileDevice && (
+                            <>
+                                <Button
+                                    startIcon={<TransactionIcon />}
+                                    variant="contained"
+                                    color="warning"
+                                    fullWidth
+                                    style={{ marginBottom: 15 }}
+                                    onClick={() => setOpenModal(!openModal)}
+                                >
+                                    Deposit
+                                </Button>
+                                <Divider />
+                            </>
+                        )}
                         <Box>
                             {approvalList.length > 0 ? (
                                 <DataTable title="Agents Transactions List" data={approvalList} columns={columns} options={options} />

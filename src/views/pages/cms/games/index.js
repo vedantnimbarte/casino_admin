@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tooltip, Box, Button, InputLabel, TextField, useTheme, MenuItem } from '@mui/material';
+import { Tooltip, Box, Button, InputLabel, TextField, useTheme, MenuItem, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 
 // Components
@@ -15,6 +15,7 @@ import gameSchema from 'schema/game.schema';
 function Games() {
     const [openModal, setOpenModal] = useState(false);
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const columns = ['id', 'title', 'description', 'Action'];
 
@@ -33,7 +34,7 @@ function Games() {
     return (
         <Box>
             <MainCard
-                title="Games"
+                title={!isMobileDevice && 'Games'}
                 secondary={
                     <Tooltip title="Add New Slider">
                         <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
@@ -42,6 +43,21 @@ function Games() {
                     </Tooltip>
                 }
             >
+                {isMobileDevice && (
+                    <>
+                        <Button
+                            startIcon={<AddIcon />}
+                            fullWidth
+                            style={{ marginBottom: 15 }}
+                            onClick={() => setOpenModal(!openModal)}
+                            variant="contained"
+                            color="secondary"
+                        >
+                            Add Game
+                        </Button>
+                        <Divider />
+                    </>
+                )}
                 <Box>
                     {data.length > 0 ? (
                         <DataTable title="Games List" data={data} columns={columns} options={options} />
@@ -138,9 +154,11 @@ function Games() {
                                         color={theme.palette.secondary.light[800]}
                                         style={{
                                             margin: 10,
-                                            color: 'white'
+                                            color: 'white',
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<CancelIcon />}
+                                        startIcon={!isMobileDevice && <CancelIcon />}
                                     >
                                         Cancel
                                     </Button>
@@ -150,9 +168,11 @@ function Games() {
                                         color="error"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={!isMobileDevice && <ResetIcon />}
                                     >
                                         Reset
                                     </Button>
@@ -162,9 +182,11 @@ function Games() {
                                         color="secondary"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<SaveIcon />}
+                                        startIcon={!isMobileDevice && <SaveIcon />}
                                     >
                                         Submit
                                     </Button>

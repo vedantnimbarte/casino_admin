@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tooltip, Box, Button, TextField, MenuItem, useTheme } from '@mui/material';
+import { Tooltip, Box, Button, TextField, MenuItem, useTheme, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
@@ -17,6 +17,7 @@ import roleSchema from 'schema/role.schema';
 function Roles() {
     const [openModal, setOpenModal] = useState(false);
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const columns = ['ID', 'Agent Type', 'Parent Type', 'Action'];
 
@@ -35,7 +36,7 @@ function Roles() {
     return (
         <Box>
             <MainCard
-                title="Agent Type"
+                title={!isMobileDevice && 'Agent Type'}
                 secondary={
                     <Tooltip title="Add New Agent Type">
                         <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
@@ -44,6 +45,21 @@ function Roles() {
                     </Tooltip>
                 }
             >
+                {isMobileDevice && (
+                    <>
+                        <Button
+                            startIcon={<AddIcon />}
+                            fullWidth
+                            onClick={() => setOpenModal(!openModal)}
+                            variant="contained"
+                            color="secondary"
+                            style={{ marginBottom: 15 }}
+                        >
+                            Add Agent Type
+                        </Button>
+                        <Divider />
+                    </>
+                )}
                 <Box>
                     {data.length > 0 ? (
                         <DataTable title="Agent Types" data={data} columns={columns} options={options} />
@@ -112,9 +128,11 @@ function Roles() {
                                         color={theme.palette.secondary.light[800]}
                                         style={{
                                             margin: 10,
-                                            color: 'white'
+                                            color: 'white',
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<CancelIcon />}
+                                        startIcon={!isMobileDevice && <CancelIcon />}
                                     >
                                         Cancel
                                     </Button>
@@ -124,9 +142,11 @@ function Roles() {
                                         color="error"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={!isMobileDevice && <ResetIcon />}
                                     >
                                         Reset
                                     </Button>
@@ -136,9 +156,11 @@ function Roles() {
                                         color="secondary"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<SaveIcon />}
+                                        startIcon={!isMobileDevice && <SaveIcon />}
                                     >
                                         Submit
                                     </Button>

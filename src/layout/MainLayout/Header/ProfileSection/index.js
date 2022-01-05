@@ -18,6 +18,7 @@ import {
     Stack,
     Typography
 } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -31,6 +32,7 @@ import { IconLogout, IconSettings } from '@tabler/icons';
 
 const ProfileSection = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const customization = useSelector((state) => state.customization);
     const user = useSelector((state) => state.user);
 
@@ -159,7 +161,10 @@ const ProfileSection = () => {
                                                 <ListItemIcon>
                                                     <IconLogout stroke={1.5} size="1.3rem" />
                                                 </ListItemIcon>
-                                                <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
+                                                <ListItemText
+                                                    onClick={() => navigate('/')}
+                                                    primary={<Typography variant="body2">Logout</Typography>}
+                                                />
                                             </ListItemButton>
                                         </List>
                                     </Box>

@@ -13,13 +13,15 @@ import {
     OutlinedInput,
     Checkbox,
     ListItemText,
-    Typography
+    Typography,
+    useMediaQuery
 } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
 
 function NewPlayerForm({ formik, onClose, openModal }) {
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const [gameType, setGameType] = React.useState([]);
     const [permissions, setPermissions] = React.useState([]);
 
@@ -252,7 +254,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                <Box style={{ display: 'flex', justifyContent: 'right', padding: 0 }}>
                     <Button
                         type="reset"
                         onClick={() => onClose(!openModal)}
@@ -260,9 +262,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         color={theme.palette.secondary.light[800]}
                         style={{
                             margin: 10,
-                            color: 'white'
+                            color: 'white',
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<CancelIcon />}
+                        startIcon={!isMobileDevice && <CancelIcon />}
                     >
                         Cancel
                     </Button>
@@ -272,9 +276,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         color="error"
                         style={{
                             color: '#fff',
-                            margin: 10
+                            margin: 10,
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<ResetIcon />}
+                        startIcon={!isMobileDevice && <ResetIcon />}
                     >
                         Reset
                     </Button>
@@ -284,9 +290,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         color="secondary"
                         style={{
                             color: '#fff',
-                            margin: 10
+                            margin: 10,
+                            paddingLeft: 20,
+                            paddingRight: 20
                         }}
-                        startIcon={<SaveIcon />}
+                        startIcon={!isMobileDevice && <SaveIcon />}
                     >
                         Submit
                     </Button>

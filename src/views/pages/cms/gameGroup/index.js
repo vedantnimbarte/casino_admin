@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, TextField, Button, useTheme } from '@mui/material';
+import { Box, TextField, Button, useTheme, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import gameGroupSchema from 'schema/gameGroup.schema';
@@ -9,10 +9,12 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
 import Modal from 'components/Modal';
+import { isMobile } from 'react-device-detect';
 
 function GameGroup() {
     const [openModal, setOpenModal] = useState(false);
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const formik = useFormik({
         initialValues: { name: '', description: '' },
@@ -39,13 +41,28 @@ function GameGroup() {
     return (
         <Box>
             <MainCard
-                title="Game Types"
+                title={!isMobileDevice && 'Game Types'}
                 secondary={
                     <Button color="secondary" startIcon={<AddIcon />} variant="contained" onClick={() => setOpenModal(!openModal)}>
                         Add Game Type
                     </Button>
                 }
             >
+                {isMobileDevice && (
+                    <>
+                        <Button
+                            color="secondary"
+                            fullWidth
+                            startIcon={<AddIcon />}
+                            variant="contained"
+                            onClick={() => setOpenModal(!openModal)}
+                            style={{ marginBottom: 15 }}
+                        >
+                            Add Game Type
+                        </Button>
+                        <Divider />
+                    </>
+                )}
                 <Box>
                     {data.length > 0 ? (
                         <DataTable title="Game Types List" data={data} columns={columns} options={options} />
@@ -93,9 +110,11 @@ function GameGroup() {
                                 color={theme.palette.secondary.light[800]}
                                 style={{
                                     margin: 10,
-                                    color: 'white'
+                                    color: 'white',
+                                    paddingLeft: 20,
+                                    paddingRight: 20
                                 }}
-                                startIcon={<CancelIcon />}
+                                startIcon={!isMobileDevice && <CancelIcon />}
                             >
                                 Cancel
                             </Button>
@@ -105,9 +124,11 @@ function GameGroup() {
                                 color="error"
                                 style={{
                                     color: '#fff',
-                                    margin: 10
+                                    margin: 10,
+                                    paddingLeft: 20,
+                                    paddingRight: 20
                                 }}
-                                startIcon={<ResetIcon />}
+                                startIcon={!isMobileDevice && <ResetIcon />}
                             >
                                 Reset
                             </Button>
@@ -117,9 +138,11 @@ function GameGroup() {
                                 color="secondary"
                                 style={{
                                     color: '#fff',
-                                    margin: 10
+                                    margin: 10,
+                                    paddingLeft: 20,
+                                    paddingRight: 20
                                 }}
-                                startIcon={<SaveIcon />}
+                                startIcon={!isMobileDevice && <SaveIcon />}
                             >
                                 Submit
                             </Button>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tooltip, Box, Button, MenuItem, TextField, InputLabel, useTheme } from '@mui/material';
+import { Tooltip, Box, Button, MenuItem, TextField, InputLabel, useTheme, useMediaQuery, Divider, Typography, Paper } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 
 import { Formik, Form } from 'formik';
@@ -16,6 +16,7 @@ function Notification() {
     const [openModal, setOpenModal] = useState(false);
 
     const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const columns = ['ID', 'Format', 'Title', 'Message', 'Image', 'Video URL', 'Action'];
 
@@ -34,7 +35,7 @@ function Notification() {
     return (
         <Box>
             <MainCard
-                title="Notification"
+                title={!isMobileDevice && 'Notification'}
                 secondary={
                     <Tooltip title="Add New Slider">
                         <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
@@ -43,6 +44,20 @@ function Notification() {
                     </Tooltip>
                 }
             >
+                {isMobileDevice && (
+                    <>
+                        <Button
+                            startIcon={<AddIcon />}
+                            fullWidth
+                            style={{ marginBottom: 15 }}
+                            onClick={() => setOpenModal(!openModal)}
+                            variant="contained"
+                            color="secondary"
+                        >
+                            Add Notification
+                        </Button>
+                    </>
+                )}
                 <Box>
                     {data.length > 0 ? (
                         <DataTable title="Games List" data={data} columns={columns} options={options} />
@@ -136,9 +151,11 @@ function Notification() {
                                         color={theme.palette.secondary.light[800]}
                                         style={{
                                             margin: 10,
-                                            color: 'white'
+                                            color: 'white',
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<CancelIcon />}
+                                        startIcon={!isMobileDevice && <CancelIcon />}
                                     >
                                         Cancel
                                     </Button>
@@ -148,9 +165,11 @@ function Notification() {
                                         color="error"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<ResetIcon />}
+                                        startIcon={!isMobileDevice && <ResetIcon />}
                                     >
                                         Reset
                                     </Button>
@@ -160,9 +179,11 @@ function Notification() {
                                         color="secondary"
                                         style={{
                                             color: '#fff',
-                                            margin: 10
+                                            margin: 10,
+                                            paddingLeft: 20,
+                                            paddingRight: 20
                                         }}
-                                        startIcon={<SaveIcon />}
+                                        startIcon={!isMobileDevice && <SaveIcon />}
                                     >
                                         Submit
                                     </Button>

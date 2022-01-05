@@ -20,31 +20,26 @@ const agentsData = [
     {
         id: 1,
         name: 'agent 1',
-        commission: 10,
         ggr: 128
     },
     {
         id: 2,
         name: 'agent 2',
-        commission: 10,
         ggr: 128
     },
     {
         id: 3,
         name: 'agent 3',
-        commission: 10,
         ggr: 128
     },
     {
         id: 4,
         name: 'agent 4',
-        commission: 10,
         ggr: 128
     },
     {
         id: 5,
         name: 'agent 5',
-        commission: 10,
         ggr: 128
     }
 ];
@@ -148,11 +143,6 @@ const PopularGamesCard = ({ isLoading }) => {
                                                         </Grid>
                                                     </Grid>
                                                 </Grid>
-                                            </Grid>
-                                            <Grid item>
-                                                <Typography variant="subtitle2" sx={{ color: 'success.dark' }}>
-                                                    {agent.commission}% Commission
-                                                </Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider sx={{ my: 1.5 }} />

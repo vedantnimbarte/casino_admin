@@ -3,28 +3,31 @@ import { useEffect, useState } from 'react';
 import { Modal, IconButton, useMediaQuery, useTheme, Grid } from '@mui/material';
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
+import { isMobile } from 'react-device-detect';
 
 function ModalComponent({ title, children, open, onClose }) {
     const theme = useTheme();
-    const isSmallDevice = useMediaQuery(theme.breakpoints.up('xs'));
+    const isXSMobileDevice = useMediaQuery(theme.breakpoints.down('xs'));
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const isTabletDevice = useMediaQuery(theme.breakpoints.down('md'));
-    const isNotebookDevice = useMediaQuery('(min-width:1024px)');
+    const isDesktoptDevice = useMediaQuery(theme.breakpoints.up('lg'));
+    const isXDesktoptDevice = useMediaQuery(theme.breakpoints.down('xl'));
+    // const isNotebookDevice = useMediaQuery('(width:1024px)');
     const [deviceStyleProperties, setDeviceStyleProperties] = useState({ maxWidth: '50%' });
 
     useEffect(() => {
-        if (isSmallDevice) {
-            setDeviceStyleProperties({ transform: 'translate(-50%, -30%)' });
+        if (isXSMobileDevice) {
+            setDeviceStyleProperties({ width: '90%', transform: 'translate(-50%, -35%)' });
         } else if (isMobileDevice) {
-            setDeviceStyleProperties({ transform: 'translate(-50%, -35%)' });
+            setDeviceStyleProperties({ width: '98%', transform: 'translate(-50%, -35%)' });
         } else if (isTabletDevice) {
-            setDeviceStyleProperties({ transform: 'translate(-50%, -30%)' });
-        } else if (isNotebookDevice) {
-            setDeviceStyleProperties({ transform: 'translate(-50%, -40%)' });
-        } else {
+            setDeviceStyleProperties({ transform: 'translate(-50%, -50%)' });
+        } else if (isDesktoptDevice) {
+            setDeviceStyleProperties({ transform: 'translate(-50%, -50%)' });
+        } else if (isXDesktoptDevice) {
             setDeviceStyleProperties({ transform: 'translate(-50%, -50%)' });
         }
-    }, [isMobileDevice, isTabletDevice, isNotebookDevice]);
+    }, [isMobileDevice, isTabletDevice, isDesktoptDevice, isXDesktoptDevice, isXSMobileDevice]);
 
     return (
         <Modal
@@ -44,7 +47,6 @@ function ModalComponent({ title, children, open, onClose }) {
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
-                        // transform: 'translate(-50%,-30%)'
                         ...deviceStyleProperties
                     }}
                     secondary={

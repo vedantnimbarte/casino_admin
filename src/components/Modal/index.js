@@ -9,7 +9,7 @@ import { isMobile, isTablet, isMobileOnly } from 'react-device-detect';
 function ModalComponent({ title, children, open, onClose }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-
+    console.log(window.screen.orientation.angle);
     return (
         <>
             {(isMobileOnly || isTablet) && (

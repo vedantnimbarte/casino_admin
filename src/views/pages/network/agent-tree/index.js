@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { IconButton, Box, Button } from '@mui/material';
+import { IconButton, Box, Button, useMediaQuery, Tabs, Tab, Typography } from '@mui/material';
 import { IconCaretRight as NextIcon, IconCaretLeft as PreviousIcon } from '@tabler/icons';
+import PhoneMissedIcon from '@mui/icons-material/PhoneMissed';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -12,11 +13,15 @@ import md from './__mock__/md';
 import d from './__mock__/d';
 import sd from './__mock__/sd';
 import s from './__mock__/s';
+import { fontSize, useTheme } from '@mui/system';
 
 function AgentTree() {
     const [agentType, setAgentType] = useState(['Distributor', 'Sub Distributor', 'Store']);
     const [agents, setAgents] = useState(['Master Distributor']);
     const [data, setData] = useState(md);
+    const theme = useTheme();
+    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
+    const [value, setValue] = useState(0);
 
     // const columns = ['role', 'username', 'players', 'pending_balance', 'total_earned', 'total_commission', 'action'];
 
@@ -30,9 +35,30 @@ function AgentTree() {
         rowsPerPageOptions: [10, 20]
     };
 
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+        agents.length = agents.indexOf(agents[newValue]) + 1;
+        if (agents[newValue] === 'Master Distributor') {
+            setData(md);
+        }
+        if (agents[newValue] === 'Distributor') {
+            setData(d);
+        }
+        if (agents[newValue] === 'Sub Distributor') {
+            setData(sd);
+        }
+        if (agents[newValue] === 'Store') {
+            setData(s);
+        }
+    };
+
     const handleAgentChange = (agent) => {
+        let idx = value;
+        idx += 1;
+        setValue(idx);
         if (agent) {
             agents.length = agents.indexOf(agent) + 1;
+
             if (agent === 'Master Distributor') {
                 setData(md);
             }
@@ -159,21 +185,33 @@ function AgentTree() {
         <Box>
             <MainCard title="Agent Tree">
                 <Box>
-                    <Box style={{ display: 'flex' }}>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        variant="scrollable"
+                        TabIndicatorProps={{ style: { display: 'none' } }}
+                        scrollButtons
+                        allowScrollButtonsMobile
+                        aria-label="scrollable force tabs example"
+                        style={{ marginBottom: 15, width: '100%', display: 'flex', alignItems: 'center' }}
+                    >
                         {agents.map((agent) => (
-                            <Box style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    style={{ color: 'white', borderRadius: 100 }}
-                                    onClick={() => handleAgentChange(agent)}
-                                >
-                                    {agent}
-                                </Button>
-                                <PreviousIcon />
-                            </Box>
+                            <Tab
+                                label={
+                                    <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                        <Typography>{agent}</Typography>
+                                        <NextIcon />
+                                    </Box>
+                                }
+                                style={{
+                                    backgroundColor: theme.palette.secondary.dark,
+                                    color: 'white',
+                                    borderRadius: 5,
+                                    marginRight: 10
+                                }}
+                            />
                         ))}
-                    </Box>
+                    </Tabs>
                     {data.length > 0 ? (
                         <DataTable title="Agent Types" data={data} columns={columns} options={options} />
                     ) : (

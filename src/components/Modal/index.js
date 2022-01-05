@@ -36,7 +36,7 @@ function ModalComponent({ title, children, open, onClose }) {
                 overflow: 'scroll'
             }}
         >
-            <Grid sm={6} md={6} lg={6}>
+            <Grid xs={6} sm={6} md={6} lg={6}>
                 <MainCard
                     title={title}
                     style={{

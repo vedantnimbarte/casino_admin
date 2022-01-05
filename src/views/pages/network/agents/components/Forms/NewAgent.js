@@ -66,6 +66,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     type="text"
                     name="name"
                     label="Name"
+                    size="small"
                     onChange={formik.handleChange}
                     variant="outlined"
                     fullWidth
@@ -78,6 +79,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     value={formik.values.username}
                     type="text"
                     name="username"
+                    size="small"
                     label="Username"
                     onChange={formik.handleChange}
                     variant="outlined"
@@ -92,6 +94,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     type="text"
                     name="email"
                     label="Email"
+                    size="small"
                     onChange={formik.handleChange}
                     variant="outlined"
                     fullWidth
@@ -101,12 +104,13 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     required
                 />
                 <Grid container>
-                    <Grid item xs={12} sm={12} mg={6} lg={6}>
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
                         <TextField
                             value={formik.values.password}
                             type="password"
                             name="password"
                             label="Password"
+                            size="small"
                             onChange={formik.handleChange}
                             variant="outlined"
                             style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
@@ -123,7 +127,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                             label="Confirm Password"
                             onChange={formik.handleChange}
                             variant="outlined"
-                            fullWidth
+                            size="small"
                             style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
                             error={formik.touched.confirm_password && Boolean(formik.errors.confirm_password)}
                             helperText={formik.touched.confirm_password && formik.errors.confirm_password}
@@ -136,6 +140,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     type="text"
                     name="phone_no"
                     label="Phone No"
+                    size="small"
                     onChange={formik.handleChange}
                     variant="outlined"
                     fullWidth
@@ -149,6 +154,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     type="text"
                     name="address"
                     label="Address"
+                    size="small"
                     onChange={formik.handleChange}
                     variant="outlined"
                     multiline
@@ -164,6 +170,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     select
                     name="agent"
                     label="Select Agent Type"
+                    size="small"
                     onChange={formik.handleChange}
                     variant="outlined"
                     fullWidth
@@ -186,6 +193,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 labelId="demo-multiple-chip-label"
                                 id="demo-multiple-chip"
                                 multiple
+                                size="small"
                                 fullWidth
                                 value={gameType}
                                 style={{ width: '99%' }}
@@ -223,6 +231,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 labelId="demo-multiple-chip-label"
                                 id="demo-multiple-chip"
                                 multiple
+                                size="small"
                                 fullWidth
                                 style={{ width: '99%' }}
                                 value={permissions}

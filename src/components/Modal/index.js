@@ -1,24 +1,30 @@
 import propTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { Modal, IconButton, useMediaQuery, useTheme } from '@mui/material';
+import { Modal, IconButton, useMediaQuery, useTheme, Grid } from '@mui/material';
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
 
 function ModalComponent({ title, children, open, onClose }) {
     const theme = useTheme();
+    const isSmallDevice = useMediaQuery(theme.breakpoints.up('xs'));
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const isTabletDevice = useMediaQuery(theme.breakpoints.down('md'));
+    const isNotebookDevice = useMediaQuery('(min-width:1024px)');
     const [deviceStyleProperties, setDeviceStyleProperties] = useState({ maxWidth: '50%' });
 
     useEffect(() => {
-        if (isMobileDevice) {
-            setDeviceStyleProperties({ maxWidth: '95%', marginTop: '5%' });
+        if (isSmallDevice) {
+            setDeviceStyleProperties({ transform: 'translate(-50%, -30%)' });
+        } else if (isMobileDevice) {
+            setDeviceStyleProperties({ transform: 'translate(-50%, -35%)' });
         } else if (isTabletDevice) {
-            setDeviceStyleProperties({ maxWidth: '85%' });
+            setDeviceStyleProperties({ transform: 'translate(-50%, -30%)' });
+        } else if (isNotebookDevice) {
+            setDeviceStyleProperties({ transform: 'translate(-50%, -40%)' });
         } else {
-            setDeviceStyleProperties({ maxWidth: '50%' });
+            setDeviceStyleProperties({ transform: 'translate(-50%, -50%)' });
         }
-    }, [isMobileDevice, isTabletDevice]);
+    }, [isMobileDevice, isTabletDevice, isNotebookDevice]);
 
     return (
         <Modal
@@ -30,25 +36,26 @@ function ModalComponent({ title, children, open, onClose }) {
                 overflow: 'scroll'
             }}
         >
-            <MainCard
-                title={title}
-                style={{
-                    margin: 0,
-                    width: '100%',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: isMobileDevice ? 'translate(-50%, -30%)' : 'translate(-50%, -50%)',
-                    ...deviceStyleProperties
-                }}
-                secondary={
-                    <IconButton onClick={onClose}>
-                        <CloseIcon />
-                    </IconButton>
-                }
-            >
-                {children}
-            </MainCard>
+            <Grid sm={6} md={6} lg={6}>
+                <MainCard
+                    title={title}
+                    style={{
+                        margin: 0,
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        // transform: 'translate(-50%,-30%)'
+                        ...deviceStyleProperties
+                    }}
+                    secondary={
+                        <IconButton onClick={onClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    }
+                >
+                    {children}
+                </MainCard>
+            </Grid>
         </Modal>
     );
 }

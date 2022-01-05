@@ -13,7 +13,7 @@ function ModalComponent({ title, children, open, onClose }) {
     return (
         <>
             {(isMobileOnly || isTablet) && (
-                <FullScreenDialog title={title} dialogStatus={open} setDialogStatus={onClose}>
+                <FullScreenDialog title={window.screen.orientation.angle} dialogStatus={open} setDialogStatus={onClose}>
                     {children}
                     <Typography>{isMobileDevice}</Typography>
                 </FullScreenDialog>
@@ -30,7 +30,7 @@ function ModalComponent({ title, children, open, onClose }) {
                 >
                     <Grid xs={6} sm={6} md={6} lg={6}>
                         <MainCard
-                            title={title}
+                            title={window.screen.orientation.angle}
                             style={{
                                 margin: 0,
                                 position: 'absolute',

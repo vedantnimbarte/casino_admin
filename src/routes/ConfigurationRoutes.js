@@ -7,7 +7,6 @@ import Loadable from 'ui-component/Loadable';
 // configuration routing
 const RolesPage = Loadable(lazy(() => import('views/pages/configuration/roles')));
 const PermissionsPage = Loadable(lazy(() => import('views/pages/configuration/permissions')));
-const CommissionPlansPage = Loadable(lazy(() => import('views/pages/configuration/commissionPlans')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -23,10 +22,6 @@ const ConfigurationRoutes = {
             path: '/permissions',
             element: <PermissionsPage />
         }
-        // {
-        //     path: '/commission',
-        //     element: <CommissionPlansPage />
-        // }
     ]
 };
 

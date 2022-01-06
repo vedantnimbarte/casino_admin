@@ -114,14 +114,14 @@ const PopularGamesCard = ({ isLoading }) => {
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            Game 1
+                                                            {value.name}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
                                                         <Grid container alignItems="center" justifyContent="space-between">
                                                             <Grid item>
                                                                 <Typography variant="subtitle1" color="inherit">
-                                                                    GGR: 189
+                                                                    GGR: {value.ggr}
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item>

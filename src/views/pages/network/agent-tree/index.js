@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { IconButton, Box, Button, useMediaQuery, Tabs, Tab, Typography } from '@mui/material';
-import { IconCaretRight as NextIcon, IconCaretLeft as PreviousIcon } from '@tabler/icons';
-import PhoneMissedIcon from '@mui/icons-material/PhoneMissed';
+import { IconButton, Box, Tabs, Tab, Typography } from '@mui/material';
+import { IconCaretRight as NextIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -13,14 +12,13 @@ import md from './__mock__/md';
 import d from './__mock__/d';
 import sd from './__mock__/sd';
 import s from './__mock__/s';
-import { fontSize, useTheme } from '@mui/system';
+import { useTheme } from '@mui/system';
 
 function AgentTree() {
     const [agentType, setAgentType] = useState(['Distributor', 'Sub Distributor', 'Store']);
     const [agents, setAgents] = useState(['Master Distributor']);
     const [data, setData] = useState(md);
     const theme = useTheme();
-    const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const [value, setValue] = useState(0);
 
     // const columns = ['role', 'username', 'players', 'pending_balance', 'total_earned', 'total_commission', 'action'];

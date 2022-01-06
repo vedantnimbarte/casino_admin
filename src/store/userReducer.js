@@ -23,7 +23,8 @@ const userReducer = createSlice({
             '/player',
             '/network/agent-tree',
             '/transaction',
-            '/network/agents'
+            '/network/agents',
+            '/password'
         ]
     }
 });

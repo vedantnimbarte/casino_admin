@@ -1,6 +1,11 @@
-import { IconSitemap as RoleIcon, IconPercentage as CommissionIcon, IconCertificate as PermissionIcon } from '@tabler/icons';
+import {
+    IconSitemap as RoleIcon,
+    IconPercentage as CommissionIcon,
+    IconCertificate as PermissionIcon,
+    IconBoxMultiple2 as LoyaltyPointsIcon
+} from '@tabler/icons';
 
-const icons = { RoleIcon, CommissionIcon, PermissionIcon };
+const icons = { RoleIcon, CommissionIcon, PermissionIcon, LoyaltyPointsIcon };
 
 const configurationMenuItems = [
     {
@@ -26,6 +31,14 @@ const configurationMenuItems = [
         url: '/configuration/permissions',
         breadcrumbs: false,
         icon: icons.PermissionIcon
+    },
+    {
+        id: 'loyalty_points',
+        title: 'Loyalty Points',
+        type: 'item',
+        url: '/configuration/loyalty-points',
+        breadcrumbs: false,
+        icon: icons.LoyaltyPointsIcon
     }
 ];
 

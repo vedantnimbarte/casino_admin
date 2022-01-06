@@ -18,7 +18,7 @@ import {
     Stack,
     Typography
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 // third party
 import * as Yup from 'yup';
@@ -90,7 +90,7 @@ const FirebaseLogin = ({ ...others }) => {
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
                                 type="email"
@@ -98,7 +98,7 @@ const FirebaseLogin = ({ ...others }) => {
                                 name="email"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                label="Email Address / Username"
+                                label="Email Address"
                                 inputProps={{}}
                             />
                             {touched.email && errors.email && (
@@ -155,7 +155,13 @@ const FirebaseLogin = ({ ...others }) => {
                                 }
                                 label="Remember me"
                             />
-                            <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+                            <Typography
+                                component={Link}
+                                to="/forget-password"
+                                variant="subtitle1"
+                                color="secondary"
+                                sx={{ textDecoration: 'none', cursor: 'pointer' }}
+                            >
                                 Forgot Password?
                             </Typography>
                         </Stack>

@@ -120,7 +120,7 @@ function Roles() {
                                     error={formik.touched.description && Boolean(formik.errors.description)}
                                     helperText={formik.touched.description && formik.errors.description}
                                 />
-                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button
                                         type="reset"
                                         onClick={() => setOpenModal(!openModal)}

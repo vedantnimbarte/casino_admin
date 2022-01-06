@@ -101,7 +101,7 @@ function FAQ() {
                                         helperText={formik.touched.answer && formik.errors.answer}
                                     />
                                 </FormControl>
-                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button
                                         type="reset"
                                         onClick={() => setOpenModal(!openModal)}

@@ -146,7 +146,7 @@ function Games() {
                                     error={formik.touched.description && Boolean(formik.errors.description)}
                                     helperText={formik.touched.description && formik.errors.description}
                                 />
-                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button
                                         type="cancel"
                                         onClick={() => setOpenModal(!openModal)}

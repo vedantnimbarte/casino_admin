@@ -143,7 +143,7 @@ function Notification() {
                                         helperText={formik.touched.url && formik.errors.url}
                                     />
                                 )}
-                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button
                                         type="reset"
                                         onClick={() => setOpenModal(!openModal)}

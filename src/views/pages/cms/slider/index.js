@@ -116,7 +116,7 @@ function Slider() {
                                     helperText={formik.touched.image && formik.errors.image}
                                 />
 
-                                <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button
                                         type="reset"
                                         onClick={() => setOpenModal(!openModal)}

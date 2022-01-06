@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase, Fab, Typography, useMediaQuery, IconButton } from '@mui/material';
+import { Avatar, Box, ButtonBase, Fab, Typography, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router';
 
 // project imports
@@ -11,7 +11,6 @@ import ProfileSection from './ProfileSection';
 
 // assets
 import { IconMenu2, IconUsers as AgentIcon, IconUser as PlayerIcon } from '@tabler/icons';
-import { isMobile } from 'react-device-detect';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 

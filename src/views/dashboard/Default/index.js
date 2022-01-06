@@ -37,13 +37,13 @@ const Dashboard = () => {
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
-                    <Grid item lg={3} md={6} sm={6} xs={12}>
+                    <Grid item lg={3} md={4} sm={4} xs={12}>
                         <TotalPlayersCard isLoading={isLoading} />
                     </Grid>
-                    <Grid item lg={3} md={6} sm={6} xs={12}>
+                    <Grid item lg={3} md={4} sm={4} xs={12}>
                         <TotalNetworkCard isLoading={isLoading} />
                     </Grid>
-                    <Grid item lg={3} md={6} sm={6} xs={12}>
+                    <Grid item lg={3} md={4} sm={4} xs={12}>
                         <TotalActivePlayers isLoading={isLoading} />
                     </Grid>
                     <Grid item lg={3} md={12} sm={12} xs={12}>

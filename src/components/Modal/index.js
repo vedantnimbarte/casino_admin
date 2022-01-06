@@ -1,56 +1,44 @@
 import propTypes from 'prop-types';
-import { useEffect, useState } from 'react';
 import { Modal, IconButton, useMediaQuery, useTheme, Grid, Typography } from '@mui/material';
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
-import FullScreenDialog from 'components/FullScreenDialog';
-import { isMobile, isTablet, isMobileOnly } from 'react-device-detect';
 
 function ModalComponent({ title, children, open, onClose }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-    console.log(window.screen.orientation.angle);
+    // console.log(window.screen.orientation.angle);
     return (
         <>
-            {(isMobileOnly || isTablet) && (
-                <FullScreenDialog title={window.screen.orientation.angle} dialogStatus={open} setDialogStatus={onClose}>
-                    {children}
-                    <Typography>{isMobileDevice}</Typography>
-                </FullScreenDialog>
-            )}
-            {!isTablet && !isMobileOnly && (
-                <Modal
-                    open={open}
-                    onClose={onClose}
-                    sx={{
-                        overflowY: 'auto',
-                        display: 'block',
-                        overflow: 'scroll'
-                    }}
-                >
-                    <Grid xs={6} sm={6} md={6} lg={6}>
-                        <MainCard
-                            title={window.screen.orientation.angle}
-                            style={{
-                                margin: 0,
-                                position: 'absolute',
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)'
-                            }}
-                            secondary={
-                                <IconButton onClick={onClose}>
-                                    <CloseIcon />
-                                </IconButton>
-                            }
-                        >
-                            {children}
-                            <Typography>{isMobileDevice}</Typography>
-                        </MainCard>
-                    </Grid>
-                </Modal>
-            )}
-            );
+            <Modal
+                open={open}
+                onClose={onClose}
+                sx={{
+                    overflowY: 'auto',
+                    display: 'block',
+                    overflow: 'scroll'
+                }}
+            >
+                <Grid xs={6} sm={6} md={6} lg={6}>
+                    <MainCard
+                        title={title}
+                        style={{
+                            margin: 0,
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)'
+                        }}
+                        secondary={
+                            <IconButton onClick={onClose}>
+                                <CloseIcon />
+                            </IconButton>
+                        }
+                    >
+                        {children}
+                        <Typography>{isMobileDevice}</Typography>
+                    </MainCard>
+                </Grid>
+            </Modal>
         </>
     );
 }

@@ -49,7 +49,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     required
                 />
                 <Grid container>
-                    <Grid item xs={12} sm={12} mg={6} lg={6}>
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
                         <TextField
                             value={formik.values.password}
                             type="password"

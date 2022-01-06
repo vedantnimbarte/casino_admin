@@ -14,7 +14,7 @@ import approvalList from './__mock__/approval-list';
 import MainCard from 'ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
-import Modal from 'components/Modal';
+import Modal from 'components/ResponsiveModal';
 
 import NewPlayerForm from './components/Forms/NewPlayer';
 import TabPanel from './components/TabPanel';

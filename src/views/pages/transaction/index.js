@@ -18,7 +18,6 @@ import PlayerDeposit from './components/Forms/player/PlayerDepositForm';
 import PlayerWithdraw from './components/Forms/player/PlayerWithdrawForm';
 import AgentDeposit from './components/Forms/agent/AgentDepositForm';
 import TabPanel from './components/TabPanel';
-import { isMobile } from 'react-device-detect';
 
 function Transaction() {
     const theme = useTheme();

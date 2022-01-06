@@ -1,11 +1,12 @@
+import propTypes from 'prop-types';
 import React from 'react';
-import { Box, Typography, Dialog, AppBar, IconButton, Button, Toolbar, Slide } from '@mui/material';
-import { IconX as CloseIcon, IconRefresh as ResetIcon, IconDeviceFloppy as SaveIcon } from '@tabler/icons';
+import { Box, Typography, Dialog, AppBar, IconButton, Toolbar, Slide } from '@mui/material';
+import { IconX as CloseIcon } from '@tabler/icons';
 
 const Transition = (props, ref) => <Slide direction="up" ref={ref} {...props} />;
 const TransitionComponent = React.forwardRef(Transition);
 
-function FullScreenDialog({ title, children, dialogStatus, setDialogStatus, formik }) {
+function FullScreenDialog({ title, children, dialogStatus, setDialogStatus }) {
     return (
         <Dialog
             fullScreen
@@ -30,5 +31,12 @@ function FullScreenDialog({ title, children, dialogStatus, setDialogStatus, form
         </Dialog>
     );
 }
+
+FullScreenDialog.propTypes = {
+    title: propTypes.string,
+    children: propTypes.any,
+    dialogStatus: propTypes.bool,
+    setDialogStatus: propTypes.func
+};
 
 export default FullScreenDialog;

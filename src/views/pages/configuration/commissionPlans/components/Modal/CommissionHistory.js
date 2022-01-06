@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import Modal from 'components/Modal';
+import Modal from 'components/ResponsiveModal';
 import DataTable from 'components/DataTable';
 import propTypes from 'prop-types';
 

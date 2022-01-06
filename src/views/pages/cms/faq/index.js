@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik';
 
 // Components
 import DataTable from 'components/DataTable';
-import Modal from 'components/Modal';
+import Modal from 'components/ResponsiveModal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
 

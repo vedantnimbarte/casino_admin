@@ -3,28 +3,65 @@ import { Modal, IconButton, useMediaQuery, useTheme, Grid, Typography } from '@m
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
 import FullScreenDialog from 'components/FullScreenDialog';
-import { BrowserView, MobileView, TabletView, isIOS, isTablet } from 'react-device-detect';
+import { BrowserView, MobileView, TabletView, isIOS, isTablet, withOrientationChange } from 'react-device-detect';
 
-function ModalComponent({ title, children, open, onClose }) {
+function ModalComponent({ title, children, open, onClose, isLandscape }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     // console.log(window.screen.orientation.angle);
     return (
         <>
-            {/* TABLET VIEW */}
-            <TabletView>
-                <FullScreenDialog title={title} dialogStatus={open} setDialogStatus={onClose}>
-                    {children}
-                    <Typography>{isMobileDevice}</Typography>
-                </FullScreenDialog>
-            </TabletView>
-
-            {/* MOBILE VIEW */}
+            {/* MOBILE VIEW / TABLET VIEW */}
             <MobileView>
-                <FullScreenDialog title={title} dialogStatus={open} setDialogStatus={onClose}>
-                    {children}
-                    <Typography>{isMobileDevice}</Typography>
-                </FullScreenDialog>
+                {/* Showing modal if device is tablet and it is in portrait mode */}
+                {isTablet && isLandscape.toString() === 'false' && (
+                    <Modal
+                        open={open}
+                        onClose={onClose}
+                        sx={{
+                            overflowY: 'auto',
+                            display: 'block',
+                            overflow: 'scroll'
+                        }}
+                    >
+                        <Grid xs={6} sm={6} md={6} lg={6}>
+                            <MainCard
+                                title={title}
+                                style={{
+                                    margin: 0,
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)'
+                                }}
+                                secondary={
+                                    <IconButton onClick={onClose}>
+                                        <CloseIcon />
+                                    </IconButton>
+                                }
+                            >
+                                {children}
+                                <Typography>{isMobileDevice}</Typography>
+                            </MainCard>
+                        </Grid>
+                    </Modal>
+                )}
+
+                {/* Showing full screen dialog if device is tablet and in landscape mode */}
+                {isTablet && isLandscape && (
+                    <FullScreenDialog title={title} dialogStatus={open} setDialogStatus={onClose}>
+                        {children}
+                        <Typography>{isMobileDevice}</Typography>
+                    </FullScreenDialog>
+                )}
+
+                {/* Showing full screen dialog if device is mobile, mode can be portrait as well as landscape  */}
+                {!isTablet && (
+                    <FullScreenDialog title={title} dialogStatus={open} setDialogStatus={onClose}>
+                        {children}
+                        <Typography>{isMobileDevice}</Typography>
+                    </FullScreenDialog>
+                )}
             </MobileView>
 
             {/* BROWSER VIEW */}
@@ -72,4 +109,4 @@ ModalComponent.propTypes = {
     children: propTypes.any.isRequired
 };
 
-export default ModalComponent;
+export default withOrientationChange(ModalComponent);

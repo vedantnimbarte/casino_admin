@@ -8,7 +8,7 @@ import gameGroupSchema from 'schema/gameGroup.schema';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
-import Modal from 'components/Modal';
+import Modal from 'components/ResponsiveModal';
 
 function GameGroup() {
     const [openModal, setOpenModal] = useState(false);

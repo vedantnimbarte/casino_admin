@@ -263,7 +263,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Box style={{ display: 'flex', justifyContent: 'right', padding: 0 }}>
+                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right', padding: 0 }}>
                     <Button
                         type="reset"
                         onClick={() => onClose(!openModal)}

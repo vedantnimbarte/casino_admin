@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik';
 
 // Components
 import DataTable from 'components/DataTable';
-import ModalComponent from 'components/Modal';
+import ModalComponent from 'components/ResponsiveModal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
 import sliderSchema from 'schema/slider.schema';
@@ -101,6 +101,20 @@ function Slider() {
                                         required
                                     />
                                 </FormControl>
+                                <TextField
+                                    value={formik.values.image}
+                                    type="text"
+                                    name="image"
+                                    multiline
+                                    rows={5}
+                                    style={{ marginTop: 10, marginBottom: 10 }}
+                                    fullWidth
+                                    onChange={formik.handleChange}
+                                    variant="outlined"
+                                    label="Description"
+                                    error={formik.touched.image && Boolean(formik.errors.image)}
+                                    helperText={formik.touched.image && formik.errors.image}
+                                />
 
                                 <Box style={{ display: 'flex', justifyContent: 'right' }}>
                                     <Button

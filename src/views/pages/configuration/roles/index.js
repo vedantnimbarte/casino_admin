@@ -9,7 +9,7 @@ import create from 'services/agentType.service';
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import Modal from 'components/Modal';
+import Modal from 'components/ResponsiveModal';
 import NotFoundCard from 'components/NotFoundCard';
 
 import roleSchema from 'schema/role.schema';
@@ -87,7 +87,7 @@ function Roles() {
                                     name="name"
                                     onChange={formik.handleChange}
                                     variant="outlined"
-                                    style={{ margin: 10 }}
+                                    style={{ marginBottom: 10 }}
                                     fullWidth
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
@@ -98,8 +98,8 @@ function Roles() {
                                     onChange={formik.handleChange}
                                     label="Select Master Agent Type"
                                     name="parentRole"
-                                    style={{ margin: 10 }}
                                     fullWidth
+                                    style={{ marginBottom: 10 }}
                                     error={formik.touched.parentRole && Boolean(formik.errors.parentRole)}
                                     helperText={formik.touched.parentRole && formik.errors.parentRole}
                                 >
@@ -115,7 +115,7 @@ function Roles() {
                                     name="description"
                                     variant="outlined"
                                     label="Agent Type Description"
-                                    style={{ margin: 10 }}
+                                    style={{ marginBottom: 10 }}
                                     fullWidth
                                     error={formik.touched.description && Boolean(formik.errors.description)}
                                     helperText={formik.touched.description && formik.errors.description}

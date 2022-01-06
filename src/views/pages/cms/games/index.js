@@ -5,7 +5,7 @@ import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import Modal from 'components/Modal';
+import Modal from 'components/ResponsiveModal';
 import NotFoundCard from 'components/NotFoundCard';
 import { Form, Formik } from 'formik';
 

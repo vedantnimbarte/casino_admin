@@ -2,11 +2,14 @@ import propTypes from 'prop-types';
 import { Modal, IconButton, useMediaQuery, useTheme, Grid, Typography } from '@mui/material';
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
+import { withOrientationChange } from 'react-device-detect';
 
-function ModalComponent({ title, children, open, onClose }) {
+function ModalComponent({ title, children, open, onClose, isLandscape }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-    // console.log(window.screen.orientation.angle);
+
+    console.log(isLandscape);
+
     return (
         <>
             <Modal
@@ -49,4 +52,4 @@ ModalComponent.propTypes = {
     children: propTypes.any.isRequired
 };
 
-export default ModalComponent;
+export default withOrientationChange(ModalComponent);

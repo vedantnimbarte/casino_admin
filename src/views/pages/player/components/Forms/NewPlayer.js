@@ -110,7 +110,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     <MenuItem value="sub_distributor">Sub Distributor</MenuItem>
                     <MenuItem value="store">Store</MenuItem>
                 </TextField>
-                <Box style={{ display: 'flex', justifyContent: 'right' }}>
+                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                     <Button
                         type="reset"
                         onClick={() => onClose(!openModal)}

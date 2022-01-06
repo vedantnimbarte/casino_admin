@@ -96,7 +96,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     value={formik.values.agent}
                     select
                     name="agent"
-                    label="Select Agent"
+                    label="Select Store"
                     onChange={formik.handleChange}
                     variant="outlined"
                     fullWidth
@@ -105,9 +105,6 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     helperText={formik.touched.agent && formik.errors.agent}
                     required
                 >
-                    <MenuItem value="master_distributor">Master Distributor</MenuItem>
-                    <MenuItem value="distributor">Distributor</MenuItem>
-                    <MenuItem value="sub_distributor">Sub Distributor</MenuItem>
                     <MenuItem value="store">Store</MenuItem>
                 </TextField>
                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>

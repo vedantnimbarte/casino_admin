@@ -9,6 +9,7 @@ import ModalComponent from 'components/ResponsiveModal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
 import sliderSchema from 'schema/slider.schema';
+import loyaltyPointsSchema from 'schema/loyaltyPoints.schema';
 
 function LoyaltyPoints() {
     const [openModal, setOpenModal] = useState(false);
@@ -68,8 +69,8 @@ function LoyaltyPoints() {
             <ModalComponent title="Add New Loyalty Point" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Formik
-                        initialValues={{ level: '', pointsNeeded: '', multiplier: '', wagingValue: '' }}
-                        validationSchema={sliderSchema}
+                        initialValues={{ level: '', pointsNeeded: '', multiplier: '', wageringValue: '' }}
+                        validationSchema={loyaltyPointsSchema}
                         onSubmit={(values) => {
                             console.log(values);
                         }}
@@ -115,17 +116,17 @@ function LoyaltyPoints() {
                                     helperText={formik.touched.multiplier && formik.errors.multiplier}
                                 />
                                 <TextField
-                                    value={formik.values.wagingValue}
+                                    value={formik.values.wageringValue}
                                     type="text"
-                                    name="wagingValue"
+                                    name="wageringValue"
                                     rows={5}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     fullWidth
                                     onChange={formik.handleChange}
                                     variant="outlined"
                                     label="Wagering Value"
-                                    error={formik.touched.wagingValue && Boolean(formik.errors.wagingValue)}
-                                    helperText={formik.touched.wagingValue && formik.errors.wagingValue}
+                                    error={formik.touched.wageringValue && Boolean(formik.errors.wageringValue)}
+                                    helperText={formik.touched.wageringValue && formik.errors.wageringValue}
                                 />
 
                                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>

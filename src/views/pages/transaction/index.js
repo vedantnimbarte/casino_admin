@@ -105,6 +105,7 @@ function Transaction() {
                                     startIcon={<TransactionIcon />}
                                     color="warning"
                                     onClick={() => handlePlayerTransactionModal('deposit')}
+                                    style={{ marginRight: 2 }}
                                 >
                                     Deposit
                                 </Button>
@@ -112,6 +113,7 @@ function Transaction() {
                                     startIcon={<TransactionIcon />}
                                     color="warning"
                                     onClick={() => handlePlayerTransactionModal('withdraw')}
+                                    style={{ marginLeft: 2 }}
                                 >
                                     Withdraw
                                 </Button>
@@ -125,6 +127,7 @@ function Transaction() {
                                         startIcon={<TransactionIcon />}
                                         color="warning"
                                         onClick={() => handlePlayerTransactionModal('deposit')}
+                                        style={{ marginRight: 2 }}
                                     >
                                         Deposit
                                     </Button>
@@ -132,6 +135,7 @@ function Transaction() {
                                         startIcon={<TransactionIcon />}
                                         color="warning"
                                         onClick={() => handlePlayerTransactionModal('withdraw')}
+                                        style={{ marginLeft: 2 }}
                                     >
                                         Withdraw
                                     </Button>

@@ -26,7 +26,7 @@ import Transitions from 'ui-component/extended/Transitions';
 import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSettings } from '@tabler/icons';
+import { IconLogout, IconSettings, IconLock } from '@tabler/icons';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -157,6 +157,15 @@ const ProfileSection = () => {
                                                 }
                                             }}
                                         >
+                                            <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }}>
+                                                <ListItemIcon>
+                                                    <IconLock stroke={1.5} size="1.3rem" />
+                                                </ListItemIcon>
+                                                <ListItemText
+                                                    onClick={() => navigate('/password')}
+                                                    primary={<Typography variant="body2">Change Password</Typography>}
+                                                />
+                                            </ListItemButton>
                                             <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }}>
                                                 <ListItemIcon>
                                                     <IconLogout stroke={1.5} size="1.3rem" />

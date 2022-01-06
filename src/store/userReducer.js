@@ -24,7 +24,8 @@ const userReducer = createSlice({
             '/network/agent-tree',
             '/transaction',
             '/network/agents',
-            '/password'
+            '/password',
+            '/configuration/loyalty-points'
         ]
     }
 });

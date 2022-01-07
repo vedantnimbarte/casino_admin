@@ -70,7 +70,6 @@ function Players() {
                     indicatorColor="secondary"
                 >
                     <Tab label="Player List" />
-                    <Tab label="Pending Approval" />
                 </Tabs>
 
                 <TabPanel value={value} index={0}>
@@ -100,17 +99,6 @@ function Players() {
                         <Box>
                             {playersList.length > 0 ? (
                                 <DataTable title="Players List" data={playersList} columns={columns} options={options} />
-                            ) : (
-                                <NotFoundCard msg="Sorry, No data found" />
-                            )}
-                        </Box>
-                    </MainCard>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <MainCard title={!isMobileDevice && 'Players Approval List'}>
-                        <Box>
-                            {approvalList.length > 0 ? (
-                                <DataTable title="Players Approval List" data={approvalList} columns={columns} options={options} />
                             ) : (
                                 <NotFoundCard msg="Sorry, No data found" />
                             )}

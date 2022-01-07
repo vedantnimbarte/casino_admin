@@ -8,6 +8,8 @@ import Loadable from 'ui-component/Loadable';
 const RolesPage = Loadable(lazy(() => import('views/pages/configuration/roles')));
 const PermissionsPage = Loadable(lazy(() => import('views/pages/configuration/permissions')));
 const LoyaltyPointsPage = Loadable(lazy(() => import('views/pages/configuration/loyaltyPoints')));
+const MenuPermissionsPage = Loadable(lazy(() => import('views/pages/configuration/menuPermission')));
+const MenuPage = Loadable(lazy(() => import('views/pages/configuration/menu')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -26,6 +28,14 @@ const ConfigurationRoutes = {
         {
             path: '/loyalty-points',
             element: <LoyaltyPointsPage />
+        },
+        {
+            path: '/menu-permissions',
+            element: <MenuPermissionsPage />
+        },
+        {
+            path: '/menu',
+            element: <MenuPage />
         }
     ]
 };

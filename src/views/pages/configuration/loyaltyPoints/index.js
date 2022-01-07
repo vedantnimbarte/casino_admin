@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Tooltip, Box, Button, TextField, FormControl, useTheme, useMediaQuery, Divider } from '@mui/material';
+import { Tooltip, Box, Button, TextField, Typography, useTheme, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
@@ -8,7 +8,6 @@ import DataTable from 'components/DataTable';
 import ModalComponent from 'components/ResponsiveModal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
-import sliderSchema from 'schema/slider.schema';
 import loyaltyPointsSchema from 'schema/loyaltyPoints.schema';
 
 function LoyaltyPoints() {
@@ -37,7 +36,7 @@ function LoyaltyPoints() {
                 secondary={
                     <Tooltip title="Add New Slider">
                         <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
-                            Add Loyalty Points
+                            Add Loyalty Level
                         </Button>
                     </Tooltip>
                 }
@@ -52,24 +51,25 @@ function LoyaltyPoints() {
                             variant="contained"
                             color="secondary"
                         >
-                            Add Loyalty Points
+                            Add Loyalty Level
                         </Button>
                         <Divider />
                     </>
                 )}
                 <Box>
                     {data.length > 0 ? (
-                        <DataTable title="Loyalty Points List" data={data} columns={columns} options={options} />
+                        <DataTable title="Loyalty Levels List" data={data} columns={columns} options={options} />
                     ) : (
                         <NotFoundCard msg="Sorry, No data found" />
                     )}
                 </Box>
             </MainCard>
 
-            <ModalComponent title="Add New Loyalty Point" open={openModal} onClose={() => setOpenModal(!openModal)}>
+            <ModalComponent title="Add New Loyalty Level" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Formik
-                        initialValues={{ level: '', pointsNeeded: '', multiplier: '', wageringValue: '' }}
+                        initialValues={{ level: '', pointsNeeded: '', multiplier: '' }}
+                        enableReinitialize
                         validationSchema={loyaltyPointsSchema}
                         onSubmit={(values) => {
                             console.log(values);
@@ -107,7 +107,6 @@ function LoyaltyPoints() {
                                     type="text"
                                     name="multiplier"
                                     rows={5}
-                                    style={{ marginTop: 10, marginBottom: 10 }}
                                     fullWidth
                                     onChange={formik.handleChange}
                                     variant="outlined"
@@ -115,19 +114,33 @@ function LoyaltyPoints() {
                                     error={formik.touched.multiplier && Boolean(formik.errors.multiplier)}
                                     helperText={formik.touched.multiplier && formik.errors.multiplier}
                                 />
-                                <TextField
-                                    value={formik.values.wageringValue}
-                                    type="text"
-                                    name="wageringValue"
-                                    rows={5}
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                    fullWidth
-                                    onChange={formik.handleChange}
-                                    variant="outlined"
-                                    label="Wagering Value"
-                                    error={formik.touched.wageringValue && Boolean(formik.errors.wageringValue)}
-                                    helperText={formik.touched.wageringValue && formik.errors.wageringValue}
-                                />
+
+                                {formik.values.multiplier && (
+                                    <Box
+                                        style={{
+                                            marginTop: 10,
+                                            textAlign: 'center',
+                                            marginBottom: 10,
+                                            border: '1px solid gray',
+                                            borderRadius: 10,
+                                            padding: 10
+                                        }}
+                                        fullWidth
+                                    >
+                                        <Typography sx={{ color: theme.palette.primary.dark, fontWeight: 'bold' }}>
+                                            * CALCULATIONS AS PER ENTERED DATA *
+                                        </Typography>
+                                        <Divider />
+                                        <Box style={{ margin: 10 }}>
+                                            <Typography>
+                                                Loyalty Points: {formik.values.multiplier ? formik.values.multiplier : 0} /1$
+                                            </Typography>
+                                            <Typography color="error">
+                                                If player wagered $1000 then he will get {1000 * formik.values.multiplier} loyalty points
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                )}
 
                                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button

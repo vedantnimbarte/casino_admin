@@ -42,6 +42,16 @@ function PlayerDeposit({ formik, openModal, setOpenModal }) {
                     style={{ marginTop: 10, marginBottom: 10 }}
                     required
                 />
+                <TextField
+                    value={formik.values.points}
+                    type="number"
+                    name="points"
+                    label="Points to Deposit"
+                    variant="outlined"
+                    fullWidth
+                    style={{ marginTop: 10, marginBottom: 10 }}
+                    required
+                />
 
                 <TextField
                     value={formik.values.password}

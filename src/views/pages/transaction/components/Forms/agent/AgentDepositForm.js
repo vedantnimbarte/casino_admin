@@ -1,4 +1,4 @@
-import { Box, TextField, Button, useTheme, useMediaQuery } from '@mui/material';
+import { Box, TextField, Button, useTheme, useMediaQuery, MenuItem } from '@mui/material';
 import { IconChecks as ConfirmIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
 
@@ -46,6 +46,22 @@ function AgentDeposit({ formik, openModal, setOpenModal }) {
                     helperText={formik.touched.email && formik.errors.email}
                     required
                 />
+                <TextField
+                    value={formik.values.phone}
+                    select
+                    name="coin_pack"
+                    label="Coin Pack"
+                    variant="outlined"
+                    fullWidth
+                    style={{ marginTop: 10, marginBottom: 10 }}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                    required
+                >
+                    <MenuItem>Pack1</MenuItem>
+                    <MenuItem>Pack2</MenuItem>
+                    <MenuItem>Pack3</MenuItem>
+                </TextField>
 
                 <TextField
                     value={formik.values.password}

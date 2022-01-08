@@ -117,28 +117,24 @@ function LoyaltyPoints() {
 
                                 {formik.values.multiplier && (
                                     <Box
-                                        style={{
-                                            marginTop: 5,
-                                            textAlign: 'center',
-                                            marginBottom: 10,
-                                            border: '1px solid gray',
-                                            borderRadius: 10,
-                                            padding: 10
+                                        className="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                                        sx={{
+                                            marginTop: 2,
+                                            padding: 2,
+                                            border: '1px solid black',
+                                            alignItems: 'center'
                                         }}
                                     >
                                         <Typography style={{ color: theme.palette.primary.dark, fontWeight: 'bold' }}>
                                             * CALCULATIONS AS PER ENTERED DATA *
                                         </Typography>
-                                        <Divider />
-                                        <Box style={{ margin: 10 }}>
-                                            <Typography>
-                                                Loyalty Points: {formik.values.multiplier ? formik.values.multiplier : 0} /1$
-                                            </Typography>
-                                            <Typography color="error">
-                                                If player wagered ${formik.values.pointsNeeded} then he will get{' '}
-                                                {Math.round(formik.values.pointsNeeded * formik.values.multiplier)} loyalty points
-                                            </Typography>
-                                        </Box>
+                                        <Typography>
+                                            Loyalty Points: {formik.values.multiplier ? formik.values.multiplier : 0} /1$
+                                        </Typography>
+                                        <Typography color="error">
+                                            If player wagered ${formik.values.pointsNeeded} then he will get{' '}
+                                            {Math.round(formik.values.pointsNeeded * formik.values.multiplier)} loyalty points
+                                        </Typography>
                                     </Box>
                                 )}
 

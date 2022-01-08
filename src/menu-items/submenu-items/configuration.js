@@ -4,10 +4,11 @@ import {
     IconCertificate as PermissionIcon,
     IconBoxMultiple2 as LoyaltyPointsIcon,
     IconMenu2 as MenuIcon,
-    IconLicense as MenuPermissionIcon
+    IconLicense as MenuPermissionIcon,
+    IconPackage as GamePackIcon
 } from '@tabler/icons';
 
-const icons = { RoleIcon, CommissionIcon, PermissionIcon, LoyaltyPointsIcon, MenuIcon, MenuPermissionIcon };
+const icons = { RoleIcon, CommissionIcon, PermissionIcon, LoyaltyPointsIcon, MenuIcon, MenuPermissionIcon, GamePackIcon };
 
 const configurationMenuItems = [
     {
@@ -49,6 +50,14 @@ const configurationMenuItems = [
         url: '/configuration/menu',
         breadcrumbs: false,
         icon: icons.MenuIcon
+    },
+    {
+        id: 'game_pack',
+        title: 'Game Pack',
+        type: 'item',
+        url: '/configuration/game-pack',
+        breadcrumbs: false,
+        icon: icons.GamePackIcon
     },
     {
         id: 'menu_permissions',

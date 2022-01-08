@@ -118,16 +118,15 @@ function LoyaltyPoints() {
                                 {formik.values.multiplier && (
                                     <Box
                                         style={{
-                                            marginTop: 10,
+                                            marginTop: 5,
                                             textAlign: 'center',
                                             marginBottom: 10,
                                             border: '1px solid gray',
                                             borderRadius: 10,
                                             padding: 10
                                         }}
-                                        fullWidth
                                     >
-                                        <Typography sx={{ color: theme.palette.primary.dark, fontWeight: 'bold' }}>
+                                        <Typography style={{ color: theme.palette.primary.dark, fontWeight: 'bold' }}>
                                             * CALCULATIONS AS PER ENTERED DATA *
                                         </Typography>
                                         <Divider />

@@ -10,6 +10,7 @@ const PermissionsPage = Loadable(lazy(() => import('views/pages/configuration/pe
 const LoyaltyPointsPage = Loadable(lazy(() => import('views/pages/configuration/loyaltyPoints')));
 const MenuPermissionsPage = Loadable(lazy(() => import('views/pages/configuration/menuPermission')));
 const MenuPage = Loadable(lazy(() => import('views/pages/configuration/menu')));
+const GamePackPage = Loadable(lazy(() => import('views/pages/configuration/gamingPack')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -32,6 +33,10 @@ const ConfigurationRoutes = {
         {
             path: '/menu-permissions',
             element: <MenuPermissionsPage />
+        },
+        {
+            path: '/game-pack',
+            element: <GamePackPage />
         },
         {
             path: '/menu',

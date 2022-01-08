@@ -27,7 +27,8 @@ const userReducer = createSlice({
             '/password',
             '/configuration/loyalty-points',
             '/configuration/menu',
-            '/configuration/menu-permissions'
+            '/configuration/menu-permissions',
+            '/configuration/game-pack'
         ]
     }
 });

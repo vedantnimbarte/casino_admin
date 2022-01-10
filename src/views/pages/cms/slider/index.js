@@ -157,6 +157,7 @@ function Slider() {
                                             paddingRight: 20
                                         }}
                                         startIcon={!isMobileDevice && <SaveIcon />}
+                                        disabled={!(formik.isValid && formik.dirty)}
                                     >
                                         Submit
                                     </Button>

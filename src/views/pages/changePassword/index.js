@@ -1,16 +1,11 @@
-import { useState } from 'react';
-import { Box, Button, TextField, useTheme, Grid } from '@mui/material';
+import { Box, Button, TextField, Grid } from '@mui/material';
 import { IconLock as ChangePasswordIcon, IconX as CancelIcon } from '@tabler/icons';
-import { Formik, Form } from 'formik';
 
 // Components
 
 import MainCard from 'ui-component/cards/MainCard';
 
 function ChangePassword() {
-    const [openModal, setOpenModal] = useState(false);
-    const theme = useTheme();
-
     return (
         <Box>
             <MainCard title="Change Password">

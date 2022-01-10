@@ -41,6 +41,7 @@ const ProfileSection = () => {
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
     const anchorRef = useRef(null);
+    const [passwordBtn, setPasswordBtn] = useState(false);
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -53,13 +54,30 @@ const ProfileSection = () => {
         setOpen((prevOpen) => !prevOpen);
     };
 
+    const handlePasswordPage = () => {
+        setPasswordBtn(true);
+        navigate('/password');
+        handleToggle();
+    };
+
     const prevOpen = useRef(open);
     useEffect(() => {
         if (prevOpen.current === true && open === false) {
             anchorRef.current.focus();
         }
 
+        const url = window.location.href.split('/');
+        if (url[url.length - 1] === 'password') {
+            setPasswordBtn(true);
+        }
+
         prevOpen.current = open;
+        return () => {
+            const url = window.location.href.split('/');
+            if (url[url.length - 1] !== 'password') {
+                setPasswordBtn(false);
+            }
+        };
     }, [open]);
 
     return (
@@ -157,12 +175,17 @@ const ProfileSection = () => {
                                                 }
                                             }}
                                         >
-                                            <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }}>
+                                            <ListItemButton
+                                                sx={{
+                                                    borderRadius: `${customization.borderRadius}px`,
+                                                    backgroundColor: passwordBtn && theme.palette.secondary.light
+                                                }}
+                                            >
                                                 <ListItemIcon>
                                                     <IconLock stroke={1.5} size="1.3rem" />
                                                 </ListItemIcon>
                                                 <ListItemText
-                                                    onClick={() => navigate('/password')}
+                                                    onClick={() => handlePasswordPage()}
                                                     primary={<Typography variant="body2">Change Password</Typography>}
                                                 />
                                             </ListItemButton>

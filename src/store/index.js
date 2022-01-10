@@ -1,16 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import reducer from './reducer';
 
 // Reducers
 import customizationReducer from './customizationReducer';
-import userReducer from './userReducer';
+import userReducer from './reducers/userReducer';
+import agentTypeReducer from './reducers/configuration/agentType.reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
 export default configureStore({
     reducer: {
         customization: customizationReducer,
-        user: userReducer
+        user: userReducer,
+        agentType: agentTypeReducer
     }
 });
 

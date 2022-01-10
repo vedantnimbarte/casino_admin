@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Box, Button, TextField, FormControl, useTheme, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 
 // Components
 import DataTable from 'components/DataTable';
@@ -10,6 +11,7 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
 
 import FAQSchema from 'schema/faq.schema';
+import { isValid } from 'date-fns';
 
 function FAQ() {
     const [openModal, setOpenModal] = useState(false);
@@ -140,6 +142,7 @@ function FAQ() {
                                             paddingRight: 20
                                         }}
                                         startIcon={!isMobileDevice && <SaveIcon />}
+                                        disabled={!(formik.isValid && formik.dirty)}
                                     >
                                         Submit
                                     </Button>

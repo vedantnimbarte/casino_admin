@@ -83,6 +83,7 @@ function Notification() {
                                     select
                                     value={formik.values.type}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     name="type"
                                     fullWidth
                                     error={formik.touched.type && Boolean(formik.errors.type)}
@@ -95,6 +96,7 @@ function Notification() {
                                 <TextField
                                     value={formik.values.title}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     name="title"
                                     label="Title"
@@ -106,6 +108,7 @@ function Notification() {
                                 <TextField
                                     value={formik.values.message}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     multiline
                                     rows={3}
                                     variant="outlined"
@@ -123,6 +126,7 @@ function Notification() {
                                             type="file"
                                             value={formik.values.image}
                                             onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
                                             variant="outlined"
                                             fullWidth
                                             error={formik.touched.image && Boolean(formik.errors.image)}
@@ -135,6 +139,7 @@ function Notification() {
                                         type="url"
                                         value={formik.values.image}
                                         onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         variant="outlined"
                                         label="Video Url"
                                         fullWidth

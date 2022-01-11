@@ -83,6 +83,7 @@ function LoyaltyPoints() {
                                     label="Level"
                                     name="level"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     fullWidth
                                     error={formik.touched.level && Boolean(formik.errors.level)}
@@ -97,6 +98,7 @@ function LoyaltyPoints() {
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     fullWidth
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     label="Points Needed"
                                     error={formik.touched.pointsNeeded && Boolean(formik.errors.pointsNeeded)}
@@ -109,6 +111,7 @@ function LoyaltyPoints() {
                                     rows={5}
                                     fullWidth
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     label="Multiplier"
                                     error={formik.touched.multiplier && Boolean(formik.errors.multiplier)}

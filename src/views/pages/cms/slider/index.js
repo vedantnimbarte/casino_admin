@@ -68,7 +68,7 @@ function Slider() {
             <ModalComponent title="Add New Slider" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Formik
-                        initialValues={{ name: '', image: '' }}
+                        initialValues={{ name: '', description: '' }}
                         validationSchema={sliderSchema}
                         onSubmit={(values) => {
                             console.log(values);
@@ -82,6 +82,7 @@ function Slider() {
                                     label="Slider Name"
                                     name="name"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     fullWidth
                                     error={formik.touched.name && Boolean(formik.errors.name)}
@@ -90,10 +91,10 @@ function Slider() {
                                 />
                                 <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
                                     <TextField
-                                        value={formik.values.image}
                                         type="file"
                                         name="image"
                                         onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         variant="outlined"
                                         fullWidth
                                         error={formik.touched.image && Boolean(formik.errors.image)}
@@ -102,18 +103,19 @@ function Slider() {
                                     />
                                 </FormControl>
                                 <TextField
-                                    value={formik.values.image}
+                                    value={formik.values.description}
                                     type="text"
-                                    name="image"
+                                    name="description"
                                     multiline
                                     rows={5}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     fullWidth
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     label="Description"
-                                    error={formik.touched.image && Boolean(formik.errors.image)}
-                                    helperText={formik.touched.image && formik.errors.image}
+                                    error={formik.touched.description && Boolean(formik.errors.description)}
+                                    helperText={formik.touched.description && formik.errors.description}
                                 />
 
                                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>

@@ -86,6 +86,7 @@ function Games() {
                                     value={formik.values.name}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
                                     required
@@ -99,6 +100,7 @@ function Games() {
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     value={formik.values.image}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     error={formik.touched.image && Boolean(formik.errors.image)}
                                     helperText={formik.touched.image && formik.errors.image}
                                     required
@@ -111,6 +113,7 @@ function Games() {
                                     value={formik.values.url}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     error={formik.touched.url && Boolean(formik.errors.url)}
                                     helperText={formik.touched.url && formik.errors.url}
                                     required
@@ -123,6 +126,7 @@ function Games() {
                                     name="group"
                                     // label="Select Game Type"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     error={formik.touched.group && Boolean(formik.errors.group)}
                                     helperText={formik.touched.group && formik.errors.group}
                                     required
@@ -143,6 +147,7 @@ function Games() {
                                     value={formik.values.description}
                                     style={{ marginTop: 10, marginBottom: 10 }}
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     error={formik.touched.description && Boolean(formik.errors.description)}
                                     helperText={formik.touched.description && formik.errors.description}
                                 />

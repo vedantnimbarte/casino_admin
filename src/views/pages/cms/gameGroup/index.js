@@ -80,6 +80,7 @@ function GameGroup() {
                             name="name"
                             label="Game Type Name"
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             fullWidth
                             style={{ marginTop: 10, marginBottom: 10 }}
@@ -95,6 +96,7 @@ function GameGroup() {
                             name="description"
                             label="Description"
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             fullWidth
                             style={{ marginTop: 10, marginBottom: 10 }}

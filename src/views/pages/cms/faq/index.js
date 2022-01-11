@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Box, Button, TextField, FormControl, useTheme, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
-import * as yup from 'yup';
+import InputField from 'components/InputField';
 
 // Components
 import DataTable from 'components/DataTable';
@@ -11,7 +11,6 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
 
 import FAQSchema from 'schema/faq.schema';
-import { isValid } from 'date-fns';
 
 function FAQ() {
     const [openModal, setOpenModal] = useState(false);
@@ -81,6 +80,7 @@ function FAQ() {
                                     <TextField
                                         value={formik.values.question}
                                         onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         variant="outlined"
                                         label="Question"
                                         name="question"
@@ -93,6 +93,7 @@ function FAQ() {
                                     <TextField
                                         value={formik.values.answer}
                                         onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         multiline
                                         rows={4}
                                         variant="outlined"

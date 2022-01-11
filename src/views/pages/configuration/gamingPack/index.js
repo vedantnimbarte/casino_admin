@@ -57,6 +57,7 @@ function GamingPack() {
                                     label="Pack Name"
                                     name="name"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     style={{ marginBottom: 10 }}
                                     fullWidth
@@ -69,6 +70,7 @@ function GamingPack() {
                                     label="Amount of Coins"
                                     name="coins"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     style={{ marginBottom: 10 }}
                                     fullWidth
@@ -81,6 +83,7 @@ function GamingPack() {
                                     label="Amount of Majestic Diamonds"
                                     name="diamonds"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     style={{ marginBottom: 10 }}
                                     fullWidth
@@ -93,6 +96,7 @@ function GamingPack() {
                                     label="Price (in $)"
                                     name="price"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     style={{ marginBottom: 10 }}
                                     fullWidth
@@ -105,6 +109,7 @@ function GamingPack() {
                                     label="Discount"
                                     name="discount"
                                     onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
                                     variant="outlined"
                                     style={{ marginBottom: 10 }}
                                     fullWidth
@@ -121,6 +126,7 @@ function GamingPack() {
                                         label="Discount Percentage"
                                         name="percentage"
                                         onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
                                         variant="outlined"
                                         style={{ marginBottom: 10 }}
                                         fullWidth

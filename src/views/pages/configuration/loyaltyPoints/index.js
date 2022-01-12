@@ -1,5 +1,18 @@
 import { useState } from 'react';
-import { Tooltip, Box, Button, TextField, Typography, useTheme, useMediaQuery, Divider } from '@mui/material';
+import {
+    Tooltip,
+    Box,
+    Button,
+    TextField,
+    Typography,
+    useTheme,
+    useMediaQuery,
+    Divider,
+    FormControl,
+    FormHelperText,
+    InputLabel,
+    OutlinedInput
+} from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
@@ -34,7 +47,7 @@ function LoyaltyPoints() {
             <MainCard
                 title={!isMobileDevice && 'Loyalty Points'}
                 secondary={
-                    <Tooltip title="Add New Slider">
+                    <Tooltip title="Add New Loyalty Level">
                         <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
                             Add Loyalty Level
                         </Button>
@@ -77,46 +90,65 @@ function LoyaltyPoints() {
                     >
                         {(formik) => (
                             <Form noValidate onSubmit={formik.handleSubmit}>
-                                <TextField
-                                    value={formik.values.level}
-                                    type="text"
-                                    label="Level"
-                                    name="level"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
+                                <FormControl fullWidth error={formik.touched.level && Boolean(formik.errors.level)}>
+                                    <InputLabel htmlFor="level">Level</InputLabel>
+                                    <OutlinedInput
+                                        value={formik.values.level}
+                                        id="level"
+                                        type="text"
+                                        label="Level"
+                                        name="level"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                        required
+                                    />
+                                    {formik.touched.level && formik.errors.level && (
+                                        <FormHelperText error id="level-error">
+                                            {formik.errors.level}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                                <FormControl
                                     fullWidth
-                                    error={formik.touched.level && Boolean(formik.errors.level)}
-                                    helperText={formik.touched.level && formik.errors.level}
-                                    required
-                                />
-                                <TextField
-                                    value={formik.values.pointsNeeded}
-                                    type="text"
-                                    name="pointsNeeded"
-                                    rows={5}
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                    fullWidth
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
-                                    label="Points Needed"
                                     error={formik.touched.pointsNeeded && Boolean(formik.errors.pointsNeeded)}
-                                    helperText={formik.touched.pointsNeeded && formik.errors.pointsNeeded}
-                                />
-                                <TextField
-                                    value={formik.values.multiplier}
-                                    type="text"
-                                    name="multiplier"
-                                    rows={5}
-                                    fullWidth
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
-                                    label="Multiplier"
-                                    error={formik.touched.multiplier && Boolean(formik.errors.multiplier)}
-                                    helperText={formik.touched.multiplier && formik.errors.multiplier}
-                                />
+                                    style={{ marginTop: 10, marginBottom: 10 }}
+                                >
+                                    <InputLabel htmlFor="points-needed">Points Needed</InputLabel>
+                                    <OutlinedInput
+                                        value={formik.values.pointsNeeded}
+                                        type="text"
+                                        id="points-needed"
+                                        name="pointsNeeded"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                        label="Points Needed"
+                                    />
+                                    {formik.touched.pointsNeeded && formik.errors.pointsNeeded && (
+                                        <FormHelperText error id="pointsNeeded-error">
+                                            {formik.errors.pointsNeeded}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                                <FormControl fullWidth error={formik.touched.multiplier && Boolean(formik.errors.multiplier)}>
+                                    <InputLabel htmlFor="multiplier">Multiplier</InputLabel>
+                                    <OutlinedInput
+                                        value={formik.values.multiplier}
+                                        type="text"
+                                        id="multiplier"
+                                        name="multiplier"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                        label="Multiplier"
+                                    />
+                                    {formik.touched.multiplier && formik.errors.multiplier && (
+                                        <FormHelperText error id="multiplier-error">
+                                            {formik.errors.multiplier}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
 
                                 {formik.values.multiplier && (
                                     <Box
@@ -128,7 +160,10 @@ function LoyaltyPoints() {
                                             alignItems: 'center'
                                         }}
                                     >
-                                        <Typography style={{ color: theme.palette.primary.dark, fontWeight: 'bold' }}>
+                                        <Typography
+                                            style={{ color: theme.palette.primary.dark, fontWeight: 'bold' }}
+                                            id="calculations-title"
+                                        >
                                             * CALCULATIONS AS PER ENTERED DATA *
                                         </Typography>
                                         <Typography>

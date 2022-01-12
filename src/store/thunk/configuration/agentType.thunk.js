@@ -20,7 +20,7 @@ export const getAgentType = createAsyncThunk('agent_type/getAgentType', async ({
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ pageNumber: pageno - 1, pageLimit: limit })
+        body: JSON.stringify({ pageNumber: pageno, pageLimit: limit })
     };
     return fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.LIST}`, requestOptions).then((res) => res.json());
 });

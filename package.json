@@ -1,5 +1,5 @@
 {
-    "name": "berry-material-react-free",
+    "name": "casino-admin",
     "version": "3.0.1",
     "private": true,
     "homepage": "http://localhost:3000",
@@ -46,17 +46,13 @@
         "start": "react-scripts start",
         "build:local": "react-scripts build",
         "build": "CI=false react-scripts build",
-        "test": "react-scripts test",
+        "test": "jest",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
         "extends": [
-            "react-app"
-        ]
-    },
-    "babel": {
-        "presets": [
-            "@babel/preset-react"
+            "react-app",
+            "react-app/jest"
         ]
     },
     "browserslist": {
@@ -85,7 +81,14 @@
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-react": "^7.26.1",
         "eslint-plugin-react-hooks": "4.0.8",
+        "jest": "26.6.0",
+        "jest-puppeteer": "^6.0.3",
         "prettier": "^2.2.1",
+        "puppeteer": "^13.0.1",
         "sass": "^1.42.1"
-    }
+    },
+    "main": "index.js",
+    "repository": "https://github.com/DhruvNarola1993/Casino_Front_End.git",
+    "author": "vedant-nimbarte <vedant.mountgames@gmail.com>",
+    "license": "MIT"
 }

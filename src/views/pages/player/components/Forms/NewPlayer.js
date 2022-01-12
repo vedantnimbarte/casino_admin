@@ -15,6 +15,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     name="name"
                     label="Name"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
@@ -28,6 +29,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     name="username"
                     label="Username"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
@@ -41,6 +43,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     name="email"
                     label="Email"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
@@ -56,6 +59,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                             name="password"
                             label="Password"
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
                             error={formik.touched.password && Boolean(formik.errors.password)}
@@ -70,6 +74,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                             name="confirm_password"
                             label="Confirm Password"
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             variant="outlined"
                             fullWidth
                             style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
@@ -85,6 +90,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     name="phone_no"
                     label="Phone No"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
@@ -98,6 +104,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                     name="agent"
                     label="Select Store"
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     variant="outlined"
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}

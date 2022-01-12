@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Box, Button, TextField, FormControl, useTheme, useMediaQuery, Divider } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
-import InputField from 'components/InputField';
 
 // Components
 import DataTable from 'components/DataTable';

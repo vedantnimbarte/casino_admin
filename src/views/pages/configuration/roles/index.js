@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { Tooltip, Box, Button, TextField, MenuItem, useTheme, useMediaQuery, Divider, LinearProgress } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
-import { Formik, Form, useFormik } from 'formik';
+import { useCallback, useEffect, useState } from 'react';
+import { Tooltip, Box, Button, useTheme, useMediaQuery, Divider, LinearProgress, Typography, IconButton } from '@mui/material';
+import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
 
 // Redux + Thunk functions
 import { useSelector, useDispatch } from 'react-redux';
-import { createAgentType } from 'store/thunk/configuration/agentType.thunk';
+import { getAgentType } from 'store/thunk/configuration/agentType.thunk';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -13,36 +12,127 @@ import DataTable from 'components/DataTable';
 import Modal from 'components/ResponsiveModal';
 import NotFoundCard from 'components/NotFoundCard';
 import AlertComponent from 'components/Alert';
+import UpdateAgentType from './components/Forms/UpdateAgentType';
 
 // Schema
 import roleSchema from 'schema/role.schema';
+import CreateAgentType from './components/Forms/CreateAgentType';
+import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
 
 function Roles() {
     const [openModal, setOpenModal] = useState(false);
+    const [updateModal, setUpdateModal] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const [agentTypeIdx, setAgentTypeIdx] = useState();
     const theme = useTheme();
     const agentType = useSelector((state) => state.agentType);
     const dispatch = useDispatch();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const formik = useFormik({
-        initialValues: { name: '', description: '', parentRole: '' },
-        validationSchema: { roleSchema },
-        onSubmit: (values) => {
-            dispatch(createAgentType(values));
-        }
-    });
+    const [pageLmit, setpageLmit] = useState(10);
+    const [pageNo, setPageNo] = useState(0);
+    const [roleId, setRoleId] = useState();
 
-    const columns = ['ID', 'Agent Type', 'Parent Type', 'Action'];
+    function handleUpdateModal(idx) {
+        setAgentTypeIdx(idx);
+        setUpdateModal(!updateModal);
+    }
+
+    const columns = [
+        {
+            name: 'dataindex',
+            label: 'SR NO',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRenderLite: (dataIndex) => {
+                    const val = dataIndex + 1 + pageLmit * pageNo;
+                    return val;
+                }
+            }
+        },
+        {
+            name: 'ROLE_NAME',
+            label: 'AGENT TYPE',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'MASTER_ROLE_NAME',
+            label: 'PARENT AGENT',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value.split(',')[0]}</Typography>
+            }
+        },
+        {
+            name: 'DESCRIPTION',
+            label: 'DESCRIPTION',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'action',
+            label: 'Actions',
+            options: {
+                filter: false,
+                sort: false,
+                customBodyRenderLite: (dataIndex) => (
+                    <>
+                        <Tooltip title="Update">
+                            <IconButton color="primary" onClick={() => handleUpdateModal(dataIndex)}>
+                                <UpdateIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                            <IconButton
+                                color="error"
+                                onClick={() => {
+                                    setOpenDialog(!openDialog);
+                                    setRoleId(agentType.data[dataIndex].ROLE_ID);
+                                }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </>
+                )
+            }
+        }
+    ];
 
     const options = {
-        filter: false,
+        filter: true,
         print: false,
         download: false,
         search: false,
         selectableRows: false,
-        rowsPerPage: 10,
-        rowsPerPageOptions: [10, 20]
+        rowsPerPage: pageLmit,
+        pagination: true,
+        rowsPerPageOptions: [10, 20, 30],
+        serverSide: true,
+        count: agentType.totalRecords,
+        sortThirdClickReset: true,
+        jumpToPage: true,
+        onChangeRowsPerPage: (page) => {
+            setpageLmit(page);
+        },
+        onChangePage: (page) => {
+            setPageNo(page);
+        }
     };
+
+    useEffect(() => {
+        dispatch(getAgentType({ pageno: pageNo, limit: pageLmit }));
+    }, [pageLmit, pageNo]);
 
     return (
         <>
@@ -87,110 +177,47 @@ function Roles() {
                     </Box>
                 </MainCard>
 
-                {agentType.status === 'failed' && <AlertComponent status={agentType.error} message={agentType.errorMsg} />}
+                {agentType.status === 'failed' && <AlertComponent status="false" message={agentType.msg} />}
+                {agentType.status === 'success' && <AlertComponent status="true" message={agentType.msg} />}
+
+                <Modal title="Update Agent Type" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
+                    <UpdateAgentType
+                        agentType={agentType}
+                        dispatch={dispatch}
+                        isMobileDevice={isMobileDevice}
+                        openModal={updateModal}
+                        setOpenModal={setUpdateModal}
+                        theme={theme}
+                        agentTypeIndex={agentTypeIdx}
+                        roleSchema={roleSchema}
+                        pageNo={pageNo}
+                        pageLimit={pageLmit}
+                    />
+                </Modal>
 
                 <Modal title="Add New Agent Type" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                    <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                        <Formik
-                            initialValues={{ name: '', description: '', parentRole: '' }}
-                            validationSchema={roleSchema}
-                            onSubmit={(values) => {
-                                dispatch(createAgentType(values));
-                            }}
-                        >
-                            {(formik) => (
-                                <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                                    <TextField
-                                        value={formik.values.name}
-                                        type="text"
-                                        label="Agent Type Name"
-                                        name="name"
-                                        onChange={formik.handleChange}
-                                        variant="outlined"
-                                        style={{ marginBottom: 10 }}
-                                        fullWidth
-                                        error={formik.touched.name && Boolean(formik.errors.name)}
-                                        helperText={formik.touched.name && formik.errors.name}
-                                    />
-                                    <TextField
-                                        value={formik.values.parentRole}
-                                        select
-                                        onChange={formik.handleChange}
-                                        label="Select Master Agent Type"
-                                        name="parentRole"
-                                        fullWidth
-                                        style={{ marginBottom: 10 }}
-                                        error={formik.touched.parentRole && Boolean(formik.errors.parentRole)}
-                                        helperText={formik.touched.parentRole && formik.errors.parentRole}
-                                    >
-                                        <MenuItem value="MasterDistributor">Select Master Agent Type</MenuItem>
-                                    </TextField>
-
-                                    <TextField
-                                        value={formik.values.description}
-                                        onChange={formik.handleChange}
-                                        type="text"
-                                        multiline
-                                        rows={4}
-                                        name="description"
-                                        variant="outlined"
-                                        label="Agent Type Description"
-                                        style={{ marginBottom: 10 }}
-                                        fullWidth
-                                        error={formik.touched.description && Boolean(formik.errors.description)}
-                                        helperText={formik.touched.description && formik.errors.description}
-                                    />
-                                    <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
-                                        <Button
-                                            type="reset"
-                                            onClick={() => setOpenModal(!openModal)}
-                                            variant="contained"
-                                            color={theme.palette.secondary.light[800]}
-                                            style={{
-                                                margin: 10,
-                                                color: 'white',
-                                                paddingLeft: 20,
-                                                paddingRight: 20
-                                            }}
-                                            startIcon={!isMobileDevice && <CancelIcon />}
-                                        >
-                                            Cancel
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            type="reset"
-                                            color="error"
-                                            style={{
-                                                color: '#fff',
-                                                margin: 10,
-                                                paddingLeft: 20,
-                                                paddingRight: 20
-                                            }}
-                                            startIcon={!isMobileDevice && <ResetIcon />}
-                                        >
-                                            Reset
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            type="submit"
-                                            color="secondary"
-                                            style={{
-                                                color: '#fff',
-                                                margin: 10,
-                                                paddingLeft: 20,
-                                                paddingRight: 20
-                                            }}
-                                            startIcon={!isMobileDevice && <SaveIcon />}
-                                            disabled={!(formik.isValid && formik.dirty)}
-                                        >
-                                            Submit
-                                        </Button>
-                                    </Box>
-                                </Form>
-                            )}
-                        </Formik>
-                    </Box>
+                    <CreateAgentType
+                        agentType={agentType}
+                        dispatch={dispatch}
+                        isMobileDevice={isMobileDevice}
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                        theme={theme}
+                        roleSchema={roleSchema}
+                        pageNo={pageNo}
+                        pageLimit={pageLmit}
+                    />
                 </Modal>
+            </Box>
+            {/* Delete confirmation dialog */}
+            <Box>
+                <DeleteConfirmation
+                    agentType={agentType}
+                    dispatch={dispatch}
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                    roleId={roleId}
+                />
             </Box>
         </>
     );

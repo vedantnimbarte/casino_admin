@@ -1,5 +1,18 @@
 import { useState } from 'react';
-import { Box, Button, Grid, TextField, useTheme, useMediaQuery, MenuItem } from '@mui/material';
+import {
+    Box,
+    Button,
+    Grid,
+    TextField,
+    useTheme,
+    useMediaQuery,
+    MenuItem,
+    OutlinedInput,
+    FormControl,
+    FormHelperText,
+    InputLabel,
+    Select
+} from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
@@ -7,6 +20,7 @@ import { Formik, Form } from 'formik';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import Modal from 'components/ResponsiveModal';
 import CommissionCard from './components/Cards/CommissionCard';
+import gamingPackSchema from 'schema/gamingPack.schema';
 
 function GamingPack() {
     const [open, setOpen] = useState(false);
@@ -18,7 +32,14 @@ function GamingPack() {
             <MainCard
                 title="Game Packs"
                 secondary={
-                    <Button startIcon={<AddIcon />} variant="contained" color="primary" sx={{ mx: 3 }} onClick={() => setOpen(!open)}>
+                    <Button
+                        startIcon={<AddIcon />}
+                        variant="contained"
+                        color="primary"
+                        sx={{ mx: 3 }}
+                        onClick={() => setOpen(!open)}
+                        id="add-game-pack"
+                    >
                         Add Game Pack
                     </Button>
                 }
@@ -44,95 +65,143 @@ function GamingPack() {
             <Modal title="Add New Game Pack" open={open} onClose={() => setOpen(!open)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <Formik
-                        initialValues={{ name: '', description: '', parentRole: '' }}
+                        initialValues={{ name: '', coins: '', diamonds: '', price: '', discount: '', percentage: '' }}
+                        validationSchema={gamingPackSchema}
                         onSubmit={(values) => {
                             console.log(values);
                         }}
                     >
                         {(formik) => (
                             <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                                <TextField
-                                    value={formik.values.name}
-                                    type="text"
-                                    label="Pack Name"
-                                    name="name"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
-                                    style={{ marginBottom: 10 }}
+                                <FormControl
                                     fullWidth
                                     error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
-                                />
-                                <TextField
-                                    value={formik.values.name}
-                                    type="number"
-                                    label="Amount of Coins"
-                                    name="coins"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
                                     style={{ marginBottom: 10 }}
-                                    fullWidth
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
-                                />
-                                <TextField
-                                    value={formik.values.name}
-                                    type="number"
-                                    label="Amount of Majestic Diamonds"
-                                    name="diamonds"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
-                                    style={{ marginBottom: 10 }}
-                                    fullWidth
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
-                                />
-                                <TextField
-                                    value={formik.values.price}
-                                    type="number"
-                                    label="Price (in $)"
-                                    name="price"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
-                                    style={{ marginBottom: 10 }}
-                                    fullWidth
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
-                                />
-                                <TextField
-                                    value={formik.values.discount}
-                                    select
-                                    label="Discount"
-                                    name="discount"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    variant="outlined"
-                                    style={{ marginBottom: 10 }}
-                                    fullWidth
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
                                 >
-                                    <MenuItem value="true">Discount</MenuItem>
-                                    <MenuItem value="false">No Discount</MenuItem>
-                                </TextField>
-                                {formik.values.discount === 'true' && (
-                                    <TextField
-                                        value={formik.values.percentage}
-                                        type="number"
-                                        label="Discount Percentage"
-                                        name="percentage"
+                                    <InputLabel htmlFor="name">Pack Name</InputLabel>
+                                    <OutlinedInput
+                                        value={formik.values.name}
+                                        type="text"
+                                        id="name"
+                                        label="Pack Name"
+                                        name="name"
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         variant="outlined"
-                                        style={{ marginBottom: 10 }}
                                         fullWidth
-                                        error={formik.touched.name && Boolean(formik.errors.name)}
-                                        helperText={formik.touched.name && formik.errors.name}
+                                        required
                                     />
+                                    {formik.touched.name && formik.errors.name && (
+                                        <FormHelperText error id="pack-name-error">
+                                            {formik.errors.name}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                                <FormControl
+                                    fullWidth
+                                    error={formik.touched.coins && Boolean(formik.errors.coins)}
+                                    style={{ marginBottom: 10 }}
+                                >
+                                    <InputLabel htmlFor="coins">Amount of Coins</InputLabel>
+                                    <OutlinedInput
+                                        value={formik.values.coins}
+                                        type="number"
+                                        label="Amount of Coins"
+                                        name="coins"
+                                        id="coins"
+                                        min="0"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                    />
+                                    {formik.touched.coins && formik.errors.coins && (
+                                        <FormHelperText id="coins-error">{formik.errors.coins}</FormHelperText>
+                                    )}
+                                </FormControl>
+                                <FormControl
+                                    fullWidth
+                                    error={formik.touched.diamonds && Boolean(formik.errors.diamonds)}
+                                    style={{ marginBottom: 10 }}
+                                >
+                                    <InputLabel htmlFor="diamonds">Amount of Majestic Diamonds</InputLabel>
+                                    <OutlinedInput
+                                        value={formik.values.diamonds}
+                                        type="number"
+                                        label="Amount of Majestic Diamonds"
+                                        name="diamonds"
+                                        id="diamonds"
+                                        min="0"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                    />
+                                    {formik.touched.diamonds && formik.errors.diamonds && (
+                                        <FormHelperText id="diamonds-error">{formik.errors.diamonds}</FormHelperText>
+                                    )}
+                                </FormControl>
+                                <FormControl
+                                    fullWidth
+                                    error={formik.touched.price && Boolean(formik.errors.price)}
+                                    style={{ marginBottom: 10 }}
+                                >
+                                    <InputLabel htmlFor="price">Price (in $)</InputLabel>
+                                    <OutlinedInput
+                                        value={formik.values.price}
+                                        type="number"
+                                        label="Price (in $)"
+                                        name="price"
+                                        min="0"
+                                        id="price"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                    />
+                                    {formik.touched.price && formik.errors.price && (
+                                        <FormHelperText id="price-error">{formik.errors.price}</FormHelperText>
+                                    )}
+                                </FormControl>
+                                <FormControl
+                                    fullWidth
+                                    error={formik.touched.discount && Boolean(formik.errors.discount)}
+                                    style={{ marginBottom: 10 }}
+                                >
+                                    <InputLabel htmlFor="discount">Discount</InputLabel>
+                                    <Select
+                                        value={formik.values.discount}
+                                        select
+                                        label="Discount"
+                                        name="discount"
+                                        id="discount"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                        helperText={formik.touched.discount && formik.errors.discount}
+                                    >
+                                        <MenuItem value="true">Discount</MenuItem>
+                                        <MenuItem value="false">No Discount</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                {formik.values.discount === 'true' && (
+                                    <FormControl
+                                        fullWidth
+                                        error={formik.touched.percentage && Boolean(formik.errors.percentage)}
+                                        style={{ marginBottom: 10 }}
+                                    >
+                                        <InputLabel htmlFor="discount-percentage">Discount Percentage</InputLabel>
+                                        <OutlinedInput
+                                            value={formik.values.percentage}
+                                            type="number"
+                                            label="Discount Percentage"
+                                            name="percentage"
+                                            id="discount-percentage"
+                                            onChange={formik.handleChange}
+                                            onBlur={formik.handleBlur}
+                                            variant="outlined"
+                                        />
+                                        {formik.touched.percentage && formik.errors.percentage && (
+                                            <FormHelperText id="discount-percentage-error">{formik.errors.percentage}</FormHelperText>
+                                        )}
+                                    </FormControl>
                                 )}
 
                                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>

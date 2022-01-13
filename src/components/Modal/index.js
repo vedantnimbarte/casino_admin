@@ -21,7 +21,7 @@ function ModalComponent({ title, children, open, onClose, isLandscape }) {
                     overflow: 'scroll'
                 }}
             >
-                <Grid xs={6} sm={6} md={6} lg={6}>
+                <Grid xs={6} sm={6} md={6} lg={6} id="modal-card">
                     <MainCard
                         title={title}
                         style={{

@@ -1,5 +1,19 @@
 import { useState } from 'react';
-import { Tooltip, Box, Button, InputLabel, TextField, useTheme, MenuItem, useMediaQuery, Divider } from '@mui/material';
+import {
+    Tooltip,
+    Box,
+    Button,
+    InputLabel,
+    OutlinedInput,
+    FormControl,
+    FormHelperText,
+    useTheme,
+    MenuItem,
+    useMediaQuery,
+    Divider,
+    TextField,
+    Select
+} from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 
 // Components
@@ -78,19 +92,24 @@ function Games() {
                     >
                         {(formik) => (
                             <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                                <TextField
-                                    variant="outlined"
-                                    label="Game Name"
-                                    name="name"
-                                    fullWidth
-                                    value={formik.values.name}
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
+                                <FormControl
                                     error={formik.touched.name && Boolean(formik.errors.name)}
-                                    helperText={formik.touched.name && formik.errors.name}
-                                    required
-                                />
+                                    fullWidth
+                                    style={{ marginTop: 10, marginBottom: 10 }}
+                                >
+                                    <InputLabel htmlFor="name">Game Name</InputLabel>
+                                    <OutlinedInput
+                                        variant="outlined"
+                                        label="Game Name"
+                                        id="name"
+                                        name="name"
+                                        value={formik.values.name}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        required
+                                    />
+                                    {formik.touched.name && formik.errors.name && <FormHelperText>{formik.errors.name}</FormHelperText>}
+                                </FormControl>
                                 <InputLabel>Game Image *</InputLabel>
                                 <TextField
                                     type="file"
@@ -105,52 +124,68 @@ function Games() {
                                     helperText={formik.touched.image && formik.errors.image}
                                     required
                                 />
-                                <TextField
-                                    variant="outlined"
-                                    label="Game URL"
-                                    name="url"
+                                <FormControl
                                     fullWidth
-                                    value={formik.values.url}
                                     style={{ marginTop: 10, marginBottom: 10 }}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     error={formik.touched.url && Boolean(formik.errors.url)}
-                                    helperText={formik.touched.url && formik.errors.url}
-                                    required
-                                />
-
-                                <InputLabel>Select Game Type</InputLabel>
-                                <TextField
-                                    value={formik.values.group}
-                                    select
-                                    name="group"
-                                    // label="Select Game Type"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.group && Boolean(formik.errors.group)}
-                                    helperText={formik.touched.group && formik.errors.group}
-                                    required
-                                    fullWidth
                                 >
-                                    <MenuItem value="">Select game type</MenuItem>
-                                    <MenuItem value="FISH">Fish</MenuItem>
-                                    <MenuItem value="BOARD">Board</MenuItem>
-                                    <MenuItem value="CARD">Card</MenuItem>
-                                </TextField>
-                                <TextField
-                                    variant="outlined"
-                                    label="Description"
-                                    name="description"
+                                    <InputLabel htmlFor="url">Game URL</InputLabel>
+                                    <OutlinedInput
+                                        variant="outlined"
+                                        label="Game URL"
+                                        id="url"
+                                        name="url"
+                                        value={formik.values.url}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        required
+                                    />
+                                    {formik.touched.url && formik.errors.url && (
+                                        <FormHelperText id="url-error">{formik.errors.url}</FormHelperText>
+                                    )}
+                                </FormControl>
+
+                                <FormControl fullWidth error={formik.touched.group && Boolean(formik.errors.group)}>
+                                    <InputLabel htmlFor="group">Select Game Type</InputLabel>
+                                    <Select
+                                        value={formik.values.group}
+                                        id="group"
+                                        name="group"
+                                        label="Select Game Type"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        required
+                                    >
+                                        <MenuItem value="">Select game type</MenuItem>
+                                        <MenuItem value="FISH">Fish</MenuItem>
+                                        <MenuItem value="BOARD">Board</MenuItem>
+                                        <MenuItem value="CARD">Card</MenuItem>
+                                    </Select>
+                                    {formik.touched.group && formik.errors.group && (
+                                        <FormHelperText id="group-error">{formik.errors.group}</FormHelperText>
+                                    )}
+                                </FormControl>
+                                <FormControl
                                     fullWidth
-                                    multiline
-                                    rows={5}
-                                    value={formik.values.description}
                                     style={{ marginTop: 10, marginBottom: 10 }}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     error={formik.touched.description && Boolean(formik.errors.description)}
-                                    helperText={formik.touched.description && formik.errors.description}
-                                />
+                                >
+                                    <InputLabel htmlFor="description">Description</InputLabel>
+                                    <OutlinedInput
+                                        variant="outlined"
+                                        label="Description"
+                                        id="description"
+                                        name="description"
+                                        multiline
+                                        rows={5}
+                                        value={formik.values.description}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                    />
+                                    {formik.touched.description && formik.errors.description && (
+                                        <FormHelperText id="description-error">{formik.errors.description}</FormHelperText>
+                                    )}
+                                </FormControl>
                                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button
                                         type="cancel"

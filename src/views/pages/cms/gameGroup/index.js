@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, TextField, Button, useTheme, useMediaQuery, Divider } from '@mui/material';
+import { Box, Button, useTheme, useMediaQuery, Divider, OutlinedInput, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import gameGroupSchema from 'schema/gameGroup.schema';
@@ -74,35 +74,50 @@ function GameGroup() {
             <Modal title="Add New Game Type" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                        <TextField
-                            value={formik.values.name}
-                            type="text"
-                            name="name"
-                            label="Game Type Name"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            variant="outlined"
+                        <FormControl
                             fullWidth
                             style={{ marginTop: 10, marginBottom: 10 }}
                             error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
-                            required
-                        />
-                        <TextField
-                            value={formik.values.description}
-                            multiline
-                            rows={10}
-                            type="text"
-                            name="description"
-                            label="Description"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            variant="outlined"
+                        >
+                            <InputLabel htmlFor="name">Game Type Name</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.name}
+                                type="text"
+                                id="name"
+                                name="name"
+                                label="Game Type Name"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                helperText={formik.touched.name && formik.errors.name}
+                                required
+                            />
+                            {formik.touched.name && formik.errors.name && (
+                                <FormHelperText id="name-error">{formik.errors.name}</FormHelperText>
+                            )}
+                        </FormControl>
+                        <FormControl
                             fullWidth
                             style={{ marginTop: 10, marginBottom: 10 }}
                             error={formik.touched.description && Boolean(formik.errors.description)}
-                            helperText={formik.touched.description && formik.errors.description}
-                        />
+                        >
+                            <InputLabel htmlFor="description">Description</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.description}
+                                multiline
+                                rows={10}
+                                type="text"
+                                id="description"
+                                name="description"
+                                label="Description"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                            />
+                            {formik.touched.description && formik.errors.description && (
+                                <FormHelperText id="description-error">{formik.errors.description}</FormHelperText>
+                            )}
+                        </FormControl>
                         <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                             <Button
                                 type="reset"

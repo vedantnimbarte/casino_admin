@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tooltip, Box, Button, useTheme, useMediaQuery, Divider, LinearProgress, Typography, IconButton } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
+import moment from 'moment';
 
 // Redux + Thunk functions
 import { useSelector, useDispatch } from 'react-redux';
 import { getAgentType } from 'store/thunk/configuration/agentType.thunk';
+import { setDataIndex } from 'store/reducers/configuration/agentType.reducer';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -67,7 +69,7 @@ function Roles() {
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: (value) => <Typography>{value.split(',')[0]}</Typography>
+                customBodyRender: (value) => <Typography>{value?.split(',')[0]}</Typography>
             }
         },
         {
@@ -80,6 +82,15 @@ function Roles() {
             }
         },
         {
+            name: 'UPDATE_DATE',
+            label: 'LAST UPDATED',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{moment(value).format('DD/MM/YYYY HH:MM A')}</Typography>
+            }
+        },
+        {
             name: 'action',
             label: 'Actions',
             options: {
@@ -88,7 +99,13 @@ function Roles() {
                 customBodyRenderLite: (dataIndex) => (
                     <>
                         <Tooltip title="Update">
-                            <IconButton color="primary" onClick={() => handleUpdateModal(dataIndex)}>
+                            <IconButton
+                                color="primary"
+                                onClick={() => {
+                                    dispatch(setDataIndex(dataIndex));
+                                    handleUpdateModal(dataIndex);
+                                }}
+                            >
                                 <UpdateIcon />
                             </IconButton>
                         </Tooltip>
@@ -176,6 +193,7 @@ function Roles() {
                         )}
                     </Box>
                 </MainCard>
+                {console.log(agentType)}
 
                 {agentType.status === 'failed' && <AlertComponent status="false" message={agentType.msg} />}
                 {agentType.status === 'success' && <AlertComponent status="true" message={agentType.msg} />}

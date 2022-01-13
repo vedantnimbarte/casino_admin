@@ -48,7 +48,13 @@ function LoyaltyPoints() {
                 title={!isMobileDevice && 'Loyalty Points'}
                 secondary={
                     <Tooltip title="Add New Loyalty Level">
-                        <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                        <Button
+                            startIcon={<AddIcon />}
+                            onClick={() => setOpenModal(!openModal)}
+                            variant="contained"
+                            color="secondary"
+                            id="add-new-loyalty-level"
+                        >
                             Add Loyalty Level
                         </Button>
                     </Tooltip>

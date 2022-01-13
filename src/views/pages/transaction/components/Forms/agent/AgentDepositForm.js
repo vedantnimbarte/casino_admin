@@ -1,4 +1,16 @@
-import { Box, TextField, Button, useTheme, useMediaQuery, MenuItem } from '@mui/material';
+import {
+    Box,
+    TextField,
+    Button,
+    useTheme,
+    useMediaQuery,
+    MenuItem,
+    FormControl,
+    InputLabel,
+    FormHelperText,
+    Select,
+    OutlinedInput
+} from '@mui/material';
 import { IconChecks as ConfirmIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
 
@@ -8,74 +20,99 @@ function AgentDeposit({ formik, openModal, setOpenModal }) {
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit}>
-                <TextField
-                    value={formik.values.username}
-                    type="text"
-                    name="username-playerid"
-                    label="Username or Agent Id"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.username_playerId && Boolean(formik.errors.username_playerId)}
-                    helperText={formik.touched.username_playerId && formik.errors.username_playerId}
-                    required
-                />
-
-                <TextField
-                    value={formik.values.email}
-                    type="text"
-                    name="email"
-                    label="Email"
-                    variant="outlined"
-                    fullWidth
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    required
-                />
-                <TextField
-                    value={formik.values.phone}
-                    type="text"
-                    name="phone_no"
-                    label="Phone No"
-                    variant="outlined"
-                    fullWidth
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    required
-                />
-                <TextField
-                    value={formik.values.phone}
-                    select
-                    name="coin_pack"
-                    label="Coin Pack"
-                    variant="outlined"
-                    fullWidth
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    required
                 >
-                    <MenuItem>Pack1</MenuItem>
-                    <MenuItem>Pack2</MenuItem>
-                    <MenuItem>Pack3</MenuItem>
-                </TextField>
+                    <InputLabel htmlFor="username-agentid">Username or Agent Id</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.username}
+                        type="text"
+                        id="username-agentid"
+                        name="username-agentid"
+                        label="Username or Agent Id"
+                        onChange={formik.handleChange}
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.username_playerId && formik.errors.username_playerId && (
+                        <FormHelperText id="username-error">{formik.errors.username_playerId}</FormHelperText>
+                    )}
+                </FormControl>
 
-                <TextField
-                    value={formik.values.password}
-                    type="password"
-                    name="password"
-                    label="Enter Your Password"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                <FormControl
+                    fullWidth
+                    style={{ marginTop: 10, marginBottom: 10 }}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                >
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.email}
+                        type="text"
+                        id="email"
+                        name="email"
+                        label="Email"
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.email && formik.errors.email && <FormHelperText id="email-error">{formik.errors.email}</FormHelperText>}
+                </FormControl>
+                <FormControl
+                    fullWidth
+                    style={{ marginTop: 10, marginBottom: 10 }}
+                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                >
+                    <InputLabel htmlFor="phone_no">Phone No</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.phone}
+                        type="text"
+                        id="phone_no"
+                        name="phone_no"
+                        label="Phone No"
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.phone && formik.errors.phone && (
+                        <FormHelperText id="phone_no-error">{formik.errors.phone}</FormHelperText>
+                    )}
+                </FormControl>
+                <FormControl
+                    fullWidth
+                    style={{ marginTop: 10, marginBottom: 10 }}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                >
+                    <InputLabel htmlFor="coin_pack">Coin Pack</InputLabel>
+                    <Select value={formik.values.coinPack} id="coin_pack" name="coin_pack" label="Coin Pack" variant="outlined" required>
+                        <MenuItem>Pack1</MenuItem>
+                        <MenuItem>Pack2</MenuItem>
+                        <MenuItem>Pack3</MenuItem>
+                    </Select>
+                    {formik.touched.coinPack && formik.errors.coinPack && (
+                        <FormHelperText id="coin_pack-error">{formik.errors.coinPack}</FormHelperText>
+                    )}
+                </FormControl>
+
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
-                    required
-                />
+                >
+                    <InputLabel htmlFor="password">Enter Your Password</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.password}
+                        type="password"
+                        id="password"
+                        name="password"
+                        label="Enter Your Password"
+                        onChange={formik.handleChange}
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                        <FormHelperText id="password-error">{formik.errors.password}</FormHelperText>
+                    )}
+                </FormControl>
 
                 <Box style={{ display: 'flex', justifyContent: 'right' }}>
                     <Button

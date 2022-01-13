@@ -1,4 +1,4 @@
-import { Box, TextField, Button, useTheme, useMediaQuery } from '@mui/material';
+import { Box, FormControl, OutlinedInput, InputLabel, Button, useTheme, useMediaQuery, FormHelperText } from '@mui/material';
 import { IconChecks as ConfirmIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
 
@@ -8,68 +8,108 @@ function PlayerDeposit({ formik, openModal, setOpenModal }) {
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit}>
-                <TextField
-                    value={formik.values.username}
-                    type="text"
-                    name="username-playerid"
-                    label="Username or Player Id"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.username_playerId && Boolean(formik.errors.username_playerId)}
-                    helperText={formik.touched.username_playerId && formik.errors.username_playerId}
-                    required
-                />
+                >
+                    <InputLabel htmlFor="username-agentid">Username or Player Id</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.username}
+                        type="text"
+                        id="username-agentid"
+                        name="username-agentid"
+                        label="Username or Agent Id"
+                        onChange={formik.handleChange}
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.username_playerId && formik.errors.username_playerId && (
+                        <FormHelperText id="username-error">{formik.errors.username_playerId}</FormHelperText>
+                    )}
+                </FormControl>
 
-                <TextField
-                    value={formik.values.email}
-                    type="text"
-                    name="email"
-                    label="Email"
-                    variant="outlined"
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
-                    required
-                />
-                <TextField
-                    value={formik.values.phone}
-                    type="text"
-                    name="phone_no"
-                    label="Phone No"
-                    variant="outlined"
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                >
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.email}
+                        type="text"
+                        id="email"
+                        name="email"
+                        label="Email"
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.email && formik.errors.email && <FormHelperText id="email-error">{formik.errors.email}</FormHelperText>}
+                </FormControl>
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
-                    required
-                />
-                <TextField
-                    value={formik.values.points}
-                    type="number"
-                    name="points"
-                    label="Points to Deposit"
-                    variant="outlined"
+                    error={formik.touched.phone && Boolean(formik.errors.phone)}
+                >
+                    <InputLabel htmlFor="phone_no">Phone No</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.phone}
+                        type="text"
+                        id="phone_no"
+                        name="phone_no"
+                        label="Phone No"
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.phone && formik.errors.phone && (
+                        <FormHelperText id="phone_no-error">{formik.errors.phone}</FormHelperText>
+                    )}
+                </FormControl>
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
-                    required
-                />
+                    error={formik.touched.depositPoints && Boolean(formik.errors.depositPoints)}
+                >
+                    <InputLabel htmlFor="points_deposit">Enter points to deposit</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.depositPoints}
+                        type="number"
+                        id="points_deposit"
+                        name="points_deposit"
+                        label="Enter points to deposit"
+                        variant="outlined"
+                        required
+                    />
 
-                <TextField
-                    value={formik.values.password}
-                    type="password"
-                    name="password"
-                    label="Enter Your Password"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                    {formik.touched.depositPoints && formik.errors.depositPoints && (
+                        <FormHelperText id="coin_pack-error">{formik.errors.depositPoints}</FormHelperText>
+                    )}
+                </FormControl>
+
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
-                    required
-                />
+                >
+                    <InputLabel htmlFor="password">Enter Your Password</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.password}
+                        type="password"
+                        id="password"
+                        name="password"
+                        label="Enter Your Password"
+                        onChange={formik.handleChange}
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.password && formik.errors.password && (
+                        <FormHelperText id="password-error">{formik.errors.password}</FormHelperText>
+                    )}
+                </FormControl>
 
                 <Box style={{ display: 'flex', justifyContent: 'right' }}>
                     <Button
-                        // type="reset"
+                        type="reset"
                         onClick={() => setOpenModal(!openModal)}
                         variant="contained"
                         color={theme.palette.secondary.light[800]}

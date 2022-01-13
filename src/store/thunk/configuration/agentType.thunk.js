@@ -8,12 +8,12 @@ export const createAgentType = createAsyncThunk('agent_type/createAgentType', as
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ ROLE_NAME: name, ROLE_PARENT_ID: parentRole })
+        body: JSON.stringify({ ROLE_NAME: name, ROLE_PARENT_ID: parentRole, DESCRIPTION: description })
     };
     return fetch(`${API_URL}${InternalAPI.AGENT}`, requestOptions).then((res) => res.json());
 });
 
-// GET AGENT TYPE LIST THUNK
+// GET AGENT TYPES THUNK
 export const getAgentType = createAsyncThunk('agent_type/getAgentType', async ({ pageno, limit }) => {
     const requestOptions = {
         method: 'POST',
@@ -23,6 +23,17 @@ export const getAgentType = createAsyncThunk('agent_type/getAgentType', async ({
         body: JSON.stringify({ pageNumber: pageno, pageLimit: limit })
     };
     return fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.LIST}`, requestOptions).then((res) => res.json());
+});
+
+// GET AGENT TYPES LIST THUNK
+export const getAgentTypesList = createAsyncThunk('agent_type/getAgentTypesList', async () => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return fetch(`${API_URL}${InternalAPI.AGENT}`, requestOptions).then((res) => res.json());
 });
 
 // UPDATE AGENT TYPE THUNK

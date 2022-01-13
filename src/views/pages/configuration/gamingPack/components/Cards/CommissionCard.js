@@ -77,6 +77,7 @@ const EarningCard = ({ isLoading, isOffer, handleEdit }) => {
                                             fontSize: '3rem',
                                             fontWeight: 500
                                         }}
+                                        id="game-pack-title"
                                     >
                                         Pack 1
                                     </Typography>

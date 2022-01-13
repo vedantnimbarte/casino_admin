@@ -1,5 +1,17 @@
 import { useState } from 'react';
-import { Box, Button, TextField, FormControl, useTheme, useMediaQuery, Divider } from '@mui/material';
+import {
+    Box,
+    Button,
+    TextField,
+    FormControl,
+    useTheme,
+    useMediaQuery,
+    Divider,
+    FormHelperText,
+    InputLabel,
+    Select,
+    OutlinedInput
+} from '@mui/material';
 import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { Formik, Form } from 'formik';
 
@@ -75,21 +87,31 @@ function FAQ() {
                     >
                         {(formik) => (
                             <Form noValidate onSubmit={formik.handleSubmit}>
-                                <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                    <TextField
+                                <FormControl
+                                    fullWidth
+                                    style={{ margin: '10px 0' }}
+                                    error={formik.touched.question && Boolean(formik.errors.question)}
+                                >
+                                    <InputLabel htmlFor="question">Question</InputLabel>
+                                    <OutlinedInput
                                         value={formik.values.question}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
                                         variant="outlined"
                                         label="Question"
-                                        name="question"
-                                        fullWidth
-                                        error={formik.touched.question && Boolean(formik.errors.question)}
-                                        helperText={formik.touched.question && formik.errors.question}
+                                        id="question"
                                     />
+                                    {formik.touched.question && formik.errors.question && (
+                                        <FormHelperText id="question-error">{formik.errors.question}</FormHelperText>
+                                    )}
                                 </FormControl>
-                                <FormControl fullWidth style={{ margin: '10px 0' }}>
-                                    <TextField
+                                <FormControl
+                                    fullWidth
+                                    style={{ margin: '10px 0' }}
+                                    error={formik.touched.answer && Boolean(formik.errors.answer)}
+                                >
+                                    <InputLabel htmlFor="answer">Answer</InputLabel>
+                                    <OutlinedInput
                                         value={formik.values.answer}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
@@ -97,11 +119,12 @@ function FAQ() {
                                         rows={4}
                                         variant="outlined"
                                         label="Answer"
+                                        id="answer"
                                         name="answer"
-                                        fullWidth
-                                        error={formik.touched.answer && Boolean(formik.errors.answer)}
-                                        helperText={formik.touched.answer && formik.errors.answer}
                                     />
+                                    {formik.touched.answer && formik.errors.answer && (
+                                        <FormHelperText id="answer-error">{formik.errors.answer}</FormHelperText>
+                                    )}
                                 </FormControl>
                                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                                     <Button

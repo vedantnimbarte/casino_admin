@@ -1,92 +1,97 @@
-import { Box, Button, TextField, MenuItem } from '@mui/material';
+import { Box, Button, Select, MenuItem, OutlinedInput, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
-import { updateAgentType, getAgentType } from 'store/thunk/configuration/agentType.thunk';
+import { useEffect, useMemo } from 'react';
+import { updateAgentType, getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
 
-function UpdateAgentType({
-    agentType,
-    dispatch,
-    isMobileDevice,
-    openModal,
-    setOpenModal,
-    theme,
-    agentTypeIndex,
-    roleSchema,
-    pageNo,
-    pageLmit
-}) {
+function UpdateAgentType({ agentType, dispatch, isMobileDevice, openModal, setOpenModal, theme, agentTypeIndex, roleSchema }) {
     const formik = useFormik({
         initialValues: {
             name: agentType.data[agentTypeIndex].ROLE_NAME || '',
             description: agentType.data[agentTypeIndex].DESCRIPTION || '',
-            parentRole: agentType.data[agentTypeIndex].MASTER_ROLE_ID || '',
+            parentRole: agentType.data[agentTypeIndex].ROLE_PARENT_ID || '',
             id: agentType.data[agentTypeIndex].ROLE_ID
         },
         validationSchema: roleSchema,
         onSubmit: (values) => {
             dispatch(updateAgentType(values));
-            dispatch(getAgentType({ pageno: pageNo, limit: pageLmit }));
             setOpenModal(!openModal);
         }
     });
+
+    useEffect(() => {
+        dispatch(getAgentTypesList());
+    }, []);
+
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                <TextField
-                    value={formik.values.name}
-                    type="text"
-                    label="Agent Type Name"
-                    name="name"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    variant="outlined"
-                    style={{ marginBottom: 10 }}
-                    fullWidth
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                />
-                {agentType.data.length > 0 && (
-                    <TextField
-                        value={formik.values.parentRole}
-                        select
+                <FormControl style={{ marginBottom: 10 }} fullWidth error={formik.touched.name && Boolean(formik.errors.name)}>
+                    <InputLabel htmlFor="agent-name">Agent Type Name</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.name}
+                        type="text"
+                        label="Agent Type Name"
+                        name="name"
+                        id="agent-name"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        label="Select Master Agent Type"
-                        name="parentRole"
+                        variant="outlined"
+                    />
+                    {formik.touched.name && formik.errors.name && <FormHelperText>{formik.errors.name}</FormHelperText>}
+                </FormControl>
+                {agentType.agentTypesList.length > 0 && (
+                    <FormControl
                         fullWidth
                         style={{ marginBottom: 10 }}
                         error={formik.touched.parentRole && Boolean(formik.errors.parentRole)}
-                        helperText={formik.touched.parentRole && formik.errors.parentRole}
                     >
-                        <MenuItem value={agentType.data[agentTypeIndex].MASTER_ROLE_ID}>
-                            {agentType.data[agentTypeIndex].MASTER_ROLE_NAME}
-                        </MenuItem>
-                        {agentType.data?.map((parentAgentType) => (
-                            <MenuItem
-                                value={parentAgentType.ROLE_ID.toString().concat(',', parentAgentType.MASTER_ROLE_ID)}
-                                onChange={formik.handleChange}
-                            >
-                                {parentAgentType.ROLE_NAME}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+                        <InputLabel htmlFor="agent-parent-role">Select Master Agent Type</InputLabel>
+                        <Select
+                            value={formik.values.parentRole}
+                            onChange={formik.handleChange}
+                            label="Select Master Agent Type"
+                            name="parentRole"
+                            id="agent-parent-role"
+                            onBlur={formik.handleBlur}
+                        >
+                            {agentType.agentTypesList?.map((parentAgentType) => (
+                                <MenuItem
+                                    value={parentAgentType.ROLE_ID.toString().concat(',', parentAgentType.ROLE_PARENT_ID)}
+                                    onChange={formik.handleChange}
+                                >
+                                    {parentAgentType.ROLE_NAME}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        {formik.touched.parentRole && formik.errors.parentRole && (
+                            <FormHelperText id="parent-role-error">{formik.errors.parentRole}</FormHelperText>
+                        )}
+                    </FormControl>
                 )}
 
-                <TextField
-                    value={formik.values.description}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    type="text"
-                    multiline
-                    rows={4}
-                    name="description"
-                    variant="outlined"
-                    label="Agent Type Description"
+                <FormControl
                     style={{ marginBottom: 10 }}
                     fullWidth
                     error={formik.touched.description && Boolean(formik.errors.description)}
-                    helperText={formik.touched.description && formik.errors.description}
-                />
+                >
+                    <InputLabel htmlFor="description">Agent Type Description</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.description}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        type="text"
+                        multiline
+                        rows={4}
+                        id="description"
+                        name="description"
+                        variant="outlined"
+                        label="Agent Type Description"
+                    />
+                    {formik.touched.description && formik.errors.description && (
+                        <FormHelperText id="description-error">{formik.errors.description}</FormHelperText>
+                    )}
+                </FormControl>
                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                     <Button
                         type="reset"

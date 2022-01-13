@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createAgentType, deleteAgentType, getAgentType, updateAgentType } from 'store/thunk/configuration/agentType.thunk';
+import {
+    createAgentType,
+    deleteAgentType,
+    getAgentType,
+    getAgentTypesList,
+    updateAgentType
+} from 'store/thunk/configuration/agentType.thunk';
 
 const AgentTypeSlice = createSlice({
     name: 'agent_type',
@@ -7,9 +13,36 @@ const AgentTypeSlice = createSlice({
         status: null,
         msg: '',
         totalRecords: 0,
-        data: []
+        data: [],
+        dataIndex: '',
+        agentTypesList: []
+    },
+    reducers: {
+        setDataIndex: (state, { payload }) => {
+            state.dataIndex = payload;
+        }
     },
     extraReducers: {
+        // Get Agent Type List Reducers
+        [getAgentTypesList.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getAgentTypesList.fulfilled]: (state, { payload }) => {
+            if (payload.status === true) {
+                state.msg = payload.msg;
+                state.agentTypesList = payload.data;
+                state.status = 'success';
+            }
+            if (payload.status === false) {
+                state.msg = payload.msg || 'Network Error';
+                state.status = 'failed';
+            }
+        },
+        [getAgentTypesList.rejected]: (state) => {
+            state.status = 'failed';
+            state.msg = 'Something went wrong. Please try again.';
+        },
+
         // Get Agent Type Reducers
         [getAgentType.pending]: (state) => {
             state.status = 'loading';
@@ -38,6 +71,10 @@ const AgentTypeSlice = createSlice({
         [createAgentType.fulfilled]: (state, { payload }) => {
             if (payload.status === true) {
                 state.msg = payload.msg;
+                state.data.unshift(payload.data);
+                if (state.data.length >= 10) {
+                    state.data.pop();
+                }
                 state.status = 'success';
             }
             if (payload.status === false) {
@@ -56,11 +93,15 @@ const AgentTypeSlice = createSlice({
         },
         [updateAgentType.fulfilled]: (state, { payload }) => {
             if (payload.status === true) {
-                state.msg = payload.msg || 'Network Error';
+                state.msg = payload.msg;
+                state.data[parseInt(state.dataIndex)] = payload.data;
+                if (state.data.length >= 10) {
+                    state.data.pop();
+                }
                 state.status = 'success';
             }
             if (payload.status === false) {
-                state.msg = payload.msg || 'Network not available';
+                state.msg = payload.msg;
                 state.status = 'failed';
             }
         },
@@ -89,5 +130,7 @@ const AgentTypeSlice = createSlice({
         }
     }
 });
+
+export const { setDataIndex } = AgentTypeSlice.actions;
 
 export default AgentTypeSlice.reducer;

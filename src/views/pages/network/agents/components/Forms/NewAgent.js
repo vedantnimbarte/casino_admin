@@ -14,7 +14,8 @@ import {
     Checkbox,
     ListItemText,
     Typography,
-    useMediaQuery
+    useMediaQuery,
+    FormHelperText
 } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import propTypes from 'prop-types';
@@ -61,130 +62,173 @@ function NewPlayerForm({ formik, onClose, openModal }) {
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                <TextField
-                    value={formik.values.name}
-                    type="text"
-                    name="name"
-                    label="Name"
-                    size="small"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
-                    required
-                />
-                <TextField
-                    value={formik.values.username}
-                    type="text"
-                    name="username"
-                    size="small"
-                    label="Username"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                >
+                    <InputLabel htmlFor="name">Name</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.name}
+                        type="text"
+                        id="name"
+                        name="name"
+                        label="name"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        required
+                    />
+                    {formik.touched.name && formik.errors.name && <FormHelperText>{formik.errors.name}</FormHelperText>}
+                </FormControl>
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.username && Boolean(formik.errors.username)}
-                    helperText={formik.touched.username && formik.errors.username}
-                    required
-                />
-                <TextField
-                    value={formik.values.email}
-                    type="text"
-                    name="email"
-                    label="Email"
-                    size="small"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                >
+                    <InputLabel htmlFor="username">Username</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.username}
+                        type="text"
+                        id="username"
+                        name="username"
+                        label="Username"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.username && formik.errors.username && <FormHelperText>{formik.errors.username}</FormHelperText>}
+                </FormControl>
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                    required
-                />
+                >
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.email}
+                        type="text"
+                        id="email"
+                        name="email"
+                        label="Email"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.email && formik.errors.email && <FormHelperText>{formik.errors.email}</FormHelperText>}
+                </FormControl>
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField
-                            value={formik.values.password}
-                            type="password"
-                            name="password"
-                            label="Password"
-                            size="small"
-                            onChange={formik.handleChange}
-                            variant="outlined"
+                        <FormControl
+                            fullWidth
                             style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
                             error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                            required
-                        />
+                        >
+                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.password}
+                                type="password"
+                                id="password"
+                                name="password"
+                                label="Password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                required
+                            />
+                            {formik.touched.password && formik.errors.password && <FormHelperText>{formik.errors.password}</FormHelperText>}
+                        </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
-                        <TextField
-                            value={formik.values.confirm_password}
-                            type="password"
-                            name="confirm_password"
-                            label="Confirm Password"
-                            onChange={formik.handleChange}
-                            variant="outlined"
-                            size="small"
+                        <FormControl
+                            fullWidth
                             style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
                             error={formik.touched.confirm_password && Boolean(formik.errors.confirm_password)}
-                            helperText={formik.touched.confirm_password && formik.errors.confirm_password}
-                            required
-                        />
+                        >
+                            <InputLabel htmlFor="confirm_password">Confirm Password</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.confirm_password}
+                                type="password"
+                                id="confirm_password"
+                                name="confirm_password"
+                                label="Confirm Password"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                required
+                            />
+                            {formik.touched.confirm_password && formik.errors.confirm_password && (
+                                <FormHelperText>{formik.errors.confirm_password}</FormHelperText>
+                            )}
+                        </FormControl>
                     </Grid>
                 </Grid>
-                <TextField
-                    value={formik.values.phone_no}
-                    type="text"
-                    name="phone_no"
-                    label="Phone No"
-                    size="small"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.phone_no && Boolean(formik.errors.phone_no)}
-                    helperText={formik.touched.phone_no && formik.errors.phone_no}
-                    required
-                />
-                <TextField
-                    value={formik.values.address}
-                    type="text"
-                    name="address"
-                    label="Address"
-                    size="small"
-                    onChange={formik.handleChange}
-                    variant="outlined"
-                    multiline
-                    rows={5}
+                >
+                    <InputLabel htmlFor="phone_no">Phone No</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.phone_no}
+                        type="text"
+                        id="phone_no"
+                        name="phone_no"
+                        label="Phone No"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        variant="outlined"
+                        required
+                    />
+                    {formik.touched.phone_no && formik.errors.phone_no && <FormHelperText>{formik.errors.phone_no}</FormHelperText>}
+                </FormControl>
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.address && Boolean(formik.errors.address)}
-                    helperText={formik.touched.address && formik.errors.address}
-                    required
-                />
-                <TextField
-                    value={formik.values.agent}
-                    select
-                    name="agent"
-                    label="Select Agent Type"
-                    size="small"
-                    onChange={formik.handleChange}
-                    variant="outlined"
+                >
+                    <InputLabel htmlFor="address">Address</InputLabel>
+                    <OutlinedInput
+                        value={formik.values.address}
+                        type="text"
+                        id="address"
+                        name="address"
+                        label="Address"
+                        size="small"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        variant="outlined"
+                        multiline
+                        rows={5}
+                        required
+                    />
+                    {formik.touched.address && formik.errors.address && <FormHelperText>{formik.errors.address}</FormHelperText>}
+                </FormControl>
+                <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.agent_type && Boolean(formik.errors.agent_type)}
-                    helperText={formik.touched.agent_type && formik.errors.agent_type}
-                    required
                 >
-                    <MenuItem value="master_distributor">Master Distributor</MenuItem>
-                    <MenuItem value="distributor">Distributor</MenuItem>
-                    <MenuItem value="sub_distributor">Sub Distributor</MenuItem>
-                    <MenuItem value="store">Store</MenuItem>
-                    <MenuItem value="cashior">Cashior</MenuItem>
-                </TextField>
+                    <InputLabel htmlFor="agent">Select Agent Type</InputLabel>
+                    <Select
+                        value={formik.values.agent}
+                        id="agent"
+                        name="agent"
+                        label="Select Agent Type"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        variant="outlined"
+                        required
+                    >
+                        <MenuItem value="master_distributor">Master Distributor</MenuItem>
+                        <MenuItem value="distributor">Distributor</MenuItem>
+                        <MenuItem value="sub_distributor">Sub Distributor</MenuItem>
+                        <MenuItem value="store">Store</MenuItem>
+                        <MenuItem value="cashior">Cashior</MenuItem>
+                    </Select>
+                    {formik.touched.agent_type && formik.errors.agent_type && <FormHelperText>{formik.errors.agent_type}</FormHelperText>}
+                </FormControl>
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
@@ -193,11 +237,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 labelId="demo-multiple-chip-label"
                                 id="demo-multiple-chip"
                                 multiple
-                                size="small"
                                 fullWidth
                                 value={gameType}
                                 style={{ width: '99%' }}
                                 onChange={handleGameTypeChange}
+                                onBlur={formik.handleBlur}
                                 error={formik.touched.game_type_permissions && Boolean(formik.errors.game_type_permissions)}
                                 helperText={formik.touched.game_type_permissions && formik.errors.game_type_permissions}
                                 input={<OutlinedInput id="select-multiple-chip" label="Select Game Type Permissions" />}
@@ -218,9 +262,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 ))}
                             </Select>
                             {formik.touched.game_type_permissions && Boolean(formik.errors.game_type_permissions) && (
-                                <Typography sx={{ fontSize: 12, ml: 2, mt: 1 }} color="error">
-                                    {formik.errors.game_type_permissions}
-                                </Typography>
+                                <FormHelperText>{formik.errors.game_type_permissions}</FormHelperText>
                             )}
                         </FormControl>
                     </Grid>
@@ -231,11 +273,11 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 labelId="demo-multiple-chip-label"
                                 id="demo-multiple-chip"
                                 multiple
-                                size="small"
                                 fullWidth
                                 style={{ width: '99%' }}
                                 value={permissions}
                                 onChange={handlePermissionsChange}
+                                onBlur={formik.handleBlur}
                                 error={formik.touched.permissions && Boolean(formik.errors.permissions)}
                                 helperText={formik.touched.permissions && formik.errors.permissions}
                                 input={<OutlinedInput id="select-multiple-chip" label="Select Permissions" />}
@@ -256,9 +298,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                                 ))}
                             </Select>
                             {formik.touched.permissions && Boolean(formik.errors.permissions) && (
-                                <Typography sx={{ fontSize: 12, ml: 2, mt: 1 }} color="error">
-                                    {formik.errors.permissions}
-                                </Typography>
+                                <FormHelperText>{formik.errors.permissions}</FormHelperText>
                             )}
                         </FormControl>
                     </Grid>
@@ -304,6 +344,7 @@ function NewPlayerForm({ formik, onClose, openModal }) {
                             paddingRight: 20
                         }}
                         startIcon={!isMobileDevice && <SaveIcon />}
+                        disabled={!(formik.isValid && formik.dirty)}
                     >
                         Submit
                     </Button>

@@ -92,8 +92,8 @@ function Transaction() {
                     textColor="secondary"
                     indicatorColor="secondary"
                 >
-                    <Tab label="Player Transaction" />
-                    <Tab label="Agent Transaction" />
+                    <Tab label="Player Transaction" id="playerTxnTab" />
+                    <Tab label="Agent Transaction" id="agentTxnTab" />
                 </Tabs>
 
                 <TabPanel value={value} index={0}>

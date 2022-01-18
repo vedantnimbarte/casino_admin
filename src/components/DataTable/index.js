@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 function DataTable({ title, data, columns, options }) {
     return (
         <Box>
-            <MUIDataTable title={title} data={data} columns={columns} options={options} />
+            <MUIDataTable title={title} data={data} columns={columns} options={options} id="datatable" />
         </Box>
     );
 }

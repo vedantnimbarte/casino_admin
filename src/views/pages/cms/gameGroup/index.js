@@ -74,11 +74,7 @@ function GameGroup() {
             <Modal title="Add New Game Type" open={openModal} onClose={() => setOpenModal(!openModal)}>
                 <Box style={{ display: 'flex', flexDirection: 'column' }}>
                     <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                        <FormControl
-                            fullWidth
-                            style={{ marginTop: 10, marginBottom: 10 }}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                        >
+                        <FormControl fullWidth style={{ marginTop: 10 }} error={formik.touched.name && Boolean(formik.errors.name)}>
                             <InputLabel htmlFor="name">Game Type Name</InputLabel>
                             <OutlinedInput
                                 value={formik.values.name}
@@ -98,7 +94,7 @@ function GameGroup() {
                         </FormControl>
                         <FormControl
                             fullWidth
-                            style={{ marginTop: 10, marginBottom: 10 }}
+                            style={{ marginTop: 15, marginBottom: 10 }}
                             error={formik.touched.description && Boolean(formik.errors.description)}
                         >
                             <InputLabel htmlFor="description">Description</InputLabel>

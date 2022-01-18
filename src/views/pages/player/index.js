@@ -56,7 +56,13 @@ function Players() {
                 <MainCard
                     title={!isMobileDevice && 'Players List'}
                     secondary={
-                        <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                        <Button
+                            id="add-player-btn"
+                            startIcon={<AddIcon />}
+                            onClick={() => setOpenModal(!openModal)}
+                            variant="contained"
+                            color="secondary"
+                        >
                             Add Player
                         </Button>
                     }

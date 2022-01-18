@@ -1,7 +1,7 @@
 import { Box, Button, Select, MenuItem, OutlinedInput, FormControl, InputLabel, FormHelperText } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { updateAgentType, getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
 
 function UpdateAgentType({ agentType, dispatch, isMobileDevice, openModal, setOpenModal, theme, agentTypeIndex, roleSchema }) {
@@ -55,14 +55,30 @@ function UpdateAgentType({ agentType, dispatch, isMobileDevice, openModal, setOp
                             id="agent-parent-role"
                             onBlur={formik.handleBlur}
                         >
-                            {agentType.agentTypesList?.map((parentAgentType) => (
-                                <MenuItem
-                                    value={parentAgentType.ROLE_ID.toString().concat(',', parentAgentType.ROLE_PARENT_ID)}
-                                    onChange={formik.handleChange}
-                                >
-                                    {parentAgentType.ROLE_NAME}
-                                </MenuItem>
-                            ))}
+                            {agentType.agentTypesList?.map(
+                                (parentAgentType, index) =>
+                                    agentType.data[agentTypeIndex].ROLE_ID !== parentAgentType.ROLE_ID && (
+                                        <MenuItem
+                                            value={
+                                                parentAgentType.ROLE_PARENT_ID == null
+                                                    ? parentAgentType.ROLE_ID
+                                                    : parentAgentType.ROLE_ID.toString().concat(',', parentAgentType.ROLE_PARENT_ID)
+                                            }
+                                            onChange={formik.handleChange}
+                                            key={index}
+                                        >
+                                            {parentAgentType.ROLE_NAME}
+                                            {/* {console.log(
+                                                parentAgentType.ROLE_ID.toString().split(',').length > 1
+                                                    ? parentAgentType.ROLE_ID.toString().concat(
+                                                          ',',
+                                                          parentAgentType.ROLE_PARENT_ID !== null ? parentAgentType.ROLE_PARENT_ID : ''
+                                                      )
+                                                    : parentAgentType.ROLE_ID
+                                            )} */}
+                                        </MenuItem>
+                                    )
+                            )}
                         </Select>
                         {formik.touched.parentRole && formik.errors.parentRole && (
                             <FormHelperText id="parent-role-error">{formik.errors.parentRole}</FormHelperText>

@@ -3,7 +3,7 @@ import { Modal, IconButton, useMediaQuery, useTheme, Grid, Typography } from '@m
 import MainCard from '../../ui-component/cards/MainCard';
 import { IconX as CloseIcon } from '@tabler/icons';
 import FullScreenDialog from 'components/FullScreenDialog';
-import { BrowserView, MobileView, TabletView, isIOS, isTablet, withOrientationChange } from 'react-device-detect';
+import { BrowserView, MobileView, isIOS, isTablet, withOrientationChange } from 'react-device-detect';
 
 function ModalComponent({ title, children, open, onClose, isLandscape }) {
     const theme = useTheme();

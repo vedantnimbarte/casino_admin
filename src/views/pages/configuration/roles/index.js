@@ -155,7 +155,7 @@ function Roles() {
         <>
             <Box>
                 {agentType.status === 'loading' ? (
-                    <LinearProgress fullWidth style={{ marginBottom: 5 }} />
+                    <LinearProgress fullWidth style={{ marginBottom: 5 }} color="secondary" />
                 ) : (
                     <Box style={{ marginBottom: 10 }} />
                 )}

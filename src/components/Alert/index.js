@@ -1,4 +1,4 @@
-import { Box, Alert, Slide, Snackbar } from '@mui/material';
+import { Box, Alert, Snackbar } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 function AlertComponent({ status, message }) {

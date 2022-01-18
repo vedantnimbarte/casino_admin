@@ -1,23 +1,8 @@
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import {
-    Box,
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Stack,
-    Typography
-} from '@mui/material';
+import { Box, Button, FormControl, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 // third party
@@ -28,10 +13,6 @@ import { Formik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
-// assets
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
@@ -39,16 +20,6 @@ const FirebaseLogin = ({ ...others }) => {
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
     const scriptedRef = useScriptRef();
-    const [checked, setChecked] = useState(true);
-
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
 
     return (
         <>

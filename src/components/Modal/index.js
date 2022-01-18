@@ -8,8 +8,6 @@ function ModalComponent({ title, children, open, onClose, isLandscape }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
-    console.log(isLandscape);
-
     return (
         <>
             <Modal

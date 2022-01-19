@@ -193,7 +193,6 @@ function Roles() {
                         )}
                     </Box>
                 </MainCard>
-                {console.log(agentType)}
 
                 {agentType.status === 'failed' && <AlertComponent status="false" message={agentType.msg} />}
                 {agentType.status === 'success' && <AlertComponent status="true" message={agentType.msg} />}

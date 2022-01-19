@@ -8,6 +8,7 @@ class InternalAPI {
     static GAMEGROUP = '/gametype';
     static FAQ = '/faq';
     static GAMEPACK = '/gamepack';
+    static SETTINGS = '/setting';
 }
 
 class SubRoutes {

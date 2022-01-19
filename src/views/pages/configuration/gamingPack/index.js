@@ -1,28 +1,22 @@
 import { useState } from 'react';
-import {
-    Box,
-    Button,
-    Grid,
-    useTheme,
-    useMediaQuery,
-    MenuItem,
-    OutlinedInput,
-    FormControl,
-    FormHelperText,
-    InputLabel,
-    Select
-} from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
-import { Formik, Form } from 'formik';
+import { Box, Button, Grid, useTheme, useMediaQuery } from '@mui/material';
+import { IconCirclePlus as AddIcon } from '@tabler/icons';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import Modal from 'components/ResponsiveModal';
 import CommissionCard from './components/Cards/CommissionCard';
-import gamingPackSchema from 'schema/gamingPack.schema';
+import CreateGamePack from './components/Forms/CreateGamePack';
+import UpdateGamePack from './components/Forms/UpdateGamePack';
+import NotFoundCard from 'components/NotFoundCard';
 
 function GamingPack() {
-    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+    const gamePack = useSelector((state) => state.gamePack);
+    const [openModal, setOpenModal] = useState(false);
+    const [updateModal, setUpdateModal] = useState(false);
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -36,7 +30,7 @@ function GamingPack() {
                         variant="contained"
                         color="primary"
                         sx={{ mx: 3 }}
-                        onClick={() => setOpen(!open)}
+                        onClick={() => setOpenModal(!openModal)}
                         id="add-game-pack"
                     >
                         Add Game Pack
@@ -44,215 +38,36 @@ function GamingPack() {
                 }
             >
                 <Box>
-                    <Grid container spacing={4}>
-                        <Grid item lg={3} md={3} sm={6} xs={12}>
-                            <CommissionCard isOffer handleEdit={setOpen} />
+                    {gamePack.data.length > 0 ? (
+                        <Grid container spacing={4}>
+                            <Grid item lg={3} md={3} sm={6} xs={12}>
+                                <CommissionCard isOffer handleEdit={setUpdateModal} />
+                            </Grid>
                         </Grid>
-                        <Grid item lg={3} md={3} sm={6} xs={12}>
-                            <CommissionCard isOffer handleEdit={setOpen} />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={6} xs={12}>
-                            <CommissionCard handleEdit={setOpen} />
-                        </Grid>
-                        <Grid item lg={3} md={3} sm={6} xs={12}>
-                            <CommissionCard handleEdit={setOpen} />
-                        </Grid>
-                    </Grid>
+                    ) : (
+                        <NotFoundCard msg="Sorry, No data found" />
+                    )}
                 </Box>
             </MainCard>
 
-            <Modal title="Add New Game Pack" open={open} onClose={() => setOpen(!open)}>
-                <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Formik
-                        initialValues={{ name: '', coins: '', diamonds: '', price: '', discount: '', percentage: '' }}
-                        validationSchema={gamingPackSchema}
-                        onSubmit={(values) => {
-                            console.log(values);
-                        }}
-                    >
-                        {(formik) => (
-                            <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                                <FormControl
-                                    fullWidth
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    style={{ marginBottom: 10 }}
-                                >
-                                    <InputLabel htmlFor="name">Pack Name</InputLabel>
-                                    <OutlinedInput
-                                        value={formik.values.name}
-                                        type="text"
-                                        id="name"
-                                        label="Pack Name"
-                                        name="name"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        variant="outlined"
-                                        fullWidth
-                                        required
-                                    />
-                                    {formik.touched.name && formik.errors.name && (
-                                        <FormHelperText error id="pack-name-error">
-                                            {formik.errors.name}
-                                        </FormHelperText>
-                                    )}
-                                </FormControl>
-                                <FormControl
-                                    fullWidth
-                                    error={formik.touched.coins && Boolean(formik.errors.coins)}
-                                    style={{ marginBottom: 10 }}
-                                >
-                                    <InputLabel htmlFor="coins">Amount of Coins</InputLabel>
-                                    <OutlinedInput
-                                        value={formik.values.coins}
-                                        type="number"
-                                        label="Amount of Coins"
-                                        name="coins"
-                                        id="coins"
-                                        min="0"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        variant="outlined"
-                                    />
-                                    {formik.touched.coins && formik.errors.coins && (
-                                        <FormHelperText id="coins-error">{formik.errors.coins}</FormHelperText>
-                                    )}
-                                </FormControl>
-                                <FormControl
-                                    fullWidth
-                                    error={formik.touched.diamonds && Boolean(formik.errors.diamonds)}
-                                    style={{ marginBottom: 10 }}
-                                >
-                                    <InputLabel htmlFor="diamonds">Amount of Majestic Diamonds</InputLabel>
-                                    <OutlinedInput
-                                        value={formik.values.diamonds}
-                                        type="number"
-                                        label="Amount of Majestic Diamonds"
-                                        name="diamonds"
-                                        id="diamonds"
-                                        min="0"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        variant="outlined"
-                                    />
-                                    {formik.touched.diamonds && formik.errors.diamonds && (
-                                        <FormHelperText id="diamonds-error">{formik.errors.diamonds}</FormHelperText>
-                                    )}
-                                </FormControl>
-                                <FormControl
-                                    fullWidth
-                                    error={formik.touched.price && Boolean(formik.errors.price)}
-                                    style={{ marginBottom: 10 }}
-                                >
-                                    <InputLabel htmlFor="price">Price (in $)</InputLabel>
-                                    <OutlinedInput
-                                        value={formik.values.price}
-                                        type="number"
-                                        label="Price (in $)"
-                                        name="price"
-                                        min="0"
-                                        id="price"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        variant="outlined"
-                                    />
-                                    {formik.touched.price && formik.errors.price && (
-                                        <FormHelperText id="price-error">{formik.errors.price}</FormHelperText>
-                                    )}
-                                </FormControl>
-                                <FormControl
-                                    fullWidth
-                                    error={formik.touched.discount && Boolean(formik.errors.discount)}
-                                    style={{ marginBottom: 10 }}
-                                >
-                                    <InputLabel htmlFor="discount">Discount</InputLabel>
-                                    <Select
-                                        value={formik.values.discount}
-                                        select
-                                        label="Discount"
-                                        name="discount"
-                                        id="discount"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        variant="outlined"
-                                        helperText={formik.touched.discount && formik.errors.discount}
-                                    >
-                                        <MenuItem value="true">Discount</MenuItem>
-                                        <MenuItem value="false">No Discount</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                {formik.values.discount === 'true' && (
-                                    <FormControl
-                                        fullWidth
-                                        error={formik.touched.percentage && Boolean(formik.errors.percentage)}
-                                        style={{ marginBottom: 10 }}
-                                    >
-                                        <InputLabel htmlFor="discount-percentage">Discount Percentage</InputLabel>
-                                        <OutlinedInput
-                                            value={formik.values.percentage}
-                                            type="number"
-                                            label="Discount Percentage"
-                                            name="percentage"
-                                            id="discount-percentage"
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            variant="outlined"
-                                        />
-                                        {formik.touched.percentage && formik.errors.percentage && (
-                                            <FormHelperText id="discount-percentage-error">{formik.errors.percentage}</FormHelperText>
-                                        )}
-                                    </FormControl>
-                                )}
+            <Modal title="Add New Game Pack" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                <CreateGamePack
+                    dispatch={dispatch}
+                    isMobileDevice={isMobileDevice}
+                    updateModal={updateModal}
+                    setUpdateModal={setUpdateModal}
+                    theme={theme}
+                />
+            </Modal>
 
-                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
-                                    <Button
-                                        type="reset"
-                                        onClick={() => setOpen(!open)}
-                                        variant="contained"
-                                        color={theme.palette.secondary.light[800]}
-                                        style={{
-                                            margin: 10,
-                                            color: 'white',
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <CancelIcon />}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        type="reset"
-                                        color="error"
-                                        style={{
-                                            color: '#fff',
-                                            margin: 10,
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <ResetIcon />}
-                                    >
-                                        Reset
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        type="submit"
-                                        color="secondary"
-                                        style={{
-                                            color: '#fff',
-                                            margin: 10,
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <SaveIcon />}
-                                        disabled={!(formik.isValid && formik.dirty)}
-                                    >
-                                        Submit
-                                    </Button>
-                                </Box>
-                            </Form>
-                        )}
-                    </Formik>
-                </Box>
+            <Modal title="Update Game Pack" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
+                <UpdateGamePack
+                    dispatch={dispatch}
+                    isMobileDevice={isMobileDevice}
+                    updateModal={updateModal}
+                    setUpdateModal={setUpdateModal}
+                    theme={theme}
+                />
             </Modal>
         </Box>
     );

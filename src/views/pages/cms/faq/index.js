@@ -1,169 +1,212 @@
-import { useState } from 'react';
-import { Box, Button, FormControl, useTheme, useMediaQuery, Divider, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
-import { Formik, Form } from 'formik';
-
+import { useState, useEffect } from 'react';
+import { Box, Button, useTheme, useMediaQuery, Divider, Tooltip, IconButton, Typography } from '@mui/material';
+import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 // Components
 import DataTable from 'components/DataTable';
 import Modal from 'components/ResponsiveModal';
 import MainCard from '../../../../ui-component/cards/MainCard';
 import NotFoundCard from 'components/NotFoundCard';
+import CreateFAQ from './components/Forms/CreateFAQ';
+import UpdateFAQ from './components/Forms/UpdateFAQ';
+import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
 
-import FAQSchema from 'schema/faq.schema';
+import { setDataIndex } from 'store/reducers/cms/faq.reducer';
+import { getFAQ } from 'store/thunk/cms/faq.thunk';
+import AlertComponent from 'components/Alert';
 
 function FAQ() {
-    const [openModal, setOpenModal] = useState(false);
     const theme = useTheme();
+    const dispatch = useDispatch();
+    const faq = useSelector((state) => state.faq);
+
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const columns = ['ID', 'Question', 'Answer', 'Action'];
+    const [openModal, setOpenModal] = useState(false);
+    const [updateModal, setUpdateModal] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
 
-    const data = [];
+    const [pageLmit, setpageLmit] = useState(10);
+    const [pageNo, setPageNo] = useState(0);
+    const [faqId, setFAQId] = useState();
+    const [faqIdx, setFAQIdx] = useState();
+
+    function handleUpdateModal(idx) {
+        setFAQIdx(idx);
+        setUpdateModal(!updateModal);
+    }
+
+    console.log(faqId, faqIdx);
+
+    const columns = [
+        {
+            name: 'dataindex',
+            label: 'SR NO',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRenderLite: (dataIndex) => {
+                    const val = dataIndex + 1 + pageLmit * pageNo;
+                    return val;
+                }
+            }
+        },
+        {
+            name: 'QUESTION',
+            label: 'QUESTION',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'ANSWER',
+            label: 'ANSWER',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'UPDATE_DATE',
+            label: 'LAST UPDATED',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{moment(value).format('DD/MM/YYYY HH:MM A')}</Typography>
+            }
+        },
+        {
+            name: 'action',
+            label: 'Actions',
+            options: {
+                filter: false,
+                sort: false,
+                customBodyRenderLite: (dataIndex) => (
+                    <>
+                        <Tooltip title="Update">
+                            <IconButton
+                                color="primary"
+                                onClick={() => {
+                                    dispatch(setDataIndex(dataIndex));
+                                    handleUpdateModal(dataIndex);
+                                }}
+                            >
+                                <UpdateIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                            <IconButton
+                                color="error"
+                                onClick={() => {
+                                    setOpenDialog(!openDialog);
+                                    dispatch(setDataIndex(dataIndex));
+                                    setFAQId(faq.data[dataIndex].FAQ_ID);
+                                }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </>
+                )
+            }
+        }
+    ];
 
     const options = {
-        filter: false,
+        filter: true,
         print: false,
         download: false,
         search: false,
         selectableRows: false,
-        rowsPerPage: 10,
-        rowsPerPageOptions: [10, 20]
+        rowsPerPage: pageLmit,
+        pagination: true,
+        rowsPerPageOptions: [10, 20, 30],
+        serverSide: true,
+        count: faq.totalRecords,
+        sortThirdClickReset: true,
+        jumpToPage: true,
+        onChangeRowsPerPage: (page) => {
+            setpageLmit(page);
+        },
+        onChangePage: (page) => {
+            setPageNo(page);
+        }
     };
 
+    useEffect(() => {
+        dispatch(getFAQ({ pageno: pageNo, limit: pageLmit }));
+    }, []);
+
     return (
-        <Box>
-            <MainCard
-                title={!isMobileDevice && 'FAQ'}
-                secondary={
-                    <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
-                        Add FAQ
-                    </Button>
-                }
-            >
-                {isMobileDevice && (
-                    <>
-                        <Button
-                            startIcon={<AddIcon />}
-                            fullWidth
-                            onClick={() => setOpenModal(!openModal)}
-                            variant="contained"
-                            color="secondary"
-                            style={{ marginBottom: 15 }}
-                        >
+        <>
+            <Box>
+                <MainCard
+                    title={!isMobileDevice && 'FAQ'}
+                    secondary={
+                        <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
                             Add FAQ
                         </Button>
-                        <Divider />
-                    </>
-                )}
-                <Box>
-                    {data.length > 0 ? (
-                        <DataTable title="Games List" data={data} columns={columns} options={options} />
-                    ) : (
-                        <NotFoundCard msg="Sorry, No data found" />
+                    }
+                >
+                    {isMobileDevice && (
+                        <>
+                            <Button
+                                startIcon={<AddIcon />}
+                                fullWidth
+                                onClick={() => setOpenModal(!openModal)}
+                                variant="contained"
+                                color="secondary"
+                                style={{ marginBottom: 15 }}
+                            >
+                                Add FAQ
+                            </Button>
+                            <Divider />
+                        </>
                     )}
-                </Box>
-            </MainCard>
-
-            <Modal title="Add New FAQ" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Formik
-                        initialValues={{ question: '', answer: '' }}
-                        validationSchema={FAQSchema}
-                        onSubmit={(values) => {
-                            console.log(values);
-                        }}
-                    >
-                        {(formik) => (
-                            <Form noValidate onSubmit={formik.handleSubmit}>
-                                <FormControl
-                                    fullWidth
-                                    style={{ margin: '10px 0' }}
-                                    error={formik.touched.question && Boolean(formik.errors.question)}
-                                >
-                                    <InputLabel htmlFor="question">Question</InputLabel>
-                                    <OutlinedInput
-                                        value={formik.values.question}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        variant="outlined"
-                                        label="Question"
-                                        id="question"
-                                    />
-                                    {formik.touched.question && formik.errors.question && (
-                                        <FormHelperText id="question-error">{formik.errors.question}</FormHelperText>
-                                    )}
-                                </FormControl>
-                                <FormControl
-                                    fullWidth
-                                    style={{ margin: '10px 0' }}
-                                    error={formik.touched.answer && Boolean(formik.errors.answer)}
-                                >
-                                    <InputLabel htmlFor="answer">Answer</InputLabel>
-                                    <OutlinedInput
-                                        value={formik.values.answer}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        multiline
-                                        rows={4}
-                                        variant="outlined"
-                                        label="Answer"
-                                        id="answer"
-                                        name="answer"
-                                    />
-                                    {formik.touched.answer && formik.errors.answer && (
-                                        <FormHelperText id="answer-error">{formik.errors.answer}</FormHelperText>
-                                    )}
-                                </FormControl>
-                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
-                                    <Button
-                                        type="reset"
-                                        onClick={() => setOpenModal(!openModal)}
-                                        variant="contained"
-                                        color={theme.palette.secondary.light[800]}
-                                        style={{
-                                            margin: 10,
-                                            color: 'white'
-                                        }}
-                                        startIcon={!isMobileDevice && <CancelIcon />}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        type="reset"
-                                        color="error"
-                                        style={{
-                                            color: '#fff',
-                                            margin: 10,
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <ResetIcon />}
-                                    >
-                                        Reset
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        type="submit"
-                                        color="secondary"
-                                        style={{
-                                            color: '#fff',
-                                            margin: 10,
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <SaveIcon />}
-                                        disabled={!(formik.isValid && formik.dirty)}
-                                    >
-                                        Submit
-                                    </Button>
-                                </Box>
-                            </Form>
+                    <Box>
+                        {faq.data.length > 0 ? (
+                            <DataTable title="Games List" data={faq.data} columns={columns} options={options} />
+                        ) : (
+                            <NotFoundCard msg="Sorry, No data found" />
                         )}
-                    </Formik>
-                </Box>
-            </Modal>
-        </Box>
+                    </Box>
+                </MainCard>
+
+                {faq.status === 'failed' && <AlertComponent status="false" message={faq.msg} />}
+                {faq.status === 'success' && <AlertComponent status="true" message={faq.msg} />}
+
+                <Modal title="Add New FAQ" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                    <CreateFAQ
+                        dispatch={dispatch}
+                        isMobileDevice={isMobileDevice}
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                        theme={theme}
+                    />
+                </Modal>
+
+                <Modal title="Update FAQ" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
+                    <UpdateFAQ
+                        faq={faq}
+                        dispatch={dispatch}
+                        isMobileDevice={isMobileDevice}
+                        openModal={updateModal}
+                        setOpenModal={setUpdateModal}
+                        theme={theme}
+                        faqIndex={faqIdx}
+                    />
+                </Modal>
+            </Box>
+
+            {/* Delete confirmation dialog */}
+            <Box>
+                <DeleteConfirmation dispatch={dispatch} openDialog={openDialog} setOpenDialog={setOpenDialog} faqId={faqId} />
+            </Box>
+        </>
     );
 }
 

@@ -68,14 +68,6 @@ function UpdateAgentType({ agentType, dispatch, isMobileDevice, openModal, setOp
                                             key={index}
                                         >
                                             {parentAgentType.ROLE_NAME}
-                                            {/* {console.log(
-                                                parentAgentType.ROLE_ID.toString().split(',').length > 1
-                                                    ? parentAgentType.ROLE_ID.toString().concat(
-                                                          ',',
-                                                          parentAgentType.ROLE_PARENT_ID !== null ? parentAgentType.ROLE_PARENT_ID : ''
-                                                      )
-                                                    : parentAgentType.ROLE_ID
-                                            )} */}
                                         </MenuItem>
                                     )
                             )}

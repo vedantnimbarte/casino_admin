@@ -21,6 +21,7 @@ function CreateAgentType({ agentType, dispatch, isMobileDevice, openModal, setOp
     useEffect(() => {
         dispatch(getAgentTypesList());
     }, []);
+
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>

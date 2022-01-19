@@ -1,5 +1,5 @@
 import { Box, Button } from '@mui/material';
-import { IconEdit as SaveIcon, IconRefresh as ResetIcon } from '@tabler/icons';
+import { IconEdit as SaveIcon, IconRefresh as ResetIcon, IconEye as PreviewIcon } from '@tabler/icons';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
@@ -12,11 +12,14 @@ function PaymentTerms() {
                 title="Payment Terms"
                 secondary={
                     <Box>
-                        <Button startIcon={<ResetIcon />} color="error" variant="contained" sx={{ mr: 3 }}>
+                        <Button startIcon={<ResetIcon />} color="error" variant="contained">
                             Reset
                         </Button>
-                        <Button startIcon={<SaveIcon />} color="primary" variant="contained">
+                        <Button startIcon={<SaveIcon />} color="primary" variant="contained" sx={{ mr: 3, ml: 3 }}>
                             Update
+                        </Button>
+                        <Button startIcon={<PreviewIcon />} color="secondary" variant="contained">
+                            Preview
                         </Button>
                     </Box>
                 }

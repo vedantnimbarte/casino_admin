@@ -6,6 +6,8 @@ const API_URL = 'http://192.168.29.78:3002/admin';
 class InternalAPI {
     static AGENT = '/agenttype';
     static GAMEGROUP = '/gametype';
+    static FAQ = '/faq';
+    static GAMEPACK = '/gamepack';
 }
 
 class SubRoutes {

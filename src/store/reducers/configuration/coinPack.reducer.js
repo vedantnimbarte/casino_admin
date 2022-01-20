@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createGamePack, getGamePack, updateGamePack, deleteGamePack } from 'store/thunk/configuration/gamePack.thunk';
+import { createCoinPack, getCoinPack, updateCoinPack, deleteCoinPack } from 'store/thunk/configuration/coinPack.thunk';
 
-const GameTypeSlice = createSlice({
-    name: 'game_pack',
+const CoinPackSlice = createSlice({
+    name: 'coin_pack',
     initialState: {
         status: null,
         msg: '',
@@ -17,10 +17,10 @@ const GameTypeSlice = createSlice({
     },
     extraReducers: {
         // Get Agent Type Reducers
-        [getGamePack.pending]: (state) => {
+        [getCoinPack.pending]: (state) => {
             state.status = 'loading';
         },
-        [getGamePack.fulfilled]: (state, { payload }) => {
+        [getCoinPack.fulfilled]: (state, { payload }) => {
             if (payload.status === true) {
                 state.msg = payload.msg;
                 state.data = payload.data;
@@ -32,16 +32,16 @@ const GameTypeSlice = createSlice({
                 state.status = 'failed';
             }
         },
-        [getGamePack.rejected]: (state) => {
+        [getCoinPack.rejected]: (state) => {
             state.status = 'failed';
             state.msg = 'Something went wrong. Please try again.';
         },
 
         // Create Agent Type Reducers
-        [createGamePack.pending]: (state) => {
+        [createCoinPack.pending]: (state) => {
             state.status = 'loading';
         },
-        [createGamePack.fulfilled]: (state, { payload }) => {
+        [createCoinPack.fulfilled]: (state, { payload }) => {
             if (payload.status === true) {
                 state.msg = payload.msg;
                 state.data.unshift(payload.data);
@@ -55,16 +55,16 @@ const GameTypeSlice = createSlice({
                 state.status = 'failed';
             }
         },
-        [createGamePack.rejected]: (state) => {
+        [createCoinPack.rejected]: (state) => {
             state.status = 'failed';
             state.msg = 'Something went wrong. Please try again.';
         },
 
         // Update Agent Type Reducers
-        [updateGamePack.pending]: (state) => {
+        [updateCoinPack.pending]: (state) => {
             state.status = 'loading';
         },
-        [updateGamePack.fulfilled]: (state, { payload }) => {
+        [updateCoinPack.fulfilled]: (state, { payload }) => {
             if (payload.status === true) {
                 state.msg = payload.msg;
                 state.data[parseInt(state.dataIndex)] = payload.data;
@@ -78,16 +78,16 @@ const GameTypeSlice = createSlice({
                 state.status = 'failed';
             }
         },
-        [updateGamePack.rejected]: (state) => {
+        [updateCoinPack.rejected]: (state) => {
             state.status = 'failed';
             state.msg = 'Something went wrong. Please try again.';
         },
 
         // Delete Agent Type Reducers
-        [deleteGamePack.pending]: (state) => {
+        [deleteCoinPack.pending]: (state) => {
             state.status = 'loading';
         },
-        [deleteGamePack.fulfilled]: (state, { payload }) => {
+        [deleteCoinPack.fulfilled]: (state, { payload }) => {
             if (payload.status === true) {
                 state.msg = payload.msg;
                 state.data.splice(state.dataIndex, 1);
@@ -98,13 +98,13 @@ const GameTypeSlice = createSlice({
                 state.status = 'failed';
             }
         },
-        [deleteGamePack.rejected]: (state) => {
+        [deleteCoinPack.rejected]: (state) => {
             state.status = 'failed';
             state.msg = 'Something went wrong. Please try again.';
         }
     }
 });
 
-export const { setDataIndex } = GameTypeSlice.actions;
+export const { setDataIndex } = CoinPackSlice.actions;
 
-export default GameTypeSlice.reducer;
+export default CoinPackSlice.reducer;

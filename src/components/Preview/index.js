@@ -1,7 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import MainCard from 'ui-component/cards/MainCard';
+import { IconArrowBack as BackIcon } from '@tabler/icons';
 import { useEffect } from 'react';
 
 function Preview() {
@@ -11,13 +12,20 @@ function Preview() {
 
     useEffect(() => {
         if (state.TITLE === undefined || state.DESCRIPTION === undefined) {
-            navigate.goBack();
+            navigate(-1);
         }
     }, []);
 
     return (
         <>
-            <MainCard title="Preview">
+            <MainCard
+                title="Preview"
+                secondary={
+                    <Button startIcon={<BackIcon />} onClick={() => navigate(-1)}>
+                        Go Back
+                    </Button>
+                }
+            >
                 <Box>
                     <Typography variant="h2" style={{ textAlign: 'center' }}>
                         {state.TITLE}

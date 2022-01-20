@@ -8,6 +8,7 @@ class InternalAPI {
     static GAMEGROUP = '/gametype';
     static FAQ = '/faq';
     static COINPACK = '/coinpack';
+    static LOYALTYPACK = '/loyalty';
     static SETTINGS = '/setting';
 }
 

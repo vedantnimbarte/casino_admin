@@ -8,6 +8,7 @@ import gameTypeReducer from './reducers/configuration/gameType.reducer';
 import faqReducer from './reducers/cms/faq.reducer';
 import coinPackReducer from './reducers/configuration/coinPack.reducer';
 import settingsReducer from './reducers/configuration/settings.reducer';
+import loyaltyPackReducer from './reducers/configuration/loyaltyPack.reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
@@ -19,7 +20,8 @@ export default configureStore({
         gameType: gameTypeReducer,
         faq: faqReducer,
         coinPack: coinPackReducer,
-        settings: settingsReducer
+        settings: settingsReducer,
+        loyaltyPack: loyaltyPackReducer
     }
 });
 

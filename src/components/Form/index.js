@@ -50,7 +50,7 @@ function Form({ pageTitle }) {
             <Box>
                 <FormControl fullWidth>
                     <InputLabel htmlFor="title">Title</InputLabel>
-                    <OutlinedInput value={title} name="title" id="title" label="Title" />
+                    <OutlinedInput value={title} name="title" id="title" label="Title" onChange={(e) => setTitle(e.target.value)} />
                 </FormControl>
                 <Box>
                     <InputLabel style={{ padding: 10 }}>Description</InputLabel>

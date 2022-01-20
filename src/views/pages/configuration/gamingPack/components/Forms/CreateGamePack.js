@@ -2,7 +2,7 @@ import { Box, Button, MenuItem, OutlinedInput, FormHelperText, InputLabel, FormC
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import gamingPackSchema from 'schema/gamingPack.schema';
-import { createGamePack } from 'store/thunk/configuration/gamePack.thunk';
+import { createCoinPack } from 'store/thunk/configuration/coinPack.thunk';
 
 function CreateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, theme }) {
     const formik = useFormik({
@@ -16,7 +16,7 @@ function CreateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, the
         },
         validationSchema: gamingPackSchema,
         onSubmit: (values) => {
-            dispatch(createGamePack(values));
+            dispatch(createCoinPack(values));
             setOpenModal(!openModal);
         }
     });

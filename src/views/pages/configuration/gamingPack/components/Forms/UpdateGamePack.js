@@ -1,29 +1,35 @@
+import { useEffect } from 'react';
 import { Box, Button, MenuItem, OutlinedInput, FormHelperText, InputLabel, FormControl, Select } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import gamingPackSchema from 'schema/gamingPack.schema';
-import { updateGamePack } from 'store/thunk/configuration/gamePack.thunk';
+import { updateCoinPack } from 'store/thunk/configuration/coinPack.thunk';
 
-function UpdateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, theme }) {
+function UpdateGamePack({ coinPack, dispatch, isMobileDevice, openModal, setOpenModal, theme, dataIndex }) {
     const formik = useFormik({
         initialValues: {
-            name: '',
-            coins: '',
-            diamonds: '',
-            price: '',
-            discount: '',
-            percentage: ''
+            name: coinPack.data[dataIndex].PACK_NAME || '',
+            coins: coinPack.data[dataIndex].MAGESTIC_COINS || '',
+            diamonds: coinPack.data[dataIndex].MAGESTIC_POINTS || '',
+            price: coinPack.data[dataIndex].BUY_AMOUNT || '',
+            discount: coinPack.data[dataIndex].ISOFFER.toString() || '',
+            percentage: coinPack.data[dataIndex].DISCOUNT || '',
+            id: coinPack.data[dataIndex].PACK_ID
         },
         validationSchema: gamingPackSchema,
         onSubmit: (values) => {
-            dispatch(updateGamePack(values));
+            dispatch(updateCoinPack(values));
             setOpenModal(!openModal);
         }
     });
 
+    useEffect(() => {
+        console.log(formik);
+    }, [formik]);
+
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
-            <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+            <form noValidate onSubmit={formik.handleSubmit}>
                 <FormControl fullWidth error={formik.touched.name && Boolean(formik.errors.name)} style={{ marginBottom: 10 }}>
                     <InputLabel htmlFor="name">Pack Name</InputLabel>
                     <OutlinedInput
@@ -104,8 +110,8 @@ function UpdateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, the
                         variant="outlined"
                         helperText={formik.touched.discount && formik.errors.discount}
                     >
-                        <MenuItem value="true">Discount</MenuItem>
-                        <MenuItem value="false">No Discount</MenuItem>
+                        <MenuItem value={true.toString()}>Discount</MenuItem>
+                        <MenuItem value={false.toString()}>No Discount</MenuItem>
                     </Select>
                 </FormControl>
                 {formik.values.discount === 'true' && (

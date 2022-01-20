@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, Grid, useTheme, useMediaQuery } from '@mui/material';
 import { IconCirclePlus as AddIcon } from '@tabler/icons';
 
@@ -7,69 +7,117 @@ import { useSelector, useDispatch } from 'react-redux';
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import Modal from 'components/ResponsiveModal';
-import CommissionCard from './components/Cards/CommissionCard';
+import PackCard from './components/Cards/PackCard';
 import CreateGamePack from './components/Forms/CreateGamePack';
 import UpdateGamePack from './components/Forms/UpdateGamePack';
 import NotFoundCard from 'components/NotFoundCard';
+import { getCoinPack } from 'store/thunk/configuration/coinPack.thunk';
+import AlertComponent from 'components/Alert';
+import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
+import { setDataIndex } from 'store/reducers/configuration/coinPack.reducer';
 
 function GamingPack() {
     const dispatch = useDispatch();
-    const gamePack = useSelector((state) => state.gamePack);
+    const coinPack = useSelector((state) => state.coinPack);
     const [openModal, setOpenModal] = useState(false);
     const [updateModal, setUpdateModal] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [coinPackId, setCoinPackId] = useState();
+    const [dataIdx, setDataIdx] = useState();
+
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
+    useEffect(() => {
+        dispatch(getCoinPack({ pageno: 0, limit: 10 }));
+    }, []);
+
+    const handleUpdateModal = (idx) => {
+        setDataIdx(idx);
+        dispatch(setDataIndex(idx));
+        setUpdateModal(!updateModal);
+    };
+
+    const handleDeleteDialog = (id) => {
+        setCoinPackId(id);
+        setOpenDialog(!openDialog);
+    };
+
     return (
-        <Box>
-            <MainCard
-                title="Game Packs"
-                secondary={
-                    <Button
-                        startIcon={<AddIcon />}
-                        variant="contained"
-                        color="primary"
-                        sx={{ mx: 3 }}
-                        onClick={() => setOpenModal(!openModal)}
-                        id="add-game-pack"
-                    >
-                        Add Game Pack
-                    </Button>
-                }
-            >
-                <Box>
-                    {gamePack.data.length > 0 ? (
-                        <Grid container spacing={4}>
-                            <Grid item lg={3} md={3} sm={6} xs={12}>
-                                <CommissionCard isOffer handleEdit={setUpdateModal} />
+        <>
+            <Box>
+                <MainCard
+                    title="Coin Packs"
+                    secondary={
+                        <Button
+                            startIcon={<AddIcon />}
+                            variant="contained"
+                            color="primary"
+                            sx={{ mx: 3 }}
+                            onClick={() => setOpenModal(!openModal)}
+                            id="add-game-pack"
+                        >
+                            Add Coin Pack
+                        </Button>
+                    }
+                >
+                    <Box>
+                        {coinPack.data.length > 0 ? (
+                            <Grid container spacing={4}>
+                                {coinPack.data?.map((pack_info, index) => (
+                                    <Grid item lg={3} md={3} sm={6} xs={12}>
+                                        <PackCard
+                                            data={pack_info}
+                                            dataIndex={index}
+                                            handleEdit={handleUpdateModal}
+                                            handleDelete={handleDeleteDialog}
+                                        />
+                                    </Grid>
+                                ))}
                             </Grid>
-                        </Grid>
-                    ) : (
-                        <NotFoundCard msg="Sorry, No data found" />
-                    )}
-                </Box>
-            </MainCard>
+                        ) : (
+                            <NotFoundCard msg="Sorry, No data found" />
+                        )}
+                    </Box>
+                </MainCard>
 
-            <Modal title="Add New Game Pack" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                <CreateGamePack
-                    dispatch={dispatch}
-                    isMobileDevice={isMobileDevice}
-                    updateModal={updateModal}
-                    setUpdateModal={setUpdateModal}
-                    theme={theme}
-                />
-            </Modal>
+                {coinPack.status === 'failed' && <AlertComponent status="false" message={coinPack.msg} />}
+                {coinPack.status === 'success' && <AlertComponent status="true" message={coinPack.msg} />}
 
-            <Modal title="Update Game Pack" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
-                <UpdateGamePack
+                <Modal title="Add New Game Pack" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                    <CreateGamePack
+                        dispatch={dispatch}
+                        isMobileDevice={isMobileDevice}
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                        theme={theme}
+                    />
+                </Modal>
+
+                <Modal title="Update Game Pack" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
+                    <UpdateGamePack
+                        coinPack={coinPack}
+                        dispatch={dispatch}
+                        isMobileDevice={isMobileDevice}
+                        openModal={updateModal}
+                        setOpenModal={setUpdateModal}
+                        theme={theme}
+                        dataIndex={dataIdx}
+                    />
+                </Modal>
+            </Box>
+
+            {/* Delete confirmation dialog */}
+            <Box>
+                <DeleteConfirmation
+                    coinPack={coinPack}
                     dispatch={dispatch}
-                    isMobileDevice={isMobileDevice}
-                    updateModal={updateModal}
-                    setUpdateModal={setUpdateModal}
-                    theme={theme}
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                    coinPackId={coinPackId}
                 />
-            </Modal>
-        </Box>
+            </Box>
+        </>
     );
 }
 

@@ -6,7 +6,7 @@ import userReducer from './reducers/userReducer';
 import agentTypeReducer from './reducers/configuration/agentType.reducer';
 import gameTypeReducer from './reducers/configuration/gameType.reducer';
 import faqReducer from './reducers/cms/faq.reducer';
-import gamePackReducer from './reducers/configuration/gamePack.reducer';
+import coinPackReducer from './reducers/configuration/coinPack.reducer';
 import settingsReducer from './reducers/configuration/settings.reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
@@ -18,7 +18,7 @@ export default configureStore({
         agentType: agentTypeReducer,
         gameType: gameTypeReducer,
         faq: faqReducer,
-        gamePack: gamePackReducer,
+        coinPack: coinPackReducer,
         settings: settingsReducer
     }
 });

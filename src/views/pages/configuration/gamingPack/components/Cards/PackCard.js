@@ -8,17 +8,18 @@ import {
     IconCoin as CoinIcon,
     IconCurrencyDollar as AmountIcon,
     IconAward,
-    IconPencil as EditIcon
+    IconPencil as EditIcon,
+    IconTrash as DeleteIcon
 } from '@tabler/icons';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
-const CardWrapper = styled(MainCard)(({ theme, isOffer }) => ({
+const CardWrapper = styled(MainCard)(({ theme, data }) => ({
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: isOffer && theme.palette.warning.light,
+    backgroundColor: data.ISOFFER && theme.palette.warning.light,
     height: '100%',
     '&:after': {
         content: '""',
@@ -44,7 +45,7 @@ const CardWrapper = styled(MainCard)(({ theme, isOffer }) => ({
 
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const EarningCard = ({ isLoading, isOffer, handleEdit }) => {
+const EarningCard = ({ isLoading, handleEdit, data, dataIndex, handleDelete }) => {
     const theme = useTheme();
 
     return (
@@ -52,12 +53,26 @@ const EarningCard = ({ isLoading, isOffer, handleEdit }) => {
             {isLoading ? (
                 <SkeletonEarningCard />
             ) : (
-                <CardWrapper isOffer={isOffer} elevation={4}>
+                <CardWrapper data={data} elevation={4}>
                     <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        {isOffer ? <IconAward color={theme.palette.warning.dark} size="2rem" /> : <Box size="2rem" />}
-                        <IconButton onClick={() => handleEdit(true)}>
-                            <EditIcon />
-                        </IconButton>
+                        {data.ISOFFER ? (
+                            <Box style={{ display: 'flex', alignItems: 'center' }}>
+                                <IconAward color={theme.palette.warning.dark} size="2rem" />{' '}
+                                <Typography style={{ marginLeft: 10, color: theme.palette.warning.dark, fontWeight: 'bold', fontSize: 25 }}>
+                                    {data.DISCOUNT}%
+                                </Typography>
+                            </Box>
+                        ) : (
+                            <Box size="2rem" />
+                        )}
+                        <Box style={{ display: 'flex' }}>
+                            <IconButton onClick={() => handleEdit(dataIndex)}>
+                                <EditIcon />
+                            </IconButton>
+                            <IconButton onClick={() => handleDelete(data.PACK_ID)}>
+                                <DeleteIcon color="red" />
+                            </IconButton>
+                        </Box>
                     </Box>
                     <Box sx={{ p: 2.25 }}>
                         <Grid container direction="column">
@@ -79,7 +94,7 @@ const EarningCard = ({ isLoading, isOffer, handleEdit }) => {
                                         }}
                                         id="game-pack-title"
                                     >
-                                        Pack 1
+                                        {data.PACK_NAME}
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -93,7 +108,7 @@ const EarningCard = ({ isLoading, isOffer, handleEdit }) => {
                                             ml: 2
                                         }}
                                     >
-                                        50
+                                        {data.MAGESTIC_COINS}
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -107,7 +122,7 @@ const EarningCard = ({ isLoading, isOffer, handleEdit }) => {
                                             ml: 2
                                         }}
                                     >
-                                        50
+                                        {data.MAGESTIC_POINTS}
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -121,7 +136,7 @@ const EarningCard = ({ isLoading, isOffer, handleEdit }) => {
                                             ml: 2
                                         }}
                                     >
-                                        2000
+                                        {data.BUY_AMOUNT}
                                     </Typography>
                                 </Box>
                             </Grid>

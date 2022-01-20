@@ -75,14 +75,7 @@ const cmsMenuItems = [
         breadcrumbs: false,
         icon: icons.FAQIcon
     },
-    {
-        id: 'notification',
-        title: 'Notifications',
-        type: 'item',
-        url: '/cms/notification',
-        breadcrumbs: false,
-        icon: icons.NotificationIcon
-    },
+
     {
         id: 'disclaimer',
         title: 'Disclaimer',
@@ -90,6 +83,14 @@ const cmsMenuItems = [
         url: '/cms/disclaimer',
         breadcrumbs: false,
         icon: icons.DocumentIcon
+    },
+    {
+        id: 'notification',
+        title: 'Notifications',
+        type: 'item',
+        url: '/cms/notification',
+        breadcrumbs: false,
+        icon: icons.NotificationIcon
     }
 ];
 

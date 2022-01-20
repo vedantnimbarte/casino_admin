@@ -1,55 +1,56 @@
-import { useEffect, useMemo, useState , useCallback} from 'react';
-import { Box, InputLabel, TextField, FormControl, OutlinedInput } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, InputLabel, FormControl, OutlinedInput, Button, ButtonGroup } from '@mui/material';
 import { ContentState, EditorState, convertToRaw, convertFromHTML } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { IconEdit as SaveIcon, IconRefresh as ResetIcon, IconEye as PreviewIcon } from '@tabler/icons';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSettings, getSettingsData } from 'store/thunk/configuration/settings.thunk';
 import AlertComponent from 'components/Alert';
+import { setUpdatedData } from 'store/reducers/configuration/settings.reducer';
 
-function Form({ pageTitle, updateStatus }) {
+function Form({ pageTitle }) {
     const dispatch = useDispatch();
     const settings = useSelector((state) => state.settings);
 
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    
 
     useEffect(() => {
-        const htmlContent = settings.data.DESCRIPTION || `<h3>${pageTitle}</h3>`;
+        const htmlContent = settings.data.DESCRIPTION || `<h2>${pageTitle}</h2>`;
         const blocksFromHTML = convertFromHTML(htmlContent);
-        const state =  ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
-        setEditorState(() => EditorState.createWithContent(state))
+        const state = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap);
+        setEditorState(() => EditorState.createWithContent(state));
     }, [settings.data.DESCRIPTION]);
 
     useEffect(() => {
         dispatch(getSettingsData(pageTitle));
-        setTitle(settings.data.TITLE);
-        console.log(settings.data.TITLE)
-        setDescription(settings.data.DESCRIPTION);
     }, []);
 
-
-    useEffect(
-    () => {
-          setDescription(stateToHTML(editorState.getCurrentContent()))
-    }, [editorState]);
-        
+    useEffect(() => {
+        const Title = settings.data.TITLE;
+        const Description = settings.data.DESCRIPTION;
+        setTitle(Title);
+        setDescription(Description);
+    }, [settings.data]);
 
     useEffect(() => {
-        if(title && description) {
-            dispatch(updateSettings({ title, description, pageTitle, id: settings.data.SETTING_ID && settings.data.SETTING_ID }));
-        }
-    }, [updateStatus]);
+        setDescription(stateToHTML(editorState.getCurrentContent()));
+    }, [editorState]);
+
+    useEffect(() => {
+        dispatch(setUpdatedData({ TITLE: title, DESCRIPTION: description }));
+    }, [title, editorState]);
 
     return (
         <>
             <Box>
                 <FormControl fullWidth>
                     <InputLabel htmlFor="title">Title</InputLabel>
-                    <OutlinedInput value={pageTitle} name="title" id="title"  label="Title" />
+                    <OutlinedInput value={title} name="title" id="title" label="Title" />
                 </FormControl>
                 <Box>
                     <InputLabel style={{ padding: 10 }}>Description</InputLabel>

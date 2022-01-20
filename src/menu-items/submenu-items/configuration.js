@@ -19,21 +19,14 @@ const configurationMenuItems = [
         breadcrumbs: false,
         icon: icons.RoleIcon
     },
-    // {
-    //     id: 'commission-plans',
-    //     title: 'Commission Plans',
-    //     type: 'item',
-    //     url: '/configuration/commission',
-    //     breadcrumbs: false,
-    //     icon: icons.CommissionIcon
-    // },
+
     {
-        id: 'permissions',
-        title: 'Permissions',
+        id: 'game_pack',
+        title: 'Game Pack',
         type: 'item',
-        url: '/configuration/permissions',
+        url: '/configuration/game-pack',
         breadcrumbs: false,
-        icon: icons.PermissionIcon
+        icon: icons.GamePackIcon
     },
     {
         id: 'loyalty_points',
@@ -52,20 +45,20 @@ const configurationMenuItems = [
         icon: icons.MenuIcon
     },
     {
-        id: 'game_pack',
-        title: 'Game Pack',
-        type: 'item',
-        url: '/configuration/game-pack',
-        breadcrumbs: false,
-        icon: icons.GamePackIcon
-    },
-    {
         id: 'menu_permissions',
         title: 'Menu Permissions',
         type: 'item',
         url: '/configuration/menu-permissions',
         breadcrumbs: false,
         icon: icons.MenuPermissionIcon
+    },
+    {
+        id: 'permissions',
+        title: 'Permissions',
+        type: 'item',
+        url: '/configuration/permissions',
+        breadcrumbs: false,
+        icon: icons.PermissionIcon
     }
 ];
 

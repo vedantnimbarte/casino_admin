@@ -1,14 +1,34 @@
 import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 import { IconEdit as SaveIcon, IconRefresh as ResetIcon, IconEye as PreviewIcon } from '@tabler/icons';
+import { useNavigate } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSettings } from 'store/thunk/configuration/settings.thunk';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import Form from 'components/Form';
 
 function PaymentTerms() {
+    const dispatch = useDispatch();
+    const settings = useSelector((state) => state.settings);
+    const navigate = useNavigate();
     const [pageTitle, setPageTitle] = useState('Payment Terms');
-    const [status, setStatus] = useState(false);
+
+    const handleUpdate = () => {
+        dispatch(
+            updateSettings({
+                title: settings.updatedData.TITLE,
+                description: settings.updatedData.DESCRIPTION,
+                pageTitle,
+                id: settings.updatedData.SETTING_ID
+            })
+        );
+    };
+
+    const handlePreview = () => {
+        navigate('/cms/preview', { state: settings.updatedData ? settings.updatedData : settings.data });
+    };
 
     return (
         <Box>
@@ -24,18 +44,18 @@ function PaymentTerms() {
                             color="primary"
                             variant="contained"
                             sx={{ mr: 3, ml: 3 }}
-                            onClick={() => setStatus(!status)}
+                            onClick={() => handleUpdate()}
                         >
                             Update
                         </Button>
-                        {/* <Button startIcon={<PreviewIcon />} color="secondary" variant="contained">
+                        <Button startIcon={<PreviewIcon />} color="secondary" variant="contained" onClick={() => handlePreview()}>
                             Preview
-                        </Button> */}
+                        </Button>
                     </Box>
                 }
             >
                 <Box>
-                    <Form pageTitle={pageTitle} updateStatus={status} />
+                    <Form pageTitle={pageTitle} />
                 </Box>
             </MainCard>
         </Box>

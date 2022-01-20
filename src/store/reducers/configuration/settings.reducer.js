@@ -7,11 +7,13 @@ const SettingsSlice = createSlice({
         status: null,
         msg: '',
         data: [],
-        dataIndex: ''
+        updatedData: { TITLE: '', DESCRIPTION: '', SETTING_ID: '' }
     },
     reducers: {
-        setDataIndex: (state, { payload }) => {
-            state.dataIndex = payload;
+        setUpdatedData: (state, { payload }) => {
+            state.updatedData.TITLE = payload.TITLE;
+            state.updatedData.DESCRIPTION = payload.DESCRIPTION;
+            state.updatedData.SETTING_ID = state.data.SETTING_ID;
         }
     },
     extraReducers: {
@@ -40,20 +42,20 @@ const SettingsSlice = createSlice({
             state.status = 'loading';
         },
         [updateSettings.fulfilled]: (state, { payload }) => {
-            if(payload) {
+            if (payload) {
                 if (payload.status === true) {
-                state.msg = payload.msg;
-                state.data = payload.data;
+                    state.msg = payload.msg;
+                    state.data = payload.data;
 
-                state.status = 'success';
+                    state.status = 'success';
                 }
-                if (payload.status === false ) {
+                if (payload.status === false) {
                     state.msg = payload.msg;
                     state.status = 'failed';
                 }
             } else {
                 state.status = 'failed';
-            state.msg = 'Something went wrong. Please try again.';
+                state.msg = 'Something went wrong. Please try again.';
             }
         },
         [updateSettings.rejected]: (state) => {
@@ -63,6 +65,6 @@ const SettingsSlice = createSlice({
     }
 });
 
-export const { setDataIndex } = SettingsSlice.actions;
+export const { setUpdatedData } = SettingsSlice.actions;
 
 export default SettingsSlice.reducer;

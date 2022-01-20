@@ -2,7 +2,7 @@ import { Box, Button, MenuItem, OutlinedInput, FormHelperText, InputLabel, FormC
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
-import { createAgentType, getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
+import { createGameType } from 'store/thunk/configuration/gameType.thunk';
 
 function CreateGameType({ dispatch, isMobileDevice, openModal, setOpenModal, theme, gameGroupSchema }) {
     const formik = useFormik({
@@ -12,14 +12,11 @@ function CreateGameType({ dispatch, isMobileDevice, openModal, setOpenModal, the
         },
         validationSchema: gameGroupSchema,
         onSubmit: (values) => {
-            dispatch(createAgentType(values));
+            dispatch(createGameType(values));
             setOpenModal(!openModal);
         }
     });
 
-    useEffect(() => {
-        dispatch(getAgentTypesList());
-    }, []);
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>

@@ -15,14 +15,14 @@ export const getSettingsData = createAsyncThunk('settings/getSettings', async (p
 
 // UPDATE SETTINGS THUNK
 export const updateSettings = createAsyncThunk('settings/updateSettings', async ({ title, description, pageTitle, id }) => {
-    if(id) {
+    if (id) {
         const requestOptions = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ TITLE: title, DESCRIPTION: description.length > 0 && description, PAGETITLE: pageTitle })
-    };
-    return fetch(`${API_URL}${InternalAPI.SETTINGS}/${id}`, requestOptions).then((res) => res.json());
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ TITLE: title, DESCRIPTION: description, PAGETITLE: pageTitle })
+        };
+        return fetch(`${API_URL}${InternalAPI.SETTINGS}/${id}`, requestOptions).then((res) => res.json());
     }
 });

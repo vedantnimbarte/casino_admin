@@ -24,5 +24,3 @@ export default configureStore({
         loyaltyPack: loyaltyPackReducer
     }
 });
-
-// export default store;

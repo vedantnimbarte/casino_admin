@@ -37,8 +37,6 @@ function FAQ() {
         setUpdateModal(!updateModal);
     }
 
-    console.log(faqId, faqIdx);
-
     const columns = [
         {
             name: 'dataindex',

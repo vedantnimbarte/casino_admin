@@ -163,7 +163,13 @@ function Roles() {
                     title={!isMobileDevice && 'Agent Type'}
                     secondary={
                         <Tooltip title="Add New Agent Type">
-                            <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                            <Button
+                                startIcon={<AddIcon />}
+                                id="add-agent-type"
+                                onClick={() => setOpenModal(!openModal)}
+                                variant="contained"
+                                color="secondary"
+                            >
                                 Add Agent Type
                             </Button>
                         </Tooltip>

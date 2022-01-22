@@ -84,7 +84,7 @@ function GamingPack() {
                 {coinPack.status === 'failed' && <AlertComponent status="false" message={coinPack.msg} />}
                 {coinPack.status === 'success' && <AlertComponent status="true" message={coinPack.msg} />}
 
-                <Modal title="Add New Game Pack" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                <Modal title="Add New Coin Pack" open={openModal} onClose={() => setOpenModal(!openModal)}>
                     <CreateGamePack
                         dispatch={dispatch}
                         isMobileDevice={isMobileDevice}
@@ -94,7 +94,7 @@ function GamingPack() {
                     />
                 </Modal>
 
-                <Modal title="Update Game Pack" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
+                <Modal title="Update Coin Pack" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
                     <UpdateGamePack
                         coinPack={coinPack}
                         dispatch={dispatch}

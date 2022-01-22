@@ -7,17 +7,12 @@ describe('Game Packs Page', () => {
         const gamePacksPageSelector = 'div.css-0>div>div>div>span';
         await page.waitForSelector(gamePacksPageSelector);
         const gamePacksPageTitle = await page.$eval(gamePacksPageSelector, (el) => el.innerText);
-        expect(gamePacksPageTitle).toMatch('Game Packs');
-    });
-
-    it('should show game pack cards', async () => {
-        const gamePackCardTitle = await page.$eval('p[id=game-pack-title]', (el) => el.innerText);
-        expect(gamePackCardTitle).toMatch('Pack 1');
+        expect(gamePacksPageTitle).toMatch('Coin Packs');
     });
 
     it('should show add game pack button', async () => {
         const gamePackBtn = await page.$eval('button[id=add-game-pack]', (el) => el.innerText);
-        expect(gamePackBtn).toMatch('Add Game Pack');
+        expect(gamePackBtn).toMatch('Add Coin Pack');
     });
 
     it('should show add game pack modal', async () => {

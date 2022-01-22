@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { Box, Grid, Typography, IconButton } from '@mui/material';
+import { Box, Grid, Typography, IconButton, Chip } from '@mui/material';
 import {
     IconDiamond as DiamondsIcon,
     IconCoin as CoinIcon,
@@ -58,9 +58,7 @@ const EarningCard = ({ isLoading, handleEdit, data, dataIndex, handleDelete }) =
                         {data.ISOFFER ? (
                             <Box style={{ display: 'flex', alignItems: 'center' }}>
                                 <IconAward color={theme.palette.warning.dark} size="2rem" />{' '}
-                                <Typography style={{ marginLeft: 10, color: theme.palette.warning.dark, fontWeight: 'bold', fontSize: 25 }}>
-                                    {data.DISCOUNT}%
-                                </Typography>
+                                <Chip label={data.DISCOUNT + '% discount'} color="warning" />
                             </Box>
                         ) : (
                             <Box size="2rem" />

@@ -22,7 +22,7 @@ function AlertComponent({ status, message }) {
                 autoHideDuration={6000}
                 onClose={() => setAlertStatus(!alertStatus)}
             >
-                <Alert severity={severity} style={{ backgroundColor: status === 'true' ? 'green' : 'red', color: 'white' }}>
+                <Alert severity={severity} style={{ backgroundColor: status === 'true' ? 'green' : 'red', color: 'white' }} id="alert">
                     {alertMessage.toString()}
                 </Alert>
             </Snackbar>

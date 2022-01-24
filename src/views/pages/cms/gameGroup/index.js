@@ -14,7 +14,7 @@ import AlertComponent from 'components/Alert';
 import CreateGameType from './components/Forms/CreateGameGroup';
 import UpdateGameType from './components/Forms/UpdateGameGroup';
 
-import { createGameType, getGameType } from 'store/thunk/configuration/gameType.thunk';
+import { getGameType } from 'store/thunk/configuration/gameType.thunk';
 import { setDataIndex } from 'store/reducers/configuration/gameType.reducer';
 import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
 

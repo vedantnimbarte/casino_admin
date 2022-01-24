@@ -9,6 +9,10 @@ import faqReducer from './reducers/cms/faq.reducer';
 import coinPackReducer from './reducers/configuration/coinPack.reducer';
 import settingsReducer from './reducers/configuration/settings.reducer';
 import loyaltyPackReducer from './reducers/configuration/loyaltyPack.reducer';
+import sliderReducer from './reducers/cms/slider.reducer';
+import gamesReducer from './reducers/cms/games.reducer';
+import permissionsReducer from './reducers/configuration/permissions.reducer';
+import menuPermissionsReducer from './reducers/configuration/menuPermissions.reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
@@ -21,6 +25,10 @@ export default configureStore({
         faq: faqReducer,
         coinPack: coinPackReducer,
         settings: settingsReducer,
-        loyaltyPack: loyaltyPackReducer
+        loyaltyPack: loyaltyPackReducer,
+        slider: sliderReducer,
+        games: gamesReducer,
+        permissions: permissionsReducer,
+        menuPermissions: menuPermissionsReducer
     }
 });

@@ -10,6 +10,10 @@ class InternalAPI {
     static COINPACK = '/coinpack';
     static LOYALTYPACK = '/loyalty';
     static SETTINGS = '/setting';
+    static GAMES = '/games';
+    static SLIDER = '/slider';
+    static PERMISSIONS = '/permissions';
+    static MENUPERMISSIONS = '/menupermissions';
 }
 
 class SubRoutes {

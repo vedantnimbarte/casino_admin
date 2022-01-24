@@ -1,243 +1,204 @@
-import { useState } from 'react';
-import {
-    Tooltip,
-    Box,
-    Button,
-    InputLabel,
-    OutlinedInput,
-    FormControl,
-    FormHelperText,
-    useTheme,
-    MenuItem,
-    useMediaQuery,
-    Divider,
-    TextField,
-    Select
-} from '@mui/material';
-import { IconCirclePlus as AddIcon, IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
+import { useState, useEffect } from 'react';
+import { Tooltip, Box, Button, useTheme, useMediaQuery, Divider, Typography, IconButton } from '@mui/material';
+import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import Modal from 'components/ResponsiveModal';
 import NotFoundCard from 'components/NotFoundCard';
-import { Form, Formik } from 'formik';
 
-// Validation Schema
-import gameSchema from 'schema/game.schema';
+import { getGames } from 'store/thunk/cms/games.thunk';
+import { setDataIndex } from 'store/reducers/cms/games.reducer';
+import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
+import CreateGames from './components/Forms/CreateGames';
+import UpdateGames from './components/Forms/UpdateGames';
+import AlertComponent from 'components/Alert';
 
 function Games() {
-    const [openModal, setOpenModal] = useState(false);
     const theme = useTheme();
+    const dispatch = useDispatch();
+    const games = useSelector((state) => state.games);
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const columns = ['id', 'title', 'description', 'Action'];
+    const [openModal, setOpenModal] = useState(false);
+    const [updateModal, setUpdateModal] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [pageLmit, setpageLmit] = useState(10);
+    const [pageNo, setPageNo] = useState(0);
+    const [gamesId, setGamesId] = useState();
+    const [gameIdx, setGameIdx] = useState();
+
+    function handleUpdateModal(idx) {
+        setGameIdx(idx);
+        setUpdateModal(!updateModal);
+    }
+
+    const columns = [
+        {
+            name: 'dataindex',
+            label: 'SR NO',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRenderLite: (dataIndex) => {
+                    const val = dataIndex + 1 + pageLmit * pageNo;
+                    return val;
+                }
+            }
+        },
+        {
+            name: 'GAMEGROUP_NAME',
+            label: 'AGENT TYPE',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'DESCRIPTION',
+            label: 'DESCRIPTION',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'UPDATE_DATE',
+            label: 'LAST UPDATED',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{moment(value).format('DD/MM/YYYY HH:MM A')}</Typography>
+            }
+        },
+        {
+            name: 'action',
+            label: 'Actions',
+            options: {
+                filter: false,
+                sort: false,
+                customBodyRenderLite: (dataIndex) => (
+                    <>
+                        <Tooltip title="Update">
+                            <IconButton
+                                color="primary"
+                                onClick={() => {
+                                    dispatch(setDataIndex(dataIndex));
+                                    handleUpdateModal(dataIndex);
+                                }}
+                            >
+                                <UpdateIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                            <IconButton
+                                color="error"
+                                onClick={() => {
+                                    setOpenDialog(!openDialog);
+                                    dispatch(setDataIndex(dataIndex));
+                                    setGamesId(games.data[dataIndex].GAMEGROUP_ID);
+                                }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </>
+                )
+            }
+        }
+    ];
 
     const options = {
-        filter: false,
+        filter: true,
         print: false,
         download: false,
         search: false,
-        selectableRows: 'none',
-        rowsPerPage: 10,
-        rowsPerPageOptions: [10, 20]
+        selectableRows: false,
+        rowsPerPage: pageLmit,
+        pagination: true,
+        rowsPerPageOptions: [10, 20, 30],
+        serverSide: true,
+        count: games.totalRecords,
+        sortThirdClickReset: true,
+        jumpToPage: true,
+        onChangeRowsPerPage: (page) => {
+            setpageLmit(page);
+        },
+        onChangePage: (page) => {
+            setPageNo(page);
+        }
     };
 
-    const data = [];
+    useEffect(() => {
+        dispatch(getGames({ pageno: pageNo, limit: pageLmit }));
+    }, []);
 
     return (
-        <Box>
-            <MainCard
-                title={!isMobileDevice && 'Games'}
-                secondary={
-                    <Tooltip title="Add New Slider">
-                        <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
-                            Add Game
-                        </Button>
-                    </Tooltip>
-                }
-            >
-                {isMobileDevice && (
-                    <>
-                        <Button
-                            startIcon={<AddIcon />}
-                            fullWidth
-                            style={{ marginBottom: 15 }}
-                            onClick={() => setOpenModal(!openModal)}
-                            variant="contained"
-                            color="secondary"
-                        >
-                            Add Game
-                        </Button>
-                        <Divider />
-                    </>
-                )}
-                <Box>
-                    {data.length > 0 ? (
-                        <DataTable title="Games List" data={data} columns={columns} options={options} />
-                    ) : (
-                        <NotFoundCard msg="Sorry, No data found" />
+        <>
+            <Box>
+                <MainCard
+                    title={!isMobileDevice && 'Games'}
+                    secondary={
+                        <Tooltip title="Add New Slider">
+                            <Button startIcon={<AddIcon />} onClick={() => setOpenModal(!openModal)} variant="contained" color="secondary">
+                                Add Game
+                            </Button>
+                        </Tooltip>
+                    }
+                >
+                    {isMobileDevice && (
+                        <>
+                            <Button
+                                startIcon={<AddIcon />}
+                                fullWidth
+                                style={{ marginBottom: 15 }}
+                                onClick={() => setOpenModal(!openModal)}
+                                variant="contained"
+                                color="secondary"
+                            >
+                                Add Game
+                            </Button>
+                            <Divider />
+                        </>
                     )}
-                </Box>
-            </MainCard>
-
-            <Modal title="Add New Game" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                <Box style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Formik
-                        initialValues={{ name: '', image: '', url: '', group: '', description: '' }}
-                        validationSchema={gameSchema}
-                        onSubmit={(values) => {
-                            console.log(values);
-                        }}
-                    >
-                        {(formik) => (
-                            <Form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                                <FormControl
-                                    error={formik.touched.name && Boolean(formik.errors.name)}
-                                    fullWidth
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                >
-                                    <InputLabel htmlFor="name">Game Name</InputLabel>
-                                    <OutlinedInput
-                                        variant="outlined"
-                                        label="Game Name"
-                                        id="name"
-                                        name="name"
-                                        value={formik.values.name}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        required
-                                    />
-                                    {formik.touched.name && formik.errors.name && <FormHelperText>{formik.errors.name}</FormHelperText>}
-                                </FormControl>
-                                <InputLabel>Game Image *</InputLabel>
-                                <TextField
-                                    type="file"
-                                    variant="outlined"
-                                    fullWidth
-                                    name="image"
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                    value={formik.values.image}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.image && Boolean(formik.errors.image)}
-                                    helperText={formik.touched.image && formik.errors.image}
-                                    required
-                                />
-                                <FormControl
-                                    fullWidth
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                    error={formik.touched.url && Boolean(formik.errors.url)}
-                                >
-                                    <InputLabel htmlFor="url">Game URL</InputLabel>
-                                    <OutlinedInput
-                                        variant="outlined"
-                                        label="Game URL"
-                                        id="url"
-                                        name="url"
-                                        value={formik.values.url}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        required
-                                    />
-                                    {formik.touched.url && formik.errors.url && (
-                                        <FormHelperText id="url-error">{formik.errors.url}</FormHelperText>
-                                    )}
-                                </FormControl>
-
-                                <FormControl fullWidth error={formik.touched.group && Boolean(formik.errors.group)}>
-                                    <InputLabel htmlFor="group">Select Game Type</InputLabel>
-                                    <Select
-                                        value={formik.values.group}
-                                        id="group"
-                                        name="group"
-                                        label="Select Game Type"
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        required
-                                    >
-                                        <MenuItem value="">Select game type</MenuItem>
-                                        <MenuItem value="FISH">Fish</MenuItem>
-                                        <MenuItem value="BOARD">Board</MenuItem>
-                                        <MenuItem value="CARD">Card</MenuItem>
-                                    </Select>
-                                    {formik.touched.group && formik.errors.group && (
-                                        <FormHelperText id="group-error">{formik.errors.group}</FormHelperText>
-                                    )}
-                                </FormControl>
-                                <FormControl
-                                    fullWidth
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                    error={formik.touched.description && Boolean(formik.errors.description)}
-                                >
-                                    <InputLabel htmlFor="description">Description</InputLabel>
-                                    <OutlinedInput
-                                        variant="outlined"
-                                        label="Description"
-                                        id="description"
-                                        name="description"
-                                        multiline
-                                        rows={5}
-                                        value={formik.values.description}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                    />
-                                    {formik.touched.description && formik.errors.description && (
-                                        <FormHelperText id="description-error">{formik.errors.description}</FormHelperText>
-                                    )}
-                                </FormControl>
-                                <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
-                                    <Button
-                                        type="cancel"
-                                        onClick={() => setOpenModal(!openModal)}
-                                        variant="contained"
-                                        color={theme.palette.secondary.light[800]}
-                                        style={{
-                                            margin: 10,
-                                            color: 'white',
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <CancelIcon />}
-                                    >
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        type="reset"
-                                        color="error"
-                                        style={{
-                                            color: '#fff',
-                                            margin: 10,
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <ResetIcon />}
-                                    >
-                                        Reset
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        type="submit"
-                                        color="secondary"
-                                        style={{
-                                            color: '#fff',
-                                            margin: 10,
-                                            paddingLeft: 20,
-                                            paddingRight: 20
-                                        }}
-                                        startIcon={!isMobileDevice && <SaveIcon />}
-                                        disabled={!(formik.isValid && formik.dirty)}
-                                    >
-                                        Submit
-                                    </Button>
-                                </Box>
-                            </Form>
+                    <Box>
+                        {games.data.length > 0 ? (
+                            <DataTable title="Games List" data={games.data} columns={columns} options={options} />
+                        ) : (
+                            <NotFoundCard msg="Sorry, No data found" />
                         )}
-                    </Formik>
-                </Box>
-            </Modal>
-        </Box>
+                    </Box>
+                </MainCard>
+
+                {games.status === 'failed' && <AlertComponent status="false" message={games.msg} />}
+                {games.status === 'success' && <AlertComponent status="true" message={games.msg} />}
+
+                <Modal title="Add New Game" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                    <CreateGames dispatch={dispatch} openModal={openModal} setOpenModal={setOpenModal} theme={theme} />
+                </Modal>
+
+                <Modal title="Update Game" open={updateModal} onClose={() => setOpenModal(!updateModal)}>
+                    <UpdateGames
+                        dispatch={dispatch}
+                        openModal={updateModal}
+                        setOpenModal={setUpdateModal}
+                        theme={theme}
+                        games={games}
+                        gamesIndex={gameIdx}
+                    />
+                </Modal>
+            </Box>
+
+            {/* Delete confirmation dialog */}
+            <Box>
+                <DeleteConfirmation dispatch={dispatch} openDialog={openDialog} setOpenDialog={setOpenDialog} gamesId={gamesId} />
+            </Box>
+        </>
     );
 }
 

@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 function Permissions() {
     const agentType = useSelector((state) => state.agentType);
     const dispatch = useDispatch();
-    const [agentRole, setAgentRole] = useState(1);
+    const [agentRole, setAgentRole] = useState(2);
     const columns = ['ID', 'Permission', 'Allocated', 'Action'];
 
     const data = [];

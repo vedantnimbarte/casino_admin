@@ -19,7 +19,7 @@ function AlertComponent({ status, message }) {
             <Snackbar
                 open={alertStatus}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                autoHideDuration={6000}
+                autoHideDuration={4000}
                 onClose={() => setAlertStatus(!alertStatus)}
             >
                 <Alert severity={severity} style={{ backgroundColor: status === 'true' ? 'green' : 'red', color: 'white' }} id="alert">

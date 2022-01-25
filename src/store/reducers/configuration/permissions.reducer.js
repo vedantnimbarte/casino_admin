@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getPermissions, createPermissions, updatePermissions, deletePermissions } from 'store/thunk/configuration/permissions.thunk';
+import { getPermissions, updatePermissions } from 'store/thunk/configuration/permissions.thunk';
 
 const PermissionsSlice = createSlice({
     name: 'permissions',
@@ -8,11 +8,20 @@ const PermissionsSlice = createSlice({
         msg: '',
         totalRecords: 0,
         data: [],
-        dataIndex: ''
+        dataIndex: '',
+        prevStatus: ''
     },
     reducers: {
         setDataIndex: (state, { payload }) => {
             state.dataIndex = payload;
+        },
+        updatePermission: (state, { payload }) => {
+            state.prevStatus = state.data[payload.dataIndex].ISVIEW;
+            state.data[payload.dataIndex].ISVIEW = payload.isView;
+        },
+        setPreviousPermission: (state, { payload }) => {
+            state.data[payload.dataIndex].ISVIEW = state.prevStatus;
+            state.prevStatus = '';
         }
     },
     extraReducers: {
@@ -37,29 +46,6 @@ const PermissionsSlice = createSlice({
             state.msg = 'Something went wrong. Please try again.';
         },
 
-        // Create permissions Reducers
-        [createPermissions.pending]: (state) => {
-            state.status = 'loading';
-        },
-        [createPermissions.fulfilled]: (state, { payload }) => {
-            if (payload.status === true) {
-                state.msg = payload.msg;
-                state.data.unshift(payload.data);
-                if (state.data.length >= 10) {
-                    state.data.pop();
-                }
-                state.status = 'success';
-            }
-            if (payload.status === false) {
-                state.msg = payload.msg || 'Network Error';
-                state.status = 'failed';
-            }
-        },
-        [createPermissions.rejected]: (state) => {
-            state.status = 'failed';
-            state.msg = 'Something went wrong. Please try again.';
-        },
-
         // Update permissions Reducers
         [updatePermissions.pending]: (state) => {
             state.status = 'loading';
@@ -67,44 +53,22 @@ const PermissionsSlice = createSlice({
         [updatePermissions.fulfilled]: (state, { payload }) => {
             if (payload.status === true) {
                 state.msg = payload.msg;
-                state.data[parseInt(state.dataIndex)] = payload.data;
-                if (state.data.length >= 10) {
-                    state.data.pop();
-                }
                 state.status = 'success';
             }
             if (payload.status === false) {
                 state.msg = payload.msg;
+                state.data[state.dataIndex].ISVIEW = state.prevStatus;
                 state.status = 'failed';
             }
         },
         [updatePermissions.rejected]: (state) => {
             state.status = 'failed';
-            state.msg = 'Something went wrong. Please try again.';
-        },
-
-        // Delete permissions Reducers
-        [deletePermissions.pending]: (state) => {
-            state.status = 'loading';
-        },
-        [deletePermissions.fulfilled]: (state, { payload }) => {
-            if (payload.status === true) {
-                state.msg = payload.msg;
-                state.data.splice(state.dataIndex, 1);
-                state.status = 'success';
-            }
-            if (payload.status === false) {
-                state.msg = payload.msg || 'Network not available';
-                state.status = 'failed';
-            }
-        },
-        [deletePermissions.rejected]: (state) => {
-            state.status = 'failed';
+            state.data[state.dataIndex].ISVIEW = state.prevStatus;
             state.msg = 'Something went wrong. Please try again.';
         }
     }
 });
 
-export const { setDataIndex } = PermissionsSlice.actions;
+export const { setDataIndex, updatePermission, setPreviousPermission } = PermissionsSlice.actions;
 
 export default PermissionsSlice.reducer;

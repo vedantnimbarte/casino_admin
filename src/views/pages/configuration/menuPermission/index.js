@@ -11,7 +11,7 @@ import { getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
 function MenuPermissions() {
     const agentType = useSelector((state) => state.agentType);
     const dispatch = useDispatch();
-    const [agentRole, setAgentRole] = useState(2);
+    const [agentRole, setAgentRole] = useState('0');
     const columns = ['ID', 'Permission', 'Allocated', 'Action'];
 
     const data = [];
@@ -43,7 +43,9 @@ function MenuPermissions() {
                             label="Select Agent Type"
                             name="agent"
                             id="agent"
+                            placeholder="Select Agent Type"
                         >
+                            <MenuItem value="0">Select Agent Type</MenuItem>
                             {agentType.agentTypesList?.map((parentAgentType, index) => (
                                 <MenuItem value={parentAgentType.ROLE_ID} key={index}>
                                     {parentAgentType.ROLE_NAME}

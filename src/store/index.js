@@ -13,6 +13,7 @@ import sliderReducer from './reducers/cms/slider.reducer';
 import gamesReducer from './reducers/cms/games.reducer';
 import permissionsReducer from './reducers/configuration/permissions.reducer';
 import menuPermissionsReducer from './reducers/configuration/menuPermissions.reducer';
+import menuReducer from './reducers/configuration/menu.reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
@@ -29,6 +30,7 @@ export default configureStore({
         slider: sliderReducer,
         games: gamesReducer,
         permissions: permissionsReducer,
-        menuPermissions: menuPermissionsReducer
+        menuPermissions: menuPermissionsReducer,
+        menu: menuReducer
     }
 });

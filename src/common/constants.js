@@ -1,7 +1,7 @@
 /* eslint:disable:max-classes-per-file */
 
-// const API_URL = 'http://192.168.29.78:3002/admin';
-const API_URL = 'http://143.110.183.1:3002/admin';
+const API_URL = 'http://192.168.29.78:3002/admin';
+// const API_URL = 'http://143.110.183.1:3002/admin';
 
 class InternalAPI {
     static AGENT = '/agenttype';
@@ -12,7 +12,8 @@ class InternalAPI {
     static SETTINGS = '/setting';
     static GAMES = '/games';
     static SLIDER = '/slider';
-    static PERMISSIONS = '/permissions';
+    static PERMISSIONS = '/permission';
+    static MENU = '/menu';
     static MENUPERMISSIONS = '/menupermissions';
 }
 

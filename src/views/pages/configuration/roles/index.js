@@ -11,7 +11,7 @@ import { setDataIndex } from 'store/reducers/configuration/agentType.reducer';
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import Modal from 'components/ResponsiveModal';
+import Modal from 'components/FullScreenDialog';
 import NotFoundCard from 'components/NotFoundCard';
 import AlertComponent from 'components/Alert';
 import UpdateAgentType from './components/Forms/UpdateAgentType';
@@ -154,11 +154,11 @@ function Roles() {
     return (
         <>
             <Box>
-                {agentType.status === 'loading' ? (
+                {/* {agentType.status === 'loading' ? (
                     <LinearProgress fullWidth style={{ marginBottom: 5 }} color="secondary" />
                 ) : (
                     <Box style={{ marginBottom: 10 }} />
-                )}
+                )} */}
                 <MainCard
                     title={!isMobileDevice && 'Agent Type'}
                     secondary={

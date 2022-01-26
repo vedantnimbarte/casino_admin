@@ -1,21 +1,35 @@
 import { Box, Button, MenuItem, OutlinedInput, FormHelperText, InputLabel, FormControl, Select, TextField } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
+import { useEffect, useState } from 'react';
 import gameSchema from 'schema/game.schema';
 import { createGames } from 'store/thunk/cms/games.thunk';
+import { getGameType } from 'store/thunk/configuration/gameType.thunk';
 
-function CreateGames({ dispatch, isMobileDevice, openModal, setOpenModal, theme }) {
+function CreateGames({ dispatch, isMobileDevice, openModal, setOpenModal, theme, gameType }) {
     const formik = useFormik({
         initialValues: {
             name: '',
-            description: ''
+            description: '',
+            group: ''
         },
         validationSchema: gameSchema,
         onSubmit: (values) => {
-            dispatch(createGames(values));
+            let formData = new FormData();
+
+            formData.append('GAME_NAME', values.name);
+            formData.append('GAMEGROUP_ID', values.group);
+            formData.append('FILEUPLOAD', values.fileupload, values.fileupload.name);
+            formData.append('GAME_URL', values.url);
+            formData.append('DESCRIPTION', values.description);
+            dispatch(createGames(formData));
             setOpenModal(!openModal);
         }
     });
+    console.log(formik.values);
+    useEffect(() => {
+        dispatch(getGameType({ pageno: 0, limit: 10 }));
+    }, []);
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
@@ -43,13 +57,13 @@ function CreateGames({ dispatch, isMobileDevice, openModal, setOpenModal, theme 
                     type="file"
                     variant="outlined"
                     fullWidth
-                    name="image"
+                    name="fileupload"
                     style={{ marginTop: 10, marginBottom: 10 }}
-                    value={formik.values.image}
-                    onChange={formik.handleChange}
+                    // value={formik.values.fileupload}
+                    onChange={(e) => formik.setFieldValue(e.target.name, e.target.files[0])}
                     onBlur={formik.handleBlur}
-                    error={formik.touched.image && Boolean(formik.errors.image)}
-                    helperText={formik.touched.image && formik.errors.image}
+                    error={formik.touched.fileupload && Boolean(formik.errors.fileupload)}
+                    helperText={formik.touched.fileupload && formik.errors.fileupload}
                     required
                 />
                 <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }} error={formik.touched.url && Boolean(formik.errors.url)}>
@@ -78,10 +92,11 @@ function CreateGames({ dispatch, isMobileDevice, openModal, setOpenModal, theme 
                         onBlur={formik.handleBlur}
                         required
                     >
-                        <MenuItem value="">Select game type</MenuItem>
-                        <MenuItem value="FISH">Fish</MenuItem>
-                        <MenuItem value="BOARD">Board</MenuItem>
-                        <MenuItem value="CARD">Card</MenuItem>
+                        {gameType.data.length > 0 ? (
+                            gameType.data?.map((value) => <MenuItem value={value.GAMEGROUP_ID}>{value.GAMEGROUP_NAME}</MenuItem>)
+                        ) : (
+                            <MenuItem disabled>No Game Types Available</MenuItem>
+                        )}
                     </Select>
                     {formik.touched.group && formik.errors.group && <FormHelperText id="group-error">{formik.errors.group}</FormHelperText>}
                 </FormControl>

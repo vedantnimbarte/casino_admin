@@ -1,4 +1,5 @@
 import { Dialog, DialogTitle, DialogContentText, DialogContent, Button, DialogActions } from '@mui/material';
+import { deleteGames } from 'store/thunk/cms/games.thunk';
 import { deleteAgentType } from 'store/thunk/configuration/agentType.thunk';
 import { deleteGameType } from 'store/thunk/configuration/gameType.thunk';
 
@@ -18,7 +19,7 @@ function DeleteConfirmation({ dispatch, openDialog, setOpenDialog, gamesId }) {
                 <Button onClick={() => setOpenDialog(!openDialog)}>Disagree</Button>
                 <Button
                     onClick={() => {
-                        dispatch(deleteGameType({ id: gamesId }));
+                        dispatch(deleteGames({ id: gamesId }));
                         setOpenDialog(!openDialog);
                     }}
                     autoFocus

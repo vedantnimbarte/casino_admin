@@ -1,26 +1,29 @@
 import { useState, useEffect } from 'react';
-import { Tooltip, Box, Button, useTheme, useMediaQuery, Divider, Typography, IconButton } from '@mui/material';
+import { Tooltip, Box, Button, useTheme, useMediaQuery, Divider, Typography, IconButton, Paper, Avatar } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
 import moment from 'moment';
+
+// REDUX
 import { useDispatch, useSelector } from 'react-redux';
+import { getGames } from 'store/thunk/cms/games.thunk';
+import { setDataIndex } from 'store/reducers/cms/games.reducer';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import Modal from 'components/ResponsiveModal';
 import NotFoundCard from 'components/NotFoundCard';
-
-import { getGames } from 'store/thunk/cms/games.thunk';
-import { setDataIndex } from 'store/reducers/cms/games.reducer';
 import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
 import CreateGames from './components/Forms/CreateGames';
 import UpdateGames from './components/Forms/UpdateGames';
 import AlertComponent from 'components/Alert';
+import { API_URL, IMAGE_URL } from 'common/constants';
 
 function Games() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const games = useSelector((state) => state.games);
+    const gameType = useSelector((state) => state.gameType);
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [openModal, setOpenModal] = useState(false);
@@ -50,12 +53,36 @@ function Games() {
             }
         },
         {
-            name: 'GAMEGROUP_NAME',
-            label: 'AGENT TYPE',
+            name: 'GAME_IMAGE',
+            label: 'IMAGE',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => <Avatar src={IMAGE_URL.concat('/public/', value)} alt="" sx={{ width: 100, height: 100 }} />
+            }
+        },
+        {
+            name: 'GAME_NAME',
+            label: 'GAME NAME',
             options: {
                 filter: true,
                 sort: true,
                 customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'GAME_URL',
+            label: 'URL',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => (
+                    <Typography>
+                        <a href={value} target="_blank">
+                            Visit Link
+                        </a>
+                    </Typography>
+                )
             }
         },
         {
@@ -64,7 +91,12 @@ function Games() {
             options: {
                 filter: false,
                 sort: true,
-                customBodyRender: (value) => <Typography>{value}</Typography>
+                customBodyRender: (value) =>
+                    value === null ? (
+                        <Typography style={{ color: 'gray', fontStyle: 'italic' }}>Description not available</Typography>
+                    ) : (
+                        <Typography>{value}</Typography>
+                    )
             }
         },
         {
@@ -179,10 +211,10 @@ function Games() {
                 {games.status === 'success' && <AlertComponent status="true" message={games.msg} />}
 
                 <Modal title="Add New Game" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                    <CreateGames dispatch={dispatch} openModal={openModal} setOpenModal={setOpenModal} theme={theme} />
+                    <CreateGames dispatch={dispatch} openModal={openModal} setOpenModal={setOpenModal} theme={theme} gameType={gameType} />
                 </Modal>
 
-                <Modal title="Update Game" open={updateModal} onClose={() => setOpenModal(!updateModal)}>
+                <Modal title="Update Game" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
                     <UpdateGames
                         dispatch={dispatch}
                         openModal={updateModal}
@@ -190,6 +222,8 @@ function Games() {
                         theme={theme}
                         games={games}
                         gamesIndex={gameIdx}
+                        isMobileDevice={isMobileDevice}
+                        gameType={gameType}
                     />
                 </Modal>
             </Box>

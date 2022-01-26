@@ -8,13 +8,13 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
 import Modal from 'components/ResponsiveModal';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { getMenu } from 'store/thunk/configuration/menu.thunk';
 import AlertComponent from 'components/Alert';
 import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
 import UpdateMenu from './components/Forms/UpdateMenu';
 import CreateMenu from './components/Forms/CreateMenu';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { getMenu } from 'store/thunk/configuration/menu.thunk';
 import { setDataIndex } from 'store/reducers/configuration/menu.reducer';
 
 function Menu() {

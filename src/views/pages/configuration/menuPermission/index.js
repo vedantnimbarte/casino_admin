@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
+
+// REDUX
 import { getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
+import { useSelector, useDispatch } from 'react-redux';
 
 function MenuPermissions() {
     const agentType = useSelector((state) => state.agentType);

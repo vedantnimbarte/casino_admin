@@ -10,7 +10,7 @@ export const createAgentType = createAsyncThunk('agent_type/createAgentType', as
         },
         body: JSON.stringify({ ROLE_NAME: name, ROLE_PARENT_ID: parentRole, DESCRIPTION: description })
     };
-    return fetch(`${API_URL}${InternalAPI.AGENT}`, requestOptions).then((res) => res.json());
+    return fetch(`${API_URL}${InternalAPI.AGENTTYPE}`, requestOptions).then((res) => res.json());
 });
 
 // GET AGENT TYPES THUNK
@@ -22,7 +22,7 @@ export const getAgentType = createAsyncThunk('agent_type/getAgentType', async ({
         },
         body: JSON.stringify({ pageNumber: pageno, pageLimit: limit })
     };
-    return fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.LIST}`, requestOptions).then((res) => res.json());
+    return fetch(`${API_URL}${InternalAPI.AGENTTYPE}${SubRoutes.LIST}`, requestOptions).then((res) => res.json());
 });
 
 // GET AGENT TYPES LIST THUNK
@@ -33,7 +33,7 @@ export const getAgentTypesList = createAsyncThunk('agent_type/getAgentTypesList'
             'Content-Type': 'application/json'
         }
     };
-    return fetch(`${API_URL}${InternalAPI.AGENT}`, requestOptions).then((res) => res.json());
+    return fetch(`${API_URL}${InternalAPI.AGENTTYPE}`, requestOptions).then((res) => res.json());
 });
 
 // UPDATE AGENT TYPE THUNK
@@ -45,7 +45,7 @@ export const updateAgentType = createAsyncThunk('agent_type/updateAgentType', as
         },
         body: JSON.stringify({ ROLE_NAME: name, ROLE_PARENT_ID: parentRole, DESCRIPTION: description.length > 0 && description })
     };
-    return fetch(`${API_URL}${InternalAPI.AGENT}/${id}`, requestOptions).then((res) => res.json());
+    return fetch(`${API_URL}${InternalAPI.AGENTTYPE}/${id}`, requestOptions).then((res) => res.json());
 });
 
 // DELETE AGENT TYPE THUNK
@@ -56,5 +56,5 @@ export const deleteAgentType = createAsyncThunk('agent_type/deleteAgentType', as
             'Content-Type': 'application/json'
         }
     };
-    return fetch(`${API_URL}${InternalAPI.AGENT}/${id}`, requestOptions).then((res) => res.json());
+    return fetch(`${API_URL}${InternalAPI.AGENTTYPE}/${id}`, requestOptions).then((res) => res.json());
 });

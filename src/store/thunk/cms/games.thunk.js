@@ -4,13 +4,13 @@ import { API_URL, InternalAPI, SubRoutes } from 'common/constants';
 // TODO: UPDATE KEYS FOR REQUEST BODY
 
 // CREATE Games THUNK
-export const createGames = createAsyncThunk('games/createGames', async ({ question, answer }) => {
+export const createGames = createAsyncThunk('games/createGames', async (gameData) => {
     const requestOptions = {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ QUESTION: question, ANSWER: answer })
+        // headers: {
+        //     'content-type': 'multipart/form-data;boundary=fjdslkfjlsj'
+        // },
+        body: gameData
     };
     return fetch(`${API_URL}${InternalAPI.GAMES}`, requestOptions).then((res) => res.json());
 });
@@ -28,15 +28,25 @@ export const getGames = createAsyncThunk('games/getGames', async ({ pageno, limi
 });
 
 // UPDATE Games THUNK
-export const updateGames = createAsyncThunk('games/updateGames', async ({ question, answer, id }) => {
-    const requestOptions = {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ QUESTION: question, ANSWER: answer.length > 0 && answer })
-    };
-    return fetch(`${API_URL}${InternalAPI.GAMES}/${id}`, requestOptions).then((res) => res.json());
+export const updateGames = createAsyncThunk('games/updateGames', async ({ data, id, isFile }) => {
+    if (!isFile) {
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+
+        return fetch(`${API_URL}${InternalAPI.GAMES}/${id}`, requestOptions).then((res) => res.json());
+    } else {
+        const requestOptions = {
+            method: 'PUT',
+            body: data
+        };
+
+        return fetch(`${API_URL}${InternalAPI.GAMES}${SubRoutes.FILE}/${id}`, requestOptions).then((res) => res.json());
+    }
 });
 
 // DELETE Games THUNK
@@ -46,7 +56,7 @@ export const deleteGames = createAsyncThunk('games/deleteGames', async ({ id }) 
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ FAQ_ID: id })
+        body: JSON.stringify({ GAME_ID: id })
     };
     return fetch(`${API_URL}${InternalAPI.GAMES}/`, requestOptions).then((res) => res.json());
 });

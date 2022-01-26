@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     Box,
     TextField,
@@ -13,6 +13,7 @@ import {
     OutlinedInput,
     Checkbox,
     ListItemText,
+    Typography,
     useMediaQuery,
     FormHelperText
 } from '@mui/material';
@@ -20,11 +21,8 @@ import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as Cancel
 import propTypes from 'prop-types';
 import { useFormik } from 'formik';
 import agentSchema from 'schema/agent.schema';
-import { getPermissions } from 'store/thunk/configuration/permissions.thunk';
-import { getGameType } from 'store/thunk/configuration/gameType.thunk';
-import { getAgentType, getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
 
-function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesList, agentType }) {
+function UpdateAgent({ agent, onClose, openModal, dispatch, agentIdx }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const [gameType, setGameType] = React.useState([]);
@@ -60,6 +58,9 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
         }
     };
 
+    const gameTypesList = ['All', 'Fish', 'Table', 'Slot'];
+    const permissionsList = ['All'];
+
     const handleGameTypeChange = (event) => {
         const {
             target: { value }
@@ -78,12 +79,6 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
             typeof value === 'string' ? value.split(',') : value
         );
     };
-
-    useEffect(() => {
-        dispatch(getPermissions({ roleid: 1, pageno: 0, limit: 10 }));
-        dispatch(getGameType({ pageno: 0, limit: 10 }));
-        dispatch(getAgentTypesList());
-    }, []);
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
@@ -247,11 +242,11 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                         variant="outlined"
                         required
                     >
-                        {agentType.agentTypesList.length > 0 ? (
-                            agentType.agentTypesList?.map((value) => <MenuItem value={value.ROLE_ID}>{value.ROLE_NAME}</MenuItem>)
-                        ) : (
-                            <MenuItem disabled>No Agent Types Available</MenuItem>
-                        )}
+                        <MenuItem value="master_distributor">Master Distributor</MenuItem>
+                        <MenuItem value="distributor">Distributor</MenuItem>
+                        <MenuItem value="sub_distributor">Sub Distributor</MenuItem>
+                        <MenuItem value="store">Store</MenuItem>
+                        <MenuItem value="cashior">Cashior</MenuItem>
                     </Select>
                     {formik.touched.agent_type && formik.errors.agent_type && <FormHelperText>{formik.errors.agent_type}</FormHelperText>}
                 </FormControl>
@@ -280,16 +275,12 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                                 )}
                                 MenuProps={MenuProps}
                             >
-                                {gameTypesList.data.length > 0 ? (
-                                    gameTypesList.data?.map((gt) => (
-                                        <MenuItem key={gt} value={gt.GAMEGROUP_ID}>
-                                            <Checkbox checked={gameType.indexOf(gt) > -1} />
-                                            <ListItemText primary={gt.GAMEGROUP_NAME} />
-                                        </MenuItem>
-                                    ))
-                                ) : (
-                                    <MenuItem disabled>No Game Types Available</MenuItem>
-                                )}
+                                {gameTypesList.map((gt) => (
+                                    <MenuItem key={gt} value={gt}>
+                                        <Checkbox checked={gameType.indexOf(gt) > -1} />
+                                        <ListItemText primary={gt} />
+                                    </MenuItem>
+                                ))}
                             </Select>
                             {formik.touched.game_type_permissions && Boolean(formik.errors.game_type_permissions) && (
                                 <FormHelperText>{formik.errors.game_type_permissions}</FormHelperText>
@@ -320,16 +311,12 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                                 )}
                                 MenuProps={MenuProps}
                             >
-                                {permissionsList.data.length > 0 ? (
-                                    permissionsList.data?.map((permission) => (
-                                        <MenuItem key={permission} value={permission.AGENT_PERMISSION_KEY}>
-                                            <Checkbox checked={permissions.indexOf(permission) > -1} />
-                                            <ListItemText primary={permission.AGENT_PERMISSION_VALUE} />
-                                        </MenuItem>
-                                    ))
-                                ) : (
-                                    <MenuItem disabled>No Permissions Available</MenuItem>
-                                )}
+                                {permissionsList.map((permission) => (
+                                    <MenuItem key={permission} value={permission}>
+                                        <Checkbox checked={permissions.indexOf(permission) > -1} />
+                                        <ListItemText primary={permission} />
+                                    </MenuItem>
+                                ))}
                             </Select>
                             {formik.touched.permissions && Boolean(formik.errors.permissions) && (
                                 <FormHelperText>{formik.errors.permissions}</FormHelperText>
@@ -388,10 +375,10 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
     );
 }
 
-CreateAgent.propTypes = {
+UpdateAgent.propTypes = {
     formik: propTypes.object,
     openModal: propTypes.string,
     onClose: propTypes.func
 };
 
-export default CreateAgent;
+export default UpdateAgent;

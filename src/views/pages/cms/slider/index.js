@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Tooltip, Box, Button, useTheme, useMediaQuery, Divider, Typography, IconButton } from '@mui/material';
+import { Tooltip, Box, Button, useTheme, useMediaQuery, Divider, Typography, IconButton, Avatar } from '@mui/material';
 import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ import UpdateSlider from './components/Forms/UpdateSlider';
 import { setDataIndex } from 'store/reducers/cms/slider.reducer';
 import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
 import AlertComponent from 'components/Alert';
+import { IMAGE_URL } from 'common/constants';
 
 function Slider() {
     const theme = useTheme();
@@ -49,8 +50,17 @@ function Slider() {
             }
         },
         {
-            name: 'GAMEGROUP_NAME',
-            label: 'AGENT TYPE',
+            name: 'SLIDER_IMAGE_URL',
+            label: 'IMAGE',
+            options: {
+                filter: true,
+                sort: true,
+                customBodyRender: (value) => <Avatar src={IMAGE_URL.concat('/public/', value)} alt="" sx={{ width: 100, height: 100 }} />
+            }
+        },
+        {
+            name: 'SLIDER_NAME',
+            label: 'NAME',
             options: {
                 filter: true,
                 sort: true,

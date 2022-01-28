@@ -30,7 +30,7 @@ const agentSchema = yup.object().shape({
         .required('Please enter the password')
         .oneOf([yup.ref('password')], 'Password and confirm password does not match'),
     phone_no: yup.string().matches(PHONE_NO_REGEX, 'Phone number is invalid').required('Please enter phone number'),
-    agent_type: yup.string().required('Please select the agent type'),
+    agent: yup.string().required('Please select the agent type'),
     address: yup.string().max(100, 'Address should be maximum 100 characters').required('Please enter the address'),
     game_type_permissions: yup.array().required('Please select the game type permissions'),
     permissions: yup.array().required('Please select the permissions')

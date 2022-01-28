@@ -3,6 +3,7 @@ import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as Cancel
 import { useFormik } from 'formik';
 import sliderSchema from 'schema/slider.schema';
 import { createGames } from 'store/thunk/cms/games.thunk';
+import { createSlider } from 'store/thunk/cms/slider.thunk';
 
 function CreateSlider({ dispatch, isMobileDevice, openModal, setOpenModal, theme }) {
     const formik = useFormik({
@@ -12,7 +13,16 @@ function CreateSlider({ dispatch, isMobileDevice, openModal, setOpenModal, theme
         },
         validationSchema: sliderSchema,
         onSubmit: (values) => {
-            dispatch(createGames(values));
+            console.log(formik.values);
+            let formData = new FormData();
+
+            formData.append('SLIDER_NAME', values.name);
+            formData.append('FILEUPLOAD', values.image, values.image.name);
+            formData.append('DESCRIPTION', values.description);
+
+            console.log(formData.entries());
+
+            dispatch(createSlider(formData));
             setOpenModal(!openModal);
         }
     });
@@ -37,7 +47,7 @@ function CreateSlider({ dispatch, isMobileDevice, openModal, setOpenModal, theme
                     <TextField
                         type="file"
                         name="image"
-                        onChange={formik.handleChange}
+                        onChange={(e) => formik.setFieldValue(e.target.name, e.target.files[0])}
                         onBlur={formik.handleBlur}
                         variant="outlined"
                         fullWidth

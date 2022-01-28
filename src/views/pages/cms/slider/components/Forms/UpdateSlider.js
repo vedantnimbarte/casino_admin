@@ -1,19 +1,33 @@
-import { Box, Button, MenuItem, OutlinedInput, FormHelperText, InputLabel, FormControl, Select } from '@mui/material';
+import { Box, Button, TextField, OutlinedInput, FormHelperText, InputLabel, FormControl, Select } from '@mui/material';
 import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as CancelIcon } from '@tabler/icons';
 import { useFormik } from 'formik';
-import sliderSchema from 'schema/slider.schema';
+import { updateSliderSchema } from 'schema/slider.schema';
 import { updateSlider } from 'store/thunk/cms/slider.thunk';
 
 function UpdateSlider({ dispatch, isMobileDevice, openModal, setOpenModal, theme, sliderIndex, slider }) {
     const formik = useFormik({
         initialValues: {
-            name: slider.data[sliderIndex].GAMEGROUP_NAME || '',
+            name: slider.data[sliderIndex].SLIDER_NAME || '',
             description: slider.data[sliderIndex].DESCRIPTION || '',
-            id: slider.data[sliderIndex].GAMEGROUP_ID
+            id: slider.data[sliderIndex].SLIDER_ID
         },
-        validationSchema: sliderSchema,
+        validationSchema: updateSliderSchema,
         onSubmit: (values) => {
-            dispatch(updateSlider(values));
+            if (!values.image) {
+                const data = {};
+                Object.assign(data, { SLIDER_NAME: values.name });
+                Object.assign(data, { DESCRIPTION: values.description });
+                dispatch(updateSlider({ data, id: values.id, isFile: false }));
+            } else {
+                const data = new FormData();
+                data.append('SLIDER_NAME', values.name);
+                data.append('DESCRIPTION', values.description);
+                data.append('FILEUPLOAD', values.image, values.image.name);
+                data.append('oldImage', slider.data[sliderIndex].SLIDER_IMAGE);
+
+                dispatch(updateSlider({ data, id: values.id, isFile: true }));
+            }
+
             setOpenModal(!openModal);
         }
     });
@@ -21,44 +35,48 @@ function UpdateSlider({ dispatch, isMobileDevice, openModal, setOpenModal, theme
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                <FormControl fullWidth style={{ marginTop: 10 }} error={formik.touched.name && Boolean(formik.errors.name)}>
-                    <InputLabel htmlFor="name">Game Type Name</InputLabel>
-                    <OutlinedInput
-                        value={formik.values.name}
-                        type="text"
-                        id="name"
-                        name="name"
-                        label="Game Type Name"
-                        onChange={formik.handleChange}
+                <TextField
+                    value={formik.values.name}
+                    type="text"
+                    label="Slider Name"
+                    name="name"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    variant="outlined"
+                    fullWidth
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
+                    required
+                />
+                <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
+                    <TextField
+                        type="file"
+                        name="image"
+                        onChange={(e) => formik.setFieldValue(e.target.name, e.target.files[0])}
                         onBlur={formik.handleBlur}
                         variant="outlined"
-                        helperText={formik.touched.name && formik.errors.name}
+                        fullWidth
+                        error={formik.touched.image && Boolean(formik.errors.image)}
+                        helperText={formik.touched.image && formik.errors.image}
                         required
                     />
-                    {formik.touched.name && formik.errors.name && <FormHelperText id="name-error">{formik.errors.name}</FormHelperText>}
                 </FormControl>
-                <FormControl
+                <TextField
+                    value={formik.values.description}
+                    type="text"
+                    name="description"
+                    multiline
+                    rows={5}
+                    style={{ marginTop: 10, marginBottom: 10 }}
                     fullWidth
-                    style={{ marginTop: 15, marginBottom: 10 }}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    variant="outlined"
+                    label="Description"
                     error={formik.touched.description && Boolean(formik.errors.description)}
-                >
-                    <InputLabel htmlFor="description">Description</InputLabel>
-                    <OutlinedInput
-                        value={formik.values.description}
-                        multiline
-                        rows={10}
-                        type="text"
-                        id="description"
-                        name="description"
-                        label="Description"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        variant="outlined"
-                    />
-                    {formik.touched.description && formik.errors.description && (
-                        <FormHelperText id="description-error">{formik.errors.description}</FormHelperText>
-                    )}
-                </FormControl>
+                    helperText={formik.touched.description && formik.errors.description}
+                />
+
                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                     <Button
                         type="reset"

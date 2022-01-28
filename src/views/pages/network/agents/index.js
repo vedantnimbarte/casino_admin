@@ -13,19 +13,20 @@ import approvalList from './__mock__/approval-list';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getAgent } from 'store/thunk/network/agent.thunk';
-import { setDataIndex } from 'store/reducers/network/agent.reducer';
+import { clearAgentList, setDataIndex } from 'store/reducers/network/agent.reducer';
 
 // Components
 import MainCard from 'ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
-import Modal from 'components/ResponsiveModal';
 
+import Modal from './components/Modal';
 import TabPanel from './components/TabPanel';
 import AlertComponent from 'components/Alert';
 import UpdateAgent from './components/Forms/UpdateAgent';
 import CreateAgent from './components/Forms/NewAgent';
 import { getPermissions } from 'store/thunk/configuration/permissions.thunk';
+import { getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
 
 function Network() {
     const agent = useSelector((state) => state.agent);
@@ -68,7 +69,7 @@ function Network() {
             }
         },
         {
-            name: 'MENU_NAME',
+            name: 'AGENT_NAME',
             label: 'NAME',
             options: {
                 filter: false,
@@ -77,8 +78,46 @@ function Network() {
             }
         },
         {
-            name: 'MENU_SLUG',
-            label: 'URL',
+            name: 'AGENT_USERNAME',
+            label: 'USERNAME',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'AGENT_EMAIL',
+            label: 'EMAIL',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'AGENT_PHONE',
+            label: 'PHONE NO',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'ROLE_ID',
+            label: 'AGENT TYPE',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => {
+                    agentType.agentTypesList.map((type) => <Typography>{type}</Typography>);
+                }
+            }
+        },
+        {
+            name: 'ADDRESS',
+            label: 'ADDRESS',
             options: {
                 filter: false,
                 sort: true,
@@ -153,10 +192,14 @@ function Network() {
     };
 
     useEffect(() => {
-        dispatch(getAgent({ pageno: pageNo, limit: pageLmit }));
+        // dispatch(clearAgentList());
+        dispatch(getAgent({ pageno: pageNo, limit: pageLmit, isActive: Boolean(!value) }));
+        dispatch(getAgentTypesList());
     }, [pageNo, pageLmit]);
 
     const handleChange = (event, newValue) => {
+        dispatch(clearAgentList());
+        dispatch(getAgent({ pageno: pageNo, limit: pageLmit, isActive: Boolean(value) }));
         setValue(newValue);
     };
 
@@ -217,8 +260,8 @@ function Network() {
                 <TabPanel value={value} index={1}>
                     <MainCard title={!isMobileDevice && 'Agents Approval List'}>
                         <Box>
-                            {approvalList.length > 0 ? (
-                                <DataTable title="Agents Approval List" data={approvalList} columns={columns} options={options} />
+                            {agent.data.length > 0 ? (
+                                <DataTable title="Agents Approval List" data={agent.data} columns={columns} options={options} />
                             ) : (
                                 <NotFoundCard msg="Sorry, No data found" />
                             )}
@@ -237,19 +280,21 @@ function Network() {
                     dispatch={dispatch}
                     permissionsList={permissions}
                     gameTypesList={gameType}
-                    agentType={agentType}
+                    agent={agent}
                 />
             </Modal>
 
-            {/* <Modal title="Update Agent" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
+            <Modal title="Update Agent" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
                 <UpdateAgent
                     agent={agent}
+                    permissionsList={permissions}
+                    gameTypesList={gameType}
                     open={updateModal}
                     onClose={() => setUpdateModal(!updateModal)}
                     dispatch={dispatch}
                     agentIdx={agentIdx}
                 />
-            </Modal> */}
+            </Modal>
         </Box>
     );
 }

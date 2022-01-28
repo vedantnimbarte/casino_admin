@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     Box,
-    TextField,
     MenuItem,
     Grid,
     Button,
@@ -20,15 +19,16 @@ import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as Cancel
 import propTypes from 'prop-types';
 import { useFormik } from 'formik';
 import agentSchema from 'schema/agent.schema';
-import { getPermissions } from 'store/thunk/configuration/permissions.thunk';
-import { getGameType } from 'store/thunk/configuration/gameType.thunk';
-import { getAgentType, getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
+import { createAgent, getAgentList, getAgentTypeList, getGamesList, getPermissionsList } from 'store/thunk/network/agent.thunk';
+import { clearAgentList, removeLastAgentType } from 'store/reducers/network/agent.reducer';
+import { API_URL, InternalAPI, SubRoutes } from 'common/constants';
 
-function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesList, agentType }) {
+function CreateAgent({ onClose, openModal, dispatch, agent }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
-    const [gameType, setGameType] = React.useState([]);
-    const [permissions, setPermissions] = React.useState([]);
+
+    const [agentIndex, setAgentIndex] = useState('');
+    const [agentList, setAgentList] = useState({});
 
     const formik = useFormik({
         initialValues: {
@@ -38,14 +38,25 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
             password: '',
             confirm_password: '',
             phone_no: '',
-            agent_type: '',
+            agent: '',
             address: '',
-            game_type_permissions: '',
-            permissions: ''
+            game_type_permissions: [],
+            permissions: [],
+            active: false.toString()
         },
         validationSchema: agentSchema,
         onSubmit: (values) => {
-            console.log(values);
+            const data = {};
+            Object.assign(data, { AGENT_NAME: values.name });
+            Object.assign(data, { AGENT_USERNAME: values.username });
+            Object.assign(data, { AGENT_EMAIL: values.email });
+            Object.assign(data, { PASSWORD: values.password });
+            Object.assign(data, { AGENT_PHONE: values.phone_no });
+            Object.assign(data, { ADDRESS: values.address });
+            Object.assign(data, { ROLE_ID: values.agent });
+            Object.assign(data, { GAMEGROUP_IDS: values.game_type_permissions.toString() });
+            Object.assign(data, { AGENT_PERMISSION_IDS: values.permissions.toString() });
+            dispatch(createAgent(data));
         }
     });
 
@@ -60,90 +71,167 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
         }
     };
 
+    // HANDLE GAME TYPES SELECTION
     const handleGameTypeChange = (event) => {
         const {
             target: { value }
         } = event;
-        setGameType(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value
-        );
+        formik.setFieldValue('game_type_permissions', typeof value === 'string' ? value.split(',') : value);
     };
+
+    // HANDLE PERMISSIONS SELECTION
     const handlePermissionsChange = (event) => {
         const {
             target: { value }
         } = event;
-        setPermissions(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value
-        );
+        formik.setFieldValue('permissions', typeof value === 'string' ? value.split(',') : value);
     };
 
+    // GETTING AGENT TYPES AND GAME TYPES LIST ON PAGE RENDER
     useEffect(() => {
-        dispatch(getPermissions({ roleid: 1, pageno: 0, limit: 10 }));
-        dispatch(getGameType({ pageno: 0, limit: 10 }));
-        dispatch(getAgentTypesList());
+        dispatch(getAgentTypeList());
+        dispatch(getGamesList({ id: 123 }));
     }, []);
+
+    // GETTING AGENT TYPES AND GAME TYPES LIST ON PAGE RENDER
+    useEffect(() => {
+        if (typeof agentIndex === 'number') {
+            dispatch(removeLastAgentType(agentIndex));
+        }
+    }, [agentIndex]);
+
+    // GETTING PERMISSIONS LIST AFTER AGENT TYPE SELECTION
+    useEffect(() => {
+        if (typeof formik.values.agent === 'number') {
+            formik.setFieldValue('permissions', []);
+            dispatch(getPermissionsList({ id: formik.values.agent }));
+            getAgentData();
+        }
+    }, [formik.values.agent]);
+    console.log('data', agentList);
+    const getAgentData = async () => {
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        if (agent.agentTypesList[agentIndex].ROLE_PARENT_ID.split(',').length > 0) {
+            const response = await fetch(
+                `${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}/${agent.agentTypesList[agentIndex - 1].ROLE_ID}`,
+                requestOptions
+            );
+            const result = await response.json();
+            if (result.status === true) {
+                setAgentList({ ...agentList, [agent.agentTypesList[agentIndex].ROLE_ID]: result.data });
+            }
+        } else {
+            const response = await fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}`, requestOptions);
+            const result = await response.json();
+            if (result.status === true) {
+                setAgentList(...agentList, { [agent.agentTypesList[agentIndex].ROLE_ID]: result.data });
+            }
+        }
+    };
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
             <form noValidate onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-                <FormControl
-                    fullWidth
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                >
-                    <InputLabel htmlFor="name">Name</InputLabel>
-                    <OutlinedInput
-                        value={formik.values.name}
-                        type="text"
-                        id="name"
-                        name="name"
-                        label="name"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        required
-                    />
-                    {formik.touched.name && formik.errors.name && <FormHelperText>{formik.errors.name}</FormHelperText>}
-                </FormControl>
-                <FormControl
-                    fullWidth
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.username && Boolean(formik.errors.username)}
-                >
-                    <InputLabel htmlFor="username">Username</InputLabel>
-                    <OutlinedInput
-                        value={formik.values.username}
-                        type="text"
-                        id="username"
-                        name="username"
-                        label="Username"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        variant="outlined"
-                        required
-                    />
-                    {formik.touched.username && formik.errors.username && <FormHelperText>{formik.errors.username}</FormHelperText>}
-                </FormControl>
-                <FormControl
-                    fullWidth
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                >
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <OutlinedInput
-                        value={formik.values.email}
-                        type="text"
-                        id="email"
-                        name="email"
-                        label="Email"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        variant="outlined"
-                        required
-                    />
-                    {formik.touched.email && formik.errors.email && <FormHelperText>{formik.errors.email}</FormHelperText>}
-                </FormControl>
+                <Grid container>
+                    {/* NAME FIELD */}
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
+                        <FormControl
+                            fullWidth
+                            style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                        >
+                            <InputLabel htmlFor="name">Name</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.name}
+                                type="text"
+                                id="name"
+                                name="name"
+                                label="name"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                required
+                            />
+                            {formik.touched.name && formik.errors.name && <FormHelperText>{formik.errors.name}</FormHelperText>}
+                        </FormControl>
+                    </Grid>
+
+                    {/* USERNAME FIELD */}
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
+                        <FormControl
+                            fullWidth
+                            style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
+                            error={formik.touched.username && Boolean(formik.errors.username)}
+                        >
+                            <InputLabel htmlFor="username">Username</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.username}
+                                type="text"
+                                id="username"
+                                name="username"
+                                label="Username"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                required
+                            />
+                            {formik.touched.username && formik.errors.username && <FormHelperText>{formik.errors.username}</FormHelperText>}
+                        </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    {/* EMAIL FIELD */}
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
+                        <FormControl
+                            fullWidth
+                            style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                        >
+                            <InputLabel htmlFor="email">Email</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.email}
+                                type="text"
+                                id="email"
+                                name="email"
+                                label="Email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                required
+                            />
+                            {formik.touched.email && formik.errors.email && <FormHelperText>{formik.errors.email}</FormHelperText>}
+                        </FormControl>
+                    </Grid>
+
+                    {/* PHONE NO FIELD */}
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
+                        <FormControl
+                            fullWidth
+                            style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
+                            error={formik.touched.phone_no && Boolean(formik.errors.phone_no)}
+                        >
+                            <InputLabel htmlFor="phone_no">Phone No</InputLabel>
+                            <OutlinedInput
+                                value={formik.values.phone_no}
+                                type="text"
+                                id="phone_no"
+                                name="phone_no"
+                                label="Phone No"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                variant="outlined"
+                                required
+                            />
+                            {formik.touched.phone_no && formik.errors.phone_no && <FormHelperText>{formik.errors.phone_no}</FormHelperText>}
+                        </FormControl>
+                    </Grid>
+                </Grid>
+
+                {/* PASSWORD FIELDS */}
                 <Grid container>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <FormControl
@@ -166,6 +254,7 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                             {formik.touched.password && formik.errors.password && <FormHelperText>{formik.errors.password}</FormHelperText>}
                         </FormControl>
                     </Grid>
+
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <FormControl
                             fullWidth
@@ -190,25 +279,8 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                         </FormControl>
                     </Grid>
                 </Grid>
-                <FormControl
-                    fullWidth
-                    style={{ marginTop: 10, marginBottom: 10 }}
-                    error={formik.touched.phone_no && Boolean(formik.errors.phone_no)}
-                >
-                    <InputLabel htmlFor="phone_no">Phone No</InputLabel>
-                    <OutlinedInput
-                        value={formik.values.phone_no}
-                        type="text"
-                        id="phone_no"
-                        name="phone_no"
-                        label="Phone No"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        variant="outlined"
-                        required
-                    />
-                    {formik.touched.phone_no && formik.errors.phone_no && <FormHelperText>{formik.errors.phone_no}</FormHelperText>}
-                </FormControl>
+
+                {/* ADDRESS FIELD */}
                 <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
@@ -231,6 +303,8 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                     />
                     {formik.touched.address && formik.errors.address && <FormHelperText>{formik.errors.address}</FormHelperText>}
                 </FormControl>
+
+                {/* AGENT TYPE DROPDOWN LIST */}
                 <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
@@ -247,15 +321,89 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                         variant="outlined"
                         required
                     >
-                        {agentType.agentTypesList.length > 0 ? (
-                            agentType.agentTypesList?.map((value) => <MenuItem value={value.ROLE_ID}>{value.ROLE_NAME}</MenuItem>)
+                        {agent.agentTypesList.length > 0 ? (
+                            agent.agentTypesList?.map((item, index) => (
+                                <MenuItem value={item.ROLE_ID} onClick={() => setAgentIndex(index)}>
+                                    {item.ROLE_NAME}
+                                </MenuItem>
+                            ))
                         ) : (
                             <MenuItem disabled>No Agent Types Available</MenuItem>
                         )}
                     </Select>
                     {formik.touched.agent_type && formik.errors.agent_type && <FormHelperText>{formik.errors.agent_type}</FormHelperText>}
                 </FormControl>
+
+                {/* AGENTS DROPDOWN GRID */}
                 <Grid container>
+                    {typeof agentIndex === 'number' &&
+                    agent.agentTypesList[[agent.agentTypesList.length - 1]].ROLE_ID === agent.agentTypesList[agentIndex].ROLE_ID ? (
+                        <Grid item xs={12} sm={12} md={6} lg={6}>
+                            <FormControl
+                                fullWidth
+                                style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
+                                error={formik.touched.agent_type && Boolean(formik.errors.agent_type)}
+                            >
+                                <InputLabel htmlFor="agent">Select {agent.agentTypesList[agentIndex - 1].ROLE_NAME}</InputLabel>
+                                <Select
+                                    value={formik.values.agent}
+                                    id="agent"
+                                    name="agent"
+                                    label={`Select ${agent.agentTypesList[agentIndex - 1].ROLE_NAME}`}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    variant="outlined"
+                                    required
+                                >
+                                    {agent.agentTypesList.length > 0 ? (
+                                        agent.agentTypesList?.map((item) => <MenuItem value={item.ROLE_ID}>{item.ROLE_NAME}</MenuItem>)
+                                    ) : (
+                                        <MenuItem disabled>No Agent Types Available</MenuItem>
+                                    )}
+                                </Select>
+                                {formik.touched.agent_type && formik.errors.agent_type && (
+                                    <FormHelperText>{formik.errors.agent_type}</FormHelperText>
+                                )}
+                            </FormControl>
+                        </Grid>
+                    ) : (
+                        agent?.agentTypesList[agentIndex]?.ROLE_PARENT_ID.length > 0 &&
+                        agent?.agentTypesList[agentIndex].ROLE_PARENT_ID.split(',').map((value, index) => (
+                            <Grid item xs={12} sm={12} md={6} lg={6}>
+                                {JSON.stringify(agentList[agent.agentTypesList[agentIndex].AGENT_ID])}
+                                <FormControl
+                                    fullWidth
+                                    style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
+                                    error={formik.touched.agent_type && Boolean(formik.errors.agent_type)}
+                                >
+                                    <InputLabel htmlFor="agent">Select {agent.agentTypesList[index].ROLE_NAME}</InputLabel>
+                                    <Select
+                                        value={formik.values.agent}
+                                        id="agent"
+                                        name="agent"
+                                        label="Select Agent Type"
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        variant="outlined"
+                                        required
+                                    >
+                                        {agentList[agent.agentTypesList[agentIndex].AGENT_ID]?.length > 0 ? (
+                                            agentList[agent.agentTypesList[agentIndex].AGENT_ID]?.map((item) => (
+                                                <MenuItem value={item.AGENT_ID}>{item.AGENT_USERNAME}</MenuItem>
+                                            ))
+                                        ) : (
+                                            <MenuItem disabled>No Agent Types Available</MenuItem>
+                                        )}
+                                    </Select>
+                                    {formik.touched.agent_type && formik.errors.agent_type && (
+                                        <FormHelperText>{formik.errors.agent_type}</FormHelperText>
+                                    )}
+                                </FormControl>
+                            </Grid>
+                        ))
+                    )}
+
+                    {/* GAME PERMISSIONS DROPDOWN */}
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
                             <InputLabel id="demo-multiple-chip-label">Select Game Type Permissions</InputLabel>
@@ -264,27 +412,26 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                                 id="demo-multiple-chip"
                                 multiple
                                 fullWidth
-                                value={gameType}
+                                value={formik.values.game_type_permissions}
                                 style={{ width: '99%' }}
                                 onChange={handleGameTypeChange}
                                 onBlur={formik.handleBlur}
                                 error={formik.touched.game_type_permissions && Boolean(formik.errors.game_type_permissions)}
                                 helperText={formik.touched.game_type_permissions && formik.errors.game_type_permissions}
                                 input={<OutlinedInput id="select-multiple-chip" label="Select Game Type Permissions" />}
-                                renderValue={(selected) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.map((value) => (
-                                            <Chip key={value} label={value} />
-                                        ))}
-                                    </Box>
+                                renderValue={(selected, index) => (
+                                    <Chip
+                                        key={agent.gamesTypesList[index]?.GAMEGROUP_ID}
+                                        label={`${selected.length} Game Types Selected`}
+                                    />
                                 )}
                                 MenuProps={MenuProps}
                             >
-                                {gameTypesList.data.length > 0 ? (
-                                    gameTypesList.data?.map((gt) => (
-                                        <MenuItem key={gt} value={gt.GAMEGROUP_ID}>
-                                            <Checkbox checked={gameType.indexOf(gt) > -1} />
-                                            <ListItemText primary={gt.GAMEGROUP_NAME} />
+                                {agent.gamesTypesList.length > 0 ? (
+                                    agent.gamesTypesList?.map(({ GAMEGROUP_ID, GAMEGROUP_NAME }) => (
+                                        <MenuItem key={GAMEGROUP_ID} value={GAMEGROUP_ID}>
+                                            <Checkbox checked={formik.values.game_type_permissions.includes(GAMEGROUP_ID)} />
+                                            <ListItemText primary={GAMEGROUP_NAME} />
                                         </MenuItem>
                                     ))
                                 ) : (
@@ -296,6 +443,8 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                             )}
                         </FormControl>
                     </Grid>
+
+                    {/* PERMISSIONS DORPDOWN */}
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
                             <InputLabel id="demo-multiple-chip-label">Select Permissions</InputLabel>
@@ -305,26 +454,25 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                                 multiple
                                 fullWidth
                                 style={{ width: '99%' }}
-                                value={permissions}
+                                value={formik.values.permissions}
                                 onChange={handlePermissionsChange}
                                 onBlur={formik.handleBlur}
                                 error={formik.touched.permissions && Boolean(formik.errors.permissions)}
                                 helperText={formik.touched.permissions && formik.errors.permissions}
                                 input={<OutlinedInput id="select-multiple-chip" label="Select Permissions" />}
-                                renderValue={(selected) => (
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                        {selected.map((value) => (
-                                            <Chip key={value} label={value} />
-                                        ))}
-                                    </Box>
+                                renderValue={(selected, index) => (
+                                    <Chip
+                                        key={agent.permissionsList[index]?.AGENT_PERMISSION_ID}
+                                        label={`${selected.length} Permissions Selected`}
+                                    />
                                 )}
                                 MenuProps={MenuProps}
                             >
-                                {permissionsList.data.length > 0 ? (
-                                    permissionsList.data?.map((permission) => (
-                                        <MenuItem key={permission} value={permission.AGENT_PERMISSION_KEY}>
-                                            <Checkbox checked={permissions.indexOf(permission) > -1} />
-                                            <ListItemText primary={permission.AGENT_PERMISSION_VALUE} />
+                                {agent.permissionsList.length > 0 ? (
+                                    agent.permissionsList?.map(({ AGENT_PERMISSION_ID, AGENT_PERMISSION_VALUE }, index) => (
+                                        <MenuItem key={AGENT_PERMISSION_ID} value={AGENT_PERMISSION_ID}>
+                                            <Checkbox checked={formik.values.permissions.includes(AGENT_PERMISSION_ID)} />
+                                            <ListItemText primary={AGENT_PERMISSION_VALUE} />
                                         </MenuItem>
                                     ))
                                 ) : (
@@ -336,7 +484,33 @@ function CreateAgent({ onClose, openModal, dispatch, permissionsList, gameTypesL
                             )}
                         </FormControl>
                     </Grid>
+
+                    {/* APPROVE/DISAPPROVE DORPDOWN */}
+                    <Grid item xs={12} sm={12} md={6} lg={6}>
+                        <FormControl fullWidth style={{ marginTop: 10, marginBottom: 10 }}>
+                            <InputLabel id="approve-agent">Approve Agent</InputLabel>
+                            <Select
+                                labelId="approve-agent"
+                                id="demo-multiple-chip"
+                                fullWidth
+                                value={formik.values.active}
+                                style={{ width: '99%' }}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                error={formik.touched.active && Boolean(formik.errors.active)}
+                                helperText={formik.touched.active && formik.errors.active}
+                            >
+                                <MenuItem value={true.toString()}>APPROVE</MenuItem>
+                                <MenuItem value={false.toString()}>DISAPPROVE</MenuItem>
+                            </Select>
+                            {formik.touched.active && Boolean(formik.errors.active) && (
+                                <FormHelperText>{formik.errors.active}</FormHelperText>
+                            )}
+                        </FormControl>
+                    </Grid>
                 </Grid>
+
+                {/* BUTTON GROUP (SUBMIT-RESET-CANCEL) */}
                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right', padding: 0 }}>
                     <Button
                         type="reset"

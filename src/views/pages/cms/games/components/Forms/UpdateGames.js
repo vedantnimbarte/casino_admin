@@ -40,7 +40,6 @@ function UpdateGames({ dispatch, openModal, setOpenModal, theme, games, gamesInd
             setOpenModal(!openModal);
         }
     });
-    console.log(formik);
     useEffect(() => {
         dispatch(getGameType({ pageno: 0, limit: 10 }));
     }, []);

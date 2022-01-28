@@ -22,7 +22,7 @@ import propTypes from 'prop-types';
 import { useFormik } from 'formik';
 import agentSchema from 'schema/agent.schema';
 
-function UpdateAgent({ agent, onClose, openModal, dispatch, agentIdx }) {
+function UpdateAgent({ agent, onClose, openModal, dispatch, agentIdx, permissionsList, gameTypesList }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const [gameType, setGameType] = React.useState([]);
@@ -57,9 +57,6 @@ function UpdateAgent({ agent, onClose, openModal, dispatch, agentIdx }) {
             }
         }
     };
-
-    const gameTypesList = ['All', 'Fish', 'Table', 'Slot'];
-    const permissionsList = ['All'];
 
     const handleGameTypeChange = (event) => {
         const {

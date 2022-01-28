@@ -11,7 +11,7 @@ import { setDataIndex } from 'store/reducers/configuration/agentType.reducer';
 // Components
 import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
-import Modal from 'components/FullScreenDialog';
+import Modal from 'components/ResponsiveModal';
 import NotFoundCard from 'components/NotFoundCard';
 import AlertComponent from 'components/Alert';
 import UpdateAgentType from './components/Forms/UpdateAgentType';
@@ -131,7 +131,7 @@ function Roles() {
         print: false,
         download: false,
         search: false,
-        selectableRows: false,
+        selectableRows: 'none',
         rowsPerPage: pageLmit,
         pagination: true,
         rowsPerPageOptions: [10, 20, 30],

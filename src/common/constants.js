@@ -22,6 +22,8 @@ class InternalAPI {
 class SubRoutes {
     static LIST = '/list';
     static FILE = '/file';
+    static GAMETYPE = '/gametypes';
+    static AGENTLIST = '/agenttypes';
 }
 
 export { API_URL, IMAGE_URL, InternalAPI, SubRoutes };

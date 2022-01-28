@@ -1,5 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAgent, createAgent, updateAgent, deleteAgent } from 'store/thunk/network/agent.thunk';
+import {
+    getAgent,
+    createAgent,
+    updateAgent,
+    deleteAgent,
+    getAgentTypeList,
+    getPermissionsList,
+    getGamesList,
+    getAgentList
+} from 'store/thunk/network/agent.thunk';
 
 const AgentSlice = createSlice({
     name: 'agent',
@@ -8,12 +17,25 @@ const AgentSlice = createSlice({
         msg: '',
         totalRecords: 0,
         data: [],
-        dataIndex: '',
-        prevStatus: ''
+        agentTypesList: [],
+        permissionsList: [],
+        gamesTypesList: [],
+        agentsList: [],
+        dataIndex: ''
     },
     reducers: {
         setDataIndex: (state, { payload }) => {
             state.dataIndex = payload;
+        },
+        clearAgentList: (state, { payload }) => {
+            state.data.length = 0;
+        },
+        removeLastAgentType: (state, { payload }) => {
+            if (typeof payload === 'number') {
+                const parent = state.agentTypesList[payload].ROLE_PARENT_ID.split(',');
+                parent.pop();
+                state.agentTypesList[payload].ROLE_PARENT_ID = parent.toString();
+            }
         }
     },
     extraReducers: {
@@ -34,6 +56,86 @@ const AgentSlice = createSlice({
             }
         },
         [getAgent.rejected]: (state) => {
+            state.status = 'failed';
+            state.msg = 'Something went wrong. Please try again.';
+        },
+
+        // Get Agent Type Reducers
+        [getAgentTypeList.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getAgentTypeList.fulfilled]: (state, { payload }) => {
+            if (payload.status === true) {
+                state.msg = payload.msg;
+                state.agentTypesList = payload.data;
+                state.status = 'success';
+            }
+            if (payload.status === false) {
+                state.msg = payload.msg || 'Network Error';
+                state.status = 'failed';
+            }
+        },
+        [getAgentTypeList.rejected]: (state) => {
+            state.status = 'failed';
+            state.msg = 'Something went wrong. Please try again.';
+        },
+
+        // Get Agent Type Reducers
+        [getPermissionsList.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getPermissionsList.fulfilled]: (state, { payload }) => {
+            if (payload.status === true) {
+                state.msg = payload.msg;
+                state.permissionsList = payload.data;
+                state.status = 'success';
+            }
+            if (payload.status === false) {
+                state.msg = payload.msg || 'Network Error';
+                state.status = 'failed';
+            }
+        },
+        [getPermissionsList.rejected]: (state) => {
+            state.status = 'failed';
+            state.msg = 'Something went wrong. Please try again.';
+        },
+
+        // Get Agent Type Reducers
+        [getGamesList.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getGamesList.fulfilled]: (state, { payload }) => {
+            if (payload.status === true) {
+                state.msg = payload.msg;
+                state.gamesTypesList = payload.data;
+                state.status = 'success';
+            }
+            if (payload.status === false) {
+                state.msg = payload.msg || 'Network Error';
+                state.status = 'failed';
+            }
+        },
+        [getGamesList.rejected]: (state) => {
+            state.status = 'failed';
+            state.msg = 'Something went wrong. Please try again.';
+        },
+
+        // Get Agents List Reducers
+        [getAgentList.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getAgentList.fulfilled]: (state, { payload }) => {
+            if (payload.status === true) {
+                state.msg = payload.msg;
+                state.agentsList = payload.data;
+                state.status = 'success';
+            }
+            if (payload.status === false) {
+                state.msg = payload.msg || 'Network Error';
+                state.status = 'failed';
+            }
+        },
+        [getAgentList.rejected]: (state) => {
             state.status = 'failed';
             state.msg = 'Something went wrong. Please try again.';
         },
@@ -106,6 +208,6 @@ const AgentSlice = createSlice({
     }
 });
 
-export const { setDataIndex } = AgentSlice.actions;
+export const { setDataIndex, clearAgentList, removeLastAgentType } = AgentSlice.actions;
 
 export default AgentSlice.reducer;

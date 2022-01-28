@@ -1,8 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { API_URL, InternalAPI, SubRoutes } from 'common/constants';
 
-// TODO: UPDATE KEYS FOR REQUEST BODY
-
 // CREATE Games THUNK
 export const createGames = createAsyncThunk('games/createGames', async (gameData) => {
     const requestOptions = {

@@ -33,7 +33,9 @@ const AgentSlice = createSlice({
         removeLastAgentType: (state, { payload }) => {
             if (typeof payload === 'number') {
                 const parent = state.agentTypesList[payload].ROLE_PARENT_ID.split(',');
-                parent.pop();
+                if (parent[parent.length - 1] == 1) {
+                    parent.pop();
+                }
                 state.agentTypesList[payload].ROLE_PARENT_ID = parent.toString();
             }
         }

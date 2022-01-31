@@ -24,6 +24,7 @@ class SubRoutes {
     static FILE = '/file';
     static GAMETYPE = '/gametypes';
     static AGENTLIST = '/agenttypes';
+    static USERNAME_VERIFY = '/agents';
 }
 
 export { API_URL, IMAGE_URL, InternalAPI, SubRoutes };

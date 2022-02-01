@@ -70,15 +70,15 @@ export const getGamesList = createAsyncThunk('agent/getGamesList', async ({ id }
 });
 
 // UPDATE MENU THUNK
-export const updateAgent = createAsyncThunk('agent/updateAgent', async ({ name, slug, id }) => {
-    // const requestOptions = {
-    //     method: 'PUT',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ MENU_NAME: name, MENU_SLUG: slug })
-    // };
-    // return fetch(`${API_URL}${InternalAPI.AGENT}/${id}`, requestOptions).then((res) => res.json());
+export const updateAgent = createAsyncThunk('agent/updateAgent', async ({ data, id }) => {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+    return fetch(`${API_URL}${InternalAPI.AGENT}/${id}`, requestOptions).then((res) => res.json());
 });
 
 // DELETE AGENT TYPE THUNK

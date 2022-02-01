@@ -1,14 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, Button, Paper, useMediaQuery, useTheme, Divider, Typography, Tooltip, IconButton } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
-import { useFormik } from 'formik';
+import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon, IconBan as BlockIcon } from '@tabler/icons';
 import { useLocation } from 'react-router';
 import moment from 'moment';
-
-import agentSchema from 'schema/agent.schema';
-
-// __mock__ data
-import approvalList from './__mock__/approval-list';
 
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,8 +19,9 @@ import TabPanel from './components/TabPanel';
 import AlertComponent from 'components/Alert';
 import UpdateAgent from './components/Forms/UpdateAgent';
 import CreateAgent from './components/Forms/NewAgent';
-import { getPermissions } from 'store/thunk/configuration/permissions.thunk';
 import { getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
+import DeleteConfirmation from './components/Dialog/DeleteConfirmation';
+import BlockConfirmation from './components/Dialog/BlockConfirmation';
 
 function Network() {
     const agent = useSelector((state) => state.agent);
@@ -42,6 +37,7 @@ function Network() {
     const [openModal, setOpenModal] = useState(false);
     const [updateModal, setUpdateModal] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
+    const [blockDialog, setBlockDialog] = useState(false);
     const [agentId, setAgentId] = useState();
 
     const [value, setValue] = useState(0);
@@ -150,6 +146,19 @@ function Network() {
                                 }}
                             >
                                 <UpdateIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Block">
+                            <IconButton
+                                color="error"
+                                size="small"
+                                onClick={() => {
+                                    setBlockDialog(!blockDialog);
+                                    dispatch(setDataIndex(dataIndex));
+                                    setAgentId(agent.data[dataIndex].AGENT_ID);
+                                }}
+                            >
+                                <BlockIcon />
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Delete">
@@ -295,6 +304,28 @@ function Network() {
                     agentIdx={agentIdx}
                 />
             </Modal>
+
+            {/* Delete confirmation dialog */}
+            <Box>
+                <DeleteConfirmation
+                    agent={agent}
+                    dispatch={dispatch}
+                    openDialog={openDialog}
+                    setOpenDialog={setOpenDialog}
+                    agentId={agentId}
+                />
+            </Box>
+
+            {/* Block confirmation dialog */}
+            <Box>
+                <BlockConfirmation
+                    agent={agent}
+                    dispatch={dispatch}
+                    openDialog={blockDialog}
+                    setOpenDialog={setBlockDialog}
+                    agentId={agentId}
+                />
+            </Box>
         </Box>
     );
 }

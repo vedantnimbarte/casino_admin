@@ -11,8 +11,8 @@ function CreateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, the
             coins: '',
             diamonds: '',
             price: '',
-            discount: '',
-            percentage: ''
+            discount: false,
+            percentage: 0
         },
         validationSchema: gamingPackSchema,
         onSubmit: (values) => {
@@ -45,11 +45,11 @@ function CreateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, the
                     )}
                 </FormControl>
                 <FormControl fullWidth error={formik.touched.coins && Boolean(formik.errors.coins)} style={{ marginBottom: 10 }}>
-                    <InputLabel htmlFor="coins">Amount of Coins</InputLabel>
+                    <InputLabel htmlFor="coins">Amount of Majestic Coins</InputLabel>
                     <OutlinedInput
                         value={formik.values.coins}
                         type="number"
-                        label="Amount of Coins"
+                        label="Amount of Majestic Coins"
                         name="coins"
                         id="coins"
                         min="0"
@@ -91,7 +91,7 @@ function CreateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, the
                     />
                     {formik.touched.price && formik.errors.price && <FormHelperText id="price-error">{formik.errors.price}</FormHelperText>}
                 </FormControl>
-                <FormControl fullWidth error={formik.touched.discount && Boolean(formik.errors.discount)} style={{ marginBottom: 10 }}>
+                {/* <FormControl fullWidth error={formik.touched.discount && Boolean(formik.errors.discount)} style={{ marginBottom: 10 }}>
                     <InputLabel htmlFor="discount">Discount</InputLabel>
                     <Select
                         value={formik.values.discount}
@@ -107,8 +107,8 @@ function CreateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, the
                         <MenuItem value="true">Discount</MenuItem>
                         <MenuItem value="false">No Discount</MenuItem>
                     </Select>
-                </FormControl>
-                {formik.values.discount === 'true' && (
+                </FormControl> */}
+                {/* {formik.values.discount === 'true' && (
                     <FormControl
                         fullWidth
                         error={formik.touched.percentage && Boolean(formik.errors.percentage)}
@@ -129,7 +129,7 @@ function CreateGamePack({ dispatch, isMobileDevice, openModal, setOpenModal, the
                             <FormHelperText id="discount-percentage-error">{formik.errors.percentage}</FormHelperText>
                         )}
                     </FormControl>
-                )}
+                )} */}
 
                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                     <Button

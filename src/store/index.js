@@ -15,6 +15,7 @@ import permissionsReducer from './reducers/configuration/permissions.reducer';
 import menuPermissionsReducer from './reducers/configuration/menuPermissions.reducer';
 import menuReducer from './reducers/configuration/menu.reducer';
 import agentReducer from './reducers/network/agent.reducer';
+import playerReducer from './reducers/player.reducer';
 
 // ==============================|| REDUX - MAIN STORE ||============================== //
 
@@ -33,6 +34,7 @@ export default configureStore({
         permissions: permissionsReducer,
         menuPermissions: menuPermissionsReducer,
         menu: menuReducer,
-        agent: agentReducer
+        agent: agentReducer,
+        player: playerReducer
     }
 });

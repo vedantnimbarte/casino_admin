@@ -93,8 +93,7 @@ function CreateLoyaltyPack({ dispatch, isMobileDevice, openModal, setOpenModal, 
                         </Typography>
                         <Typography>Loyalty Points: {formik.values.multiplier ? formik.values.multiplier : 0} /1$</Typography>
                         <Typography color="error">
-                            If player wagered ${formik.values.pointsNeeded} then he will get{' '}
-                            {Math.round(formik.values.pointsNeeded * formik.values.multiplier)} loyalty points
+                            If player wagered $1000 then he will get {Math.round(1000 * formik.values.multiplier)} loyalty points
                         </Typography>
                     </Box>
                 )}

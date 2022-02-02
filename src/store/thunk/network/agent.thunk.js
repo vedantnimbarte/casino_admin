@@ -25,7 +25,7 @@ export const getAgent = createAsyncThunk('agent/getAgent', async ({ pageno, limi
     return fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.LIST}`, requestOptions).then((res) => res.json());
 });
 
-// GET MENU THUNK
+// GET AGENT TYPES THUNK
 export const getAgentTypeList = createAsyncThunk('agent/getAgentTypeList', async () => {
     const requestOptions = {
         method: 'GET',
@@ -36,7 +36,7 @@ export const getAgentTypeList = createAsyncThunk('agent/getAgentTypeList', async
     return fetch(`${API_URL}${InternalAPI.AGENT}`, requestOptions).then((res) => res.json());
 });
 
-// GET MENU THUNK
+// GET AGENT LIST THUNK
 export const getAgentList = createAsyncThunk('agent/getAgentList', async (id) => {
     const requestOptions = {
         method: 'GET',

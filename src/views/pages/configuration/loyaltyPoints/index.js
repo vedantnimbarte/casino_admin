@@ -83,7 +83,7 @@ function LoyaltyPoints() {
                 sort: true,
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <Typography>
-                        ${tableMeta.rowData[2]} X {tableMeta.rowData[3]} = ${tableMeta.rowData[2] * tableMeta.rowData[3]}
+                        ${1} = {1 * tableMeta.rowData[3]} Loyalty Points
                     </Typography>
                 )
             }

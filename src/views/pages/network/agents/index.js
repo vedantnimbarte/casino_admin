@@ -100,17 +100,15 @@ function Network() {
                 customBodyRender: (value) => <Typography>{value}</Typography>
             }
         },
-        {
-            name: 'ROLE_ID',
-            label: 'AGENT TYPE',
-            options: {
-                filter: false,
-                sort: true,
-                customBodyRender: (value) => {
-                    agentType.agentTypesList.map((type) => <Typography>{type}</Typography>);
-                }
-            }
-        },
+        // {
+        //     name: 'ROLE_ID',
+        //     label: 'AGENT TYPE',
+        //     options: {
+        //         filter: false,
+        //         sort: true,
+        //         customBodyRender: (value) => <Typography>{value}</Typography>
+        //     }
+        // },
         {
             name: 'ADDRESS',
             label: 'ADDRESS',
@@ -128,55 +126,55 @@ function Network() {
                 sort: true,
                 customBodyRender: (value) => <Typography>{moment(value).format('DD/MM/YYYY HH:MM A')}</Typography>
             }
-        },
-        {
-            name: 'action',
-            label: 'Actions',
-            options: {
-                filter: false,
-                sort: false,
-                customBodyRenderLite: (dataIndex) => (
-                    <>
-                        <Tooltip title="Update">
-                            <IconButton
-                                color="primary"
-                                onClick={() => {
-                                    dispatch(setDataIndex(dataIndex));
-                                    handleUpdateModal(dataIndex);
-                                }}
-                            >
-                                <UpdateIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Block">
-                            <IconButton
-                                color="error"
-                                size="small"
-                                onClick={() => {
-                                    setBlockDialog(!blockDialog);
-                                    dispatch(setDataIndex(dataIndex));
-                                    setAgentId(agent.data[dataIndex].AGENT_ID);
-                                }}
-                            >
-                                <BlockIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                            <IconButton
-                                color="error"
-                                onClick={() => {
-                                    setOpenDialog(!openDialog);
-                                    dispatch(setDataIndex(dataIndex));
-                                    setAgentId(agent.data[dataIndex].AGENT_ID);
-                                }}
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </>
-                )
-            }
         }
+        // {
+        //     name: 'action',
+        //     label: 'Actions',
+        //     options: {
+        //         filter: false,
+        //         sort: false,
+        //         customBodyRenderLite: (dataIndex) => (
+        //             <>
+        //                 <Tooltip title="Update">
+        //                     <IconButton
+        //                         color="primary"
+        //                         onClick={() => {
+        //                             dispatch(setDataIndex(dataIndex));
+        //                             handleUpdateModal(dataIndex);
+        //                         }}
+        //                     >
+        //                         <UpdateIcon />
+        //                     </IconButton>
+        //                 </Tooltip>
+        //                 <Tooltip title="Block">
+        //                     <IconButton
+        //                         color="error"
+        //                         size="small"
+        //                         onClick={() => {
+        //                             setBlockDialog(!blockDialog);
+        //                             dispatch(setDataIndex(dataIndex));
+        //                             setAgentId(agent.data[dataIndex].AGENT_ID);
+        //                         }}
+        //                     >
+        //                         <BlockIcon />
+        //                     </IconButton>
+        //                 </Tooltip>
+        //                 <Tooltip title="Delete">
+        //                     <IconButton
+        //                         color="error"
+        //                         onClick={() => {
+        //                             setOpenDialog(!openDialog);
+        //                             dispatch(setDataIndex(dataIndex));
+        //                             setAgentId(agent.data[dataIndex].AGENT_ID);
+        //                         }}
+        //                     >
+        //                         <DeleteIcon />
+        //                     </IconButton>
+        //                 </Tooltip>
+        //             </>
+        //         )
+        //     }
+        // }
     ];
 
     const options = {

@@ -31,6 +31,8 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
     const [agentIndex, setAgentIndex] = useState('');
     const [agentList, setAgentList] = useState({});
 
+    const [cashiorIndex, setCashiorIndex] = useState();
+
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -40,8 +42,7 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
             confirm_password: '',
             phone_no: '',
             agent: '',
-            parentAgent: ['HEllo'],
-            parent: '',
+            parent: [],
             address: '',
             game_type_permissions: [],
             permissions: [],
@@ -55,14 +56,18 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
             Object.assign(data, { AGENT_EMAIL: values.email });
             Object.assign(data, { PASSWORD: values.password });
             Object.assign(data, { AGENT_PHONE: values.phone_no });
-            values.parent !== '' ? Object.assign(data, { PARENT_AGENT_ID: values.parent }) : Object.assign(data, { PARENT_AGENT_ID: 0 });
+            values.parent !== ''
+                ? Object.assign(data, {
+                      PARENT_AGENT_ID: values.parent.length > 0 ? values.parent[values.parent.length - 1] : values.parent
+                  })
+                : Object.assign(data, { PARENT_AGENT_ID: 0 });
             Object.assign(data, { ADDRESS: values.address });
             Object.assign(data, { ROLE_ID: values.agent });
             Object.assign(data, { GAMEGROUP_IDS: values.game_type_permissions.toString() });
             Object.assign(data, { AGENT_PERMISSION_IDS: values.permissions.toString() });
             Object.assign(data, { ISACTIVE: values.active === 'true' ? true : false });
             dispatch(createAgent(data));
-            console.log(values);
+            onClose(!openModal);
         }
     });
 
@@ -91,6 +96,18 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
             target: { value }
         } = event;
         formik.setFieldValue('permissions', typeof value === 'string' ? value.split(',') : value);
+    };
+
+    // HANDLE PARENT SELECTION
+    const handleParentChange = (event, role, agent) => {
+        // CHECKING IF THE AGENT IS CASHIOR
+        if (agent[cashiorIndex]?.AGENT_ID !== undefined) {
+            formik.setFieldValue('parent', [...formik.values.parent, agent[cashiorIndex]?.AGENT_ID]);
+        } else {
+            formik.setFieldValue('parent', [...formik.values.parent, event.target.value]);
+        }
+
+        getChildAgentData(role, agent[cashiorIndex] ? agent[cashiorIndex] : agent[0]);
     };
 
     // GETTING AGENT TYPES AND GAME TYPES LIST ON PAGE RENDER
@@ -126,29 +143,68 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
 
     // CALLING API TO GET AGENT DATA BASED ON AGENT TYPE
     const getAgentData = async () => {
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
+        if (agent.agentTypesList[[agent.agentTypesList.length - 1]].ROLE_ID !== agent.agentTypesList[agentIndex].ROLE_ID) {
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            if (agent.agentTypesList[agentIndex].ROLE_PARENT_ID.split(',').length > 0) {
+                const response = await fetch(
+                    `${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}/${agent.agentTypesList[0].ROLE_ID}`,
+                    requestOptions
+                );
+                if (response.status === 200) {
+                    const result = await response.json();
+                    if (result.status === true) {
+                        setAgentList({ ...agentList, [agent.agentTypesList[0].ROLE_ID]: result.data });
+                    }
+                }
+            } else {
+                const response = await fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}`, requestOptions);
+                if (response.status === 200) {
+                    const result = await response.json();
+                    if (result.status === true) {
+                        setAgentList({ ...agentList, [agent.agentTypesList[0].ROLE_ID]: result.data });
+                    }
+                }
             }
-        };
-        if (agent.agentTypesList[agentIndex].ROLE_PARENT_ID.split(',').length > 0) {
+        } else {
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
             const response = await fetch(
-                `${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}/${agent.agentTypesList[0].ROLE_ID}`,
+                `${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}/${agent.agentTypesList[agentIndex - 1].ROLE_ID}`,
                 requestOptions
             );
             if (response.status === 200) {
                 const result = await response.json();
                 if (result.status === true) {
-                    setAgentList({ ...agentList, [agent.agentTypesList[0].ROLE_ID]: result.data });
+                    setAgentList({ ...agentList, [agent.agentTypesList[agentIndex - 1].ROLE_ID]: result.data });
                 }
             }
-        } else {
-            const response = await fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}`, requestOptions);
+        }
+    };
+
+    // CALLING API TO GET CHILD AGENT DATA BASED ON AGENT TYPE
+    const getChildAgentData = async (role, agent) => {
+        if (agent !== undefined) {
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ AGENT_ID: agent.AGENT_ID, ROLE_ID: role.ROLE_ID })
+            };
+            const response = await fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTS}`, requestOptions);
             if (response.status === 200) {
                 const result = await response.json();
-                if (result.status === true) {
-                    setAgentList({ ...agentList, [agent.agentTypesList[0].ROLE_ID]: result.data });
+                if (result.status === true && result.data.length > 0) {
+                    setAgentList({ ...agentList, [role.ROLE_ID]: result.data });
                 }
             }
         }
@@ -164,7 +220,7 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
                 },
                 body: JSON.stringify({ AGENT_USERNAME: formik.values.username })
             };
-            const response = await fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.USERNAME_VERIFY}`, requestOptions);
+            const response = await fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTS}`, requestOptions);
             if (response.status === 200) {
                 const result = await response.json();
                 if (result.status === false) {
@@ -385,7 +441,6 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
                     {typeof agentIndex === 'number' &&
                     agent.agentTypesList[[agent.agentTypesList.length - 1]].ROLE_ID === agent.agentTypesList[agentIndex].ROLE_ID ? (
                         <Grid item xs={12} sm={12} md={6} lg={6}>
-                            {JSON.stringify(agentList)}
                             <FormControl
                                 fullWidth
                                 style={{ marginTop: 10, marginBottom: 10, width: '99%' }}
@@ -393,17 +448,27 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
                             >
                                 <InputLabel htmlFor="agent">Select {agent.agentTypesList[agentIndex - 1].ROLE_NAME}</InputLabel>
                                 <Select
-                                    value={formik.values.agent}
+                                    value={formik.values.parent[0]}
                                     id="agent"
                                     name="agent"
                                     label={`Select ${agent.agentTypesList[agentIndex - 1].ROLE_NAME}`}
-                                    onChange={formik.handleChange}
+                                    onChange={(e) =>
+                                        handleParentChange(
+                                            e,
+                                            agent.agentTypesList[agentIndex - 1],
+                                            agentList[agent.agentTypesList[agentIndex - 1].ROLE_ID]
+                                        )
+                                    }
                                     onBlur={formik.handleBlur}
                                     variant="outlined"
                                     required
                                 >
-                                    {agent.agentTypesList.length > 0 ? (
-                                        agent.agentTypesList?.map((item) => <MenuItem value={item.ROLE_ID}>{item.ROLE_NAME}</MenuItem>)
+                                    {agentList[agent.agentTypesList[agentIndex - 1].ROLE_ID]?.length > 0 ? (
+                                        agentList[agent.agentTypesList[agentIndex - 1].ROLE_ID]?.map((item, index) => (
+                                            <MenuItem key={item.AGENT_ID} value={item.AGENT_ID} onClick={() => setCashiorIndex(index)}>
+                                                {item.AGENT_USERNAME}
+                                            </MenuItem>
+                                        ))
                                     ) : (
                                         <MenuItem disabled>No Agent Types Available</MenuItem>
                                     )}
@@ -423,13 +488,18 @@ function CreateAgent({ onClose, openModal, dispatch, agent }) {
                                     error={formik.touched.agent_type && Boolean(formik.errors.agent_type)}
                                 >
                                     <InputLabel htmlFor="agent">Select {agent.agentTypesList[index].ROLE_NAME}</InputLabel>
-
                                     <Select
-                                        value={formik.values.parent}
+                                        value={formik.values.parent[index]}
                                         id="parent"
                                         name="parent"
                                         label={`Select ${agent.agentTypesList[index].ROLE_NAME}`}
-                                        onChange={formik.handleChange}
+                                        onChange={(e) =>
+                                            handleParentChange(
+                                                e,
+                                                agent.agentTypesList[index + 1],
+                                                agentList[agent.agentTypesList[index].ROLE_ID]
+                                            )
+                                        }
                                         onBlur={formik.handleBlur}
                                         variant="outlined"
                                         required

@@ -315,7 +315,7 @@ function UpdateAgent({ onClose, openModal, dispatch, agent, agentIdx }) {
                 </FormControl>
 
                 {/* AGENT TYPE DROPDOWN LIST */}
-                <FormControl
+                {/* <FormControl
                     fullWidth
                     style={{ marginTop: 10, marginBottom: 10 }}
                     error={formik.touched.agent_type && Boolean(formik.errors.agent_type)}
@@ -342,7 +342,7 @@ function UpdateAgent({ onClose, openModal, dispatch, agent, agentIdx }) {
                         )}
                     </Select>
                     {formik.touched.agent_type && formik.errors.agent_type && <FormHelperText>{formik.errors.agent_type}</FormHelperText>}
-                </FormControl>
+                </FormControl> */}
 
                 {/* AGENTS DROPDOWN GRID */}
                 <Grid container>

@@ -76,42 +76,42 @@ function Menu() {
                 sort: true,
                 customBodyRender: (value) => <Typography>{moment(value).format('DD/MM/YYYY HH:MM A')}</Typography>
             }
-        },
-        {
-            name: 'action',
-            label: 'Actions',
-            options: {
-                filter: false,
-                sort: false,
-                customBodyRenderLite: (dataIndex) => (
-                    <>
-                        <Tooltip title="Update">
-                            <IconButton
-                                color="primary"
-                                onClick={() => {
-                                    dispatch(setDataIndex(dataIndex));
-                                    handleUpdateModal(dataIndex);
-                                }}
-                            >
-                                <UpdateIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Delete">
-                            <IconButton
-                                color="error"
-                                onClick={() => {
-                                    setOpenDialog(!openDialog);
-                                    dispatch(setDataIndex(dataIndex));
-                                    setMenuId(menu.data[dataIndex].MENU_ID);
-                                }}
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </>
-                )
-            }
         }
+        // {
+        //     name: 'action',
+        //     label: 'Actions',
+        //     options: {
+        //         filter: false,
+        //         sort: false,
+        //         customBodyRenderLite: (dataIndex) => (
+        //             <>
+        //                 <Tooltip title="Update">
+        //                     <IconButton
+        //                         color="primary"
+        //                         onClick={() => {
+        //                             dispatch(setDataIndex(dataIndex));
+        //                             handleUpdateModal(dataIndex);
+        //                         }}
+        //                     >
+        //                         <UpdateIcon />
+        //                     </IconButton>
+        //                 </Tooltip>
+        //                 <Tooltip title="Delete">
+        //                     <IconButton
+        //                         color="error"
+        //                         onClick={() => {
+        //                             setOpenDialog(!openDialog);
+        //                             dispatch(setDataIndex(dataIndex));
+        //                             setMenuId(menu.data[dataIndex].MENU_ID);
+        //                         }}
+        //                     >
+        //                         <DeleteIcon />
+        //                     </IconButton>
+        //                 </Tooltip>
+        //             </>
+        //         )
+        //     }
+        // }
     ];
 
     const options = {
@@ -144,19 +144,19 @@ function Menu() {
             <Box>
                 <MainCard
                     title="Menu Items"
-                    secondary={
-                        <Tooltip title="Add New Menu">
-                            <Button
-                                startIcon={<AddIcon />}
-                                id="add-menu"
-                                onClick={() => setOpenModal(!openModal)}
-                                variant="contained"
-                                color="secondary"
-                            >
-                                Add Menu
-                            </Button>
-                        </Tooltip>
-                    }
+                    // secondary={
+                    //     <Tooltip title="Add New Menu">
+                    //         <Button
+                    //             startIcon={<AddIcon />}
+                    //             id="add-menu"
+                    //             onClick={() => setOpenModal(!openModal)}
+                    //             variant="contained"
+                    //             color="secondary"
+                    //         >
+                    //             Add Menu
+                    //         </Button>
+                    //     </Tooltip>
+                    // }
                 >
                     <Box>
                         {menu.data.length > 0 ? (

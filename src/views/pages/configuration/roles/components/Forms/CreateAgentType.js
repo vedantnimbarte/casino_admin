@@ -56,10 +56,11 @@ function CreateAgentType({ agentType, dispatch, isMobileDevice, openModal, setOp
                         >
                             {agentType.agentTypesList?.map((parentAgentType, index) => (
                                 <MenuItem
-                                    value={parentAgentType.ROLE_ID.toString().concat(
-                                        ',',
-                                        parentAgentType.ROLE_PARENT_ID !== null && parentAgentType.ROLE_PARENT_ID
-                                    )}
+                                    value={
+                                        parentAgentType.ROLE_PARENT_ID == null
+                                            ? parentAgentType.ROLE_ID
+                                            : parentAgentType.ROLE_ID.toString().concat(',', parentAgentType.ROLE_PARENT_ID)
+                                    }
                                     onChange={formik.handleChange}
                                     id={'item' + index}
                                 >

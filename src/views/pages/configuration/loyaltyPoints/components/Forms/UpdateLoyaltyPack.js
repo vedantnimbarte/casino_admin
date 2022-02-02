@@ -8,12 +8,13 @@ function UpdateLoyaltyPack({ loyaltyPack, dispatch, isMobileDevice, openModal, s
     const formik = useFormik({
         initialValues: {
             level: loyaltyPack.data[loyaltyPackIndex].LOYALTY_NAME || '',
-            pointsNeeded: loyaltyPack.data[loyaltyPackIndex].LOYALTY_POINTS || '',
-            multiplier: loyaltyPack.data[loyaltyPackIndex].LOYALTY_MULTIPLIER || ''
+            pointsNeeded: loyaltyPack.data[loyaltyPackIndex].LOYALTY_POINTS.toString() || '',
+            multiplier: loyaltyPack.data[loyaltyPackIndex].LOYALTY_MULTIPLIER || '',
+            id: loyaltyPack.data[loyaltyPackIndex].LOYALTY_ID || ''
         },
         validationSchema: loyaltyPointsSchema,
         onSubmit: (values) => {
-            dispatch(updateLoyaltyPack(values));
+            dispatch(updateLoyaltyPack({ data: values, id: values.id }));
             setOpenModal(!openModal);
         }
     });
@@ -96,8 +97,7 @@ function UpdateLoyaltyPack({ loyaltyPack, dispatch, isMobileDevice, openModal, s
                         </Typography>
                         <Typography>Loyalty Points: {formik.values.multiplier ? formik.values.multiplier : 0} /1$</Typography>
                         <Typography color="error">
-                            If player wagered ${formik.values.pointsNeeded} then he will get{' '}
-                            {Math.round(formik.values.pointsNeeded * formik.values.multiplier)} loyalty points
+                            If player wagered $1000 then he will get {Math.round(1000 * formik.values.multiplier)} loyalty points
                         </Typography>
                     </Box>
                 )}

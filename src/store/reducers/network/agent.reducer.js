@@ -82,7 +82,7 @@ const AgentSlice = createSlice({
             state.msg = 'Something went wrong. Please try again.';
         },
 
-        // Get Agent Type Reducers
+        // Get Permissions List Reducers
         [getPermissionsList.pending]: (state) => {
             state.status = 'loading';
         },
@@ -102,7 +102,7 @@ const AgentSlice = createSlice({
             state.msg = 'Something went wrong. Please try again.';
         },
 
-        // Get Agent Type Reducers
+        // Get Games List Reducers
         [getGamesList.pending]: (state) => {
             state.status = 'loading';
         },

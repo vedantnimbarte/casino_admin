@@ -30,16 +30,16 @@ export const getLoyaltyPack = createAsyncThunk('loyalty_pack/getLoyaltyPack', as
 });
 
 // UPDATE GAME TYPE THUNK
-export const updateLoyaltyPack = createAsyncThunk('loyalty_pack/updateLoyaltyPack', async ({ level, pointsNeeded, multiplier, id }) => {
+export const updateLoyaltyPack = createAsyncThunk('loyalty_pack/updateLoyaltyPack', async ({ data, id }) => {
     const requestOptions = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            LOYALTY_NAME: level,
-            LOYALTY_POINTS: pointsNeeded,
-            LOYALTY_MULTIPLIER: multiplier
+            LOYALTY_NAME: data.level,
+            LOYALTY_POINTS: data.pointsNeeded,
+            LOYALTY_MULTIPLIER: data.multiplier
         })
     };
     return fetch(`${API_URL}${InternalAPI.LOYALTYPACK}/${id}`, requestOptions).then((res) => res.json());

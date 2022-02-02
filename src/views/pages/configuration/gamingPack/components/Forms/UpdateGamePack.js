@@ -12,8 +12,8 @@ function UpdateGamePack({ coinPack, dispatch, isMobileDevice, openModal, setOpen
             coins: coinPack.data[dataIndex].MAGESTIC_COINS || '',
             diamonds: coinPack.data[dataIndex].MAGESTIC_POINTS || '',
             price: coinPack.data[dataIndex].BUY_AMOUNT || '',
-            discount: coinPack.data[dataIndex].ISOFFER.toString() || '',
-            percentage: coinPack.data[dataIndex].DISCOUNT || '',
+            discount: false,
+            percentage: 0,
             id: coinPack.data[dataIndex].PACK_ID
         },
         validationSchema: gamingPackSchema,
@@ -51,11 +51,11 @@ function UpdateGamePack({ coinPack, dispatch, isMobileDevice, openModal, setOpen
                     )}
                 </FormControl>
                 <FormControl fullWidth error={formik.touched.coins && Boolean(formik.errors.coins)} style={{ marginBottom: 10 }}>
-                    <InputLabel htmlFor="coins">Amount of Coins</InputLabel>
+                    <InputLabel htmlFor="coins">Amount of Majestic Coins</InputLabel>
                     <OutlinedInput
                         value={formik.values.coins}
                         type="number"
-                        label="Amount of Coins"
+                        label="Amount of Majestic Coins"
                         name="coins"
                         id="coins"
                         min="0"
@@ -66,11 +66,11 @@ function UpdateGamePack({ coinPack, dispatch, isMobileDevice, openModal, setOpen
                     {formik.touched.coins && formik.errors.coins && <FormHelperText id="coins-error">{formik.errors.coins}</FormHelperText>}
                 </FormControl>
                 <FormControl fullWidth error={formik.touched.diamonds && Boolean(formik.errors.diamonds)} style={{ marginBottom: 10 }}>
-                    <InputLabel htmlFor="diamonds">Amount of Majestic Diamonds</InputLabel>
+                    <InputLabel htmlFor="diamonds">Amount of Diamonds</InputLabel>
                     <OutlinedInput
                         value={formik.values.diamonds}
                         type="number"
-                        label="Amount of Majestic Diamonds"
+                        label="Amount of Diamonds"
                         name="diamonds"
                         id="diamonds"
                         min="0"
@@ -97,7 +97,7 @@ function UpdateGamePack({ coinPack, dispatch, isMobileDevice, openModal, setOpen
                     />
                     {formik.touched.price && formik.errors.price && <FormHelperText id="price-error">{formik.errors.price}</FormHelperText>}
                 </FormControl>
-                <FormControl fullWidth error={formik.touched.discount && Boolean(formik.errors.discount)} style={{ marginBottom: 10 }}>
+                {/* <FormControl fullWidth error={formik.touched.discount && Boolean(formik.errors.discount)} style={{ marginBottom: 10 }}>
                     <InputLabel htmlFor="discount">Discount</InputLabel>
                     <Select
                         value={formik.values.discount}
@@ -135,7 +135,7 @@ function UpdateGamePack({ coinPack, dispatch, isMobileDevice, openModal, setOpen
                             <FormHelperText id="discount-percentage-error">{formik.errors.percentage}</FormHelperText>
                         )}
                     </FormControl>
-                )}
+                )} */}
 
                 <Box style={{ display: 'flex', justifyContent: 'right', float: 'right' }}>
                     <Button

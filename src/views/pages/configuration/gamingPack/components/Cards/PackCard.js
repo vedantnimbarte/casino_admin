@@ -19,7 +19,7 @@ import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 const CardWrapper = styled(MainCard)(({ theme, data }) => ({
     overflow: 'hidden',
     position: 'relative',
-    backgroundColor: data.ISOFFER && theme.palette.warning.light,
+    // backgroundColor: theme.palette.warning.light,
     height: '100%',
     '&:after': {
         content: '""',
@@ -55,14 +55,8 @@ const EarningCard = ({ isLoading, handleEdit, data, dataIndex, handleDelete }) =
             ) : (
                 <CardWrapper data={data} elevation={4}>
                     <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        {data.ISOFFER ? (
-                            <Box style={{ display: 'flex', alignItems: 'center' }}>
-                                <IconAward color={theme.palette.warning.dark} size="2rem" />{' '}
-                                <Chip label={data.DISCOUNT + '% discount'} color="warning" />
-                            </Box>
-                        ) : (
-                            <Box size="2rem" />
-                        )}
+                        <Box size="2rem" />
+
                         <Box style={{ display: 'flex' }}>
                             <IconButton onClick={() => handleEdit(dataIndex)}>
                                 <EditIcon />

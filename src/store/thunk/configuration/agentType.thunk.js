@@ -36,6 +36,17 @@ export const getAgentTypesList = createAsyncThunk('agent_type/getAgentTypesList'
     return fetch(`${API_URL}${InternalAPI.AGENTTYPE}`, requestOptions).then((res) => res.json());
 });
 
+// GET AGENT TYPES LIST WITH ID THUNK
+export const getAgentTypesWithIdList = createAsyncThunk('agent_type/getAgentTypesWithIdList', async (id) => {
+    const requestOptions = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    return fetch(`${API_URL}${InternalAPI.AGENTTYPE}/${id}`, requestOptions).then((res) => res.json());
+});
+
 // UPDATE AGENT TYPE THUNK
 export const updateAgentType = createAsyncThunk('agent_type/updateAgentType', async ({ name, parentRole, description, id }) => {
     const requestOptions = {

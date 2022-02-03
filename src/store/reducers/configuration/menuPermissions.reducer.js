@@ -3,7 +3,8 @@ import {
     getMenuPermissions,
     createMenuPermissions,
     updateMenuPermissions,
-    deleteMenuPermissions
+    deleteMenuPermissions,
+    getAgentTypesList
 } from 'store/thunk/configuration/menuPermissions.thunk';
 
 const MenuPermissionsSlice = createSlice({
@@ -13,11 +14,25 @@ const MenuPermissionsSlice = createSlice({
         msg: '',
         totalRecords: 0,
         data: [],
-        dataIndex: ''
+        agentTypesList: [],
+        dataIndex: '',
+        prevStatus: { isView: '', isNew: '', isUpdate: '', isDelete: '' }
     },
     reducers: {
         setDataIndex: (state, { payload }) => {
             state.dataIndex = payload;
+        },
+        updateMenuPermission: (state, { payload }) => {
+            state.key = payload;
+            state.prevStatus = { ...state.prevStatus, [payload.key]: state.data[payload.dataIndex].ISVIEW };
+            state.data[payload.dataIndex][payload.key.toUpperCase()] = payload.value;
+        },
+        setPreviousMenuPermission: (state, { payload }) => {
+            state.data[payload.dataIndex][payload.key.toUpperCase()] = state.prevStatus[payload.key];
+            // state.data[payload.dataIndex].ISNEW = state.prevStatus.isNew;
+            // state.data[payload.dataIndex].ISDELETE = state.prevStatus.isDelete;
+            // state.data[payload.dataIndex].ISUPDATE = state.prevStatus.isUpdate;
+            state.prevStatus = { isView: '', isNew: '', isUpdate: '', isDelete: '' };
         }
     },
     extraReducers: {
@@ -38,6 +53,26 @@ const MenuPermissionsSlice = createSlice({
             }
         },
         [getMenuPermissions.rejected]: (state) => {
+            state.status = 'failed';
+            state.msg = 'Something went wrong. Please try again.';
+        },
+
+        // Get permissions Reducers
+        [getAgentTypesList.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getAgentTypesList.fulfilled]: (state, { payload }) => {
+            if (payload.status === true) {
+                state.msg = payload.msg;
+                state.agentTypesList = payload.data;
+                state.status = 'success';
+            }
+            if (payload.status === false) {
+                state.msg = payload.msg || 'Network Error';
+                state.status = 'failed';
+            }
+        },
+        [getAgentTypesList.rejected]: (state) => {
             state.status = 'failed';
             state.msg = 'Something went wrong. Please try again.';
         },
@@ -110,6 +145,6 @@ const MenuPermissionsSlice = createSlice({
     }
 });
 
-export const { setDataIndex } = MenuPermissionsSlice.actions;
+export const { setDataIndex, updateMenuPermission, setPreviousMenuPermission } = MenuPermissionsSlice.actions;
 
 export default MenuPermissionsSlice.reducer;

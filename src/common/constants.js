@@ -1,9 +1,9 @@
 /* eslint:disable:max-classes-per-file */
 
-const API_URL = 'http://143.110.183.1:3002/admin';
-const IMAGE_URL = 'http://143.110.183.1:3002/admin';
-// const API_URL = 'http://192.168.29.78:3002/admin';
-// const IMAGE_URL = 'http://192.168.29.78:3002';
+// const API_URL = 'http://143.110.183.1:3002/admin';
+// const IMAGE_URL = 'http://143.110.183.1:3002/admin';
+const API_URL = 'http://192.168.29.78:3002/admin';
+const IMAGE_URL = 'http://192.168.29.78:3002';
 
 class InternalAPI {
     static AGENTTYPE = '/agenttype';
@@ -17,7 +17,7 @@ class InternalAPI {
     static SLIDER = '/slider';
     static PERMISSIONS = '/permission';
     static MENU = '/menu';
-    static MENUPERMISSIONS = '/menupermissions';
+    static MENUPERMISSIONS = '/menupermission';
     static PLAYER = '/player';
 }
 

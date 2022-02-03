@@ -7,7 +7,7 @@ import MainCard from '../../../../ui-component/cards/MainCard';
 import DataTable from 'components/DataTable';
 import NotFoundCard from 'components/NotFoundCard';
 
-import { getAgentTypesList } from 'store/thunk/configuration/agentType.thunk';
+import { getAgentTypesList, getAgentTypesWithIdList } from 'store/thunk/configuration/agentType.thunk';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPermissions, updatePermissions } from 'store/thunk/configuration/permissions.thunk';
 import { setDataIndex, setPreviousPermission, updatePermission } from 'store/reducers/configuration/permissions.reducer';
@@ -129,11 +129,13 @@ function Permissions() {
     };
 
     useEffect(() => {
-        dispatch(getAgentTypesList());
+        dispatch(getAgentTypesWithIdList(1));
     }, []);
 
     useEffect(() => {
-        dispatch(getPermissions({ roleid: agentRole, limit: pageLmit, pageno: pageNo }));
+        if (agentRole !== '0') {
+            dispatch(getPermissions({ roleid: agentRole, limit: pageLmit, pageno: pageNo }));
+        }
     }, [pageLmit, pageNo, agentRole]);
 
     return (

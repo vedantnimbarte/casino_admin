@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Box, InputLabel, FormControl, OutlinedInput, Button, ButtonGroup } from '@mui/material';
-import { ContentState, EditorState, convertToRaw, convertFromHTML } from 'draft-js';
+import { Box, InputLabel, FormControl, OutlinedInput } from '@mui/material';
+import { ContentState, EditorState, convertFromHTML } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { IconEdit as SaveIcon, IconRefresh as ResetIcon, IconEye as PreviewIcon } from '@tabler/icons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateSettings, getSettingsData } from 'store/thunk/configuration/settings.thunk';

@@ -26,14 +26,14 @@ export const getPlayers = createAsyncThunk('players/getPlayers', async ({ pageno
 });
 
 // GET STORE LIST THUNK
-export const getStoreList = createAsyncThunk('players/getStoreList', async (id) => {
+export const getStoreList = createAsyncThunk('players/getStoreList', async () => {
     const requestOptions = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     };
-    return fetch(`${API_URL}${InternalAPI.PLAYER}${SubRoutes.AGENTLIST}/${id}`, requestOptions).then((res) => res.json());
+    return fetch(`${API_URL}${InternalAPI.AGENT}${SubRoutes.AGENTLIST}/5`, requestOptions).then((res) => res.json());
 });
 
 // UPDATE PLAYER THUNK

@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Paper, useMediaQuery, useTheme, Divider, IconButton, Tooltip, Typography } from '@mui/material';
-import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconTrash as DeleteIcon } from '@tabler/icons';
-import { useFormik } from 'formik';
+import { IconCirclePlus as AddIcon, IconPencil as UpdateIcon, IconBan as BlockIcon } from '@tabler/icons';
 import { useLocation } from 'react-router';
 import moment from 'moment';
-
-import playerSchema from 'schema/player.schema';
-
-// __mock__ data
-import playersList from './__mock__/player-list';
 
 // REDUX
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,12 +17,14 @@ import Modal from 'components/ResponsiveModal';
 import AlertComponent from 'components/Alert';
 
 import NewPlayerForm from './components/Forms/NewPlayer';
+import BlockConfirmation from './components/Dialog/BlockConfirmation';
+import UpdatePlayerForm from './components/Forms/UpdatePlayer';
 
 function Players() {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
     const dispatch = useDispatch();
-    const players = useSelector((state) => state.players);
+    const players = useSelector((state) => state.player);
 
     const { state } = useLocation();
 
@@ -38,15 +34,7 @@ function Players() {
     const [pageLmit, setpageLmit] = useState(10);
     const [pageNo, setPageNo] = useState(0);
     const [playerId, setPlayerId] = useState();
-    const [gameIdx, setGameIdx] = useState();
-
-    const formik = useFormik({
-        initialValues: { username: '', name: '', email: '', password: '', confirm_password: '', phone_no: '', agent: '' },
-        validationSchema: playerSchema,
-        onSubmit: (values) => {
-            console.log(values);
-        }
-    });
+    const [playerIdx, setPlayerIdx] = useState();
 
     useEffect(() => {
         if (state) {
@@ -55,7 +43,7 @@ function Players() {
     }, [state]);
 
     function handleUpdateModal(idx) {
-        setGameIdx(idx);
+        setPlayerIdx(idx);
         setUpdateModal(!updateModal);
     }
 
@@ -73,8 +61,8 @@ function Players() {
             }
         },
         {
-            name: 'GAME_NAME',
-            label: 'GAME NAME',
+            name: 'PLAYER_NAME',
+            label: 'PLAYER NAME',
             options: {
                 filter: true,
                 sort: true,
@@ -82,31 +70,43 @@ function Players() {
             }
         },
         {
-            name: 'GAME_URL',
-            label: 'URL',
+            name: 'PLAYER_USERNAME',
+            label: 'USERNAME',
             options: {
                 filter: false,
                 sort: true,
-                customBodyRender: (value) => (
-                    <Typography>
-                        <a href={value} target="_blank">
-                            Visit Link
-                        </a>
-                    </Typography>
-                )
+                customBodyRender: (value) => <Typography>{value}</Typography>
             }
         },
         {
-            name: 'DESCRIPTION',
-            label: 'DESCRIPTION',
+            name: 'PLAYER_EMAIL',
+            label: 'EMAIL',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'PLAYER_PHONE',
+            label: 'PHONE NO',
+            options: {
+                filter: false,
+                sort: true,
+                customBodyRender: (value) => <Typography>{value}</Typography>
+            }
+        },
+        {
+            name: 'LOGIN_DATE',
+            label: 'LAST LOGIN',
             options: {
                 filter: false,
                 sort: true,
                 customBodyRender: (value) =>
-                    value === null ? (
-                        <Typography style={{ color: 'gray', fontStyle: 'italic' }}>Description not available</Typography>
-                    ) : (
+                    value !== null ? (
                         <Typography>{value}</Typography>
+                    ) : (
+                        <Typography style={{ fontStyle: 'italic', color: 'gray' }}>Player not logged in yet</Typography>
                     )
             }
         },
@@ -147,7 +147,7 @@ function Players() {
                                     setPlayerId(players.data[dataIndex].PLAYER_ID);
                                 }}
                             >
-                                <DeleteIcon />
+                                <BlockIcon />
                             </IconButton>
                         </Tooltip>
                     </>
@@ -182,54 +182,70 @@ function Players() {
     }, []);
 
     return (
-        <Box>
-            <Paper>
-                <MainCard
-                    title={!isMobileDevice && 'Players List'}
-                    secondary={
-                        <Button
-                            id="add-player-btn"
-                            startIcon={<AddIcon />}
-                            onClick={() => setOpenModal(!openModal)}
-                            variant="contained"
-                            color="secondary"
-                        >
-                            Add Player
-                        </Button>
-                    }
-                >
-                    {isMobileDevice && (
-                        <>
+        <>
+            <Box>
+                <Paper>
+                    <MainCard
+                        title={!isMobileDevice && 'Players List'}
+                        secondary={
                             <Button
+                                id="add-player-btn"
                                 startIcon={<AddIcon />}
-                                fullWidth
                                 onClick={() => setOpenModal(!openModal)}
                                 variant="contained"
                                 color="secondary"
-                                style={{ marginBottom: 15 }}
                             >
                                 Add Player
                             </Button>
-                            <Divider />
-                        </>
-                    )}
-                    <Box>
-                        {playersList.length > 0 ? (
-                            <DataTable title="Players List" data={players.data} columns={columns} options={options} />
-                        ) : (
-                            <NotFoundCard msg="Sorry, No data found" />
+                        }
+                    >
+                        {isMobileDevice && (
+                            <>
+                                <Button
+                                    startIcon={<AddIcon />}
+                                    fullWidth
+                                    onClick={() => setOpenModal(!openModal)}
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{ marginBottom: 15 }}
+                                >
+                                    Add Player
+                                </Button>
+                                <Divider />
+                            </>
                         )}
-                    </Box>
-                </MainCard>
-            </Paper>
+                        <Box>
+                            {players.data.length > 0 ? (
+                                <DataTable title="Players List" data={players.data} columns={columns} options={options} />
+                            ) : (
+                                <NotFoundCard msg="Sorry, No data found" />
+                            )}
+                        </Box>
+                    </MainCard>
+                </Paper>
 
-            {/* {players.status === 'failed' && <AlertComponent status="false" message={players.msg} />}
-            {players.status === 'success' && <AlertComponent status="true" message={players.msg} />} */}
+                {players.status === 'failed' && <AlertComponent status="false" message={players.msg} />}
+                {players.status === 'success' && <AlertComponent status="true" message={players.msg} />}
 
-            <Modal title="Add New Player" open={openModal} onClose={() => setOpenModal(!openModal)}>
-                <NewPlayerForm formik={formik} open={openModal} onClose={() => setOpenModal(!openModal)} />
-            </Modal>
-        </Box>
+                <Modal title="Add New Player" open={openModal} onClose={() => setOpenModal(!openModal)}>
+                    <NewPlayerForm dispatch={dispatch} open={openModal} onClose={() => setOpenModal(!openModal)} players={players} />
+                </Modal>
+
+                <Modal title="Update Player" open={updateModal} onClose={() => setUpdateModal(!updateModal)}>
+                    <UpdatePlayerForm
+                        dispatch={dispatch}
+                        open={updateModal}
+                        onClose={() => setUpdateModal(!updateModal)}
+                        players={players}
+                        playerIndex={playerIdx}
+                    />
+                </Modal>
+            </Box>
+            {/* Delete confirmation dialog */}
+            <Box>
+                <BlockConfirmation dispatch={dispatch} openDialog={openDialog} setOpenDialog={setOpenDialog} playerId={playerId} />
+            </Box>
+        </>
     );
 }
 

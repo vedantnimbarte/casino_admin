@@ -4,7 +4,8 @@ import {
     deleteAgentType,
     getAgentType,
     getAgentTypesList,
-    updateAgentType
+    updateAgentType,
+    getAgentTypesWithIdList
 } from 'store/thunk/configuration/agentType.thunk';
 
 const AgentTypeSlice = createSlice({
@@ -39,6 +40,26 @@ const AgentTypeSlice = createSlice({
             }
         },
         [getAgentTypesList.rejected]: (state) => {
+            state.status = 'failed';
+            state.msg = 'Something went wrong. Please try again.';
+        },
+
+        // Get Agent Type List WITH ID Reducers
+        [getAgentTypesWithIdList.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [getAgentTypesWithIdList.fulfilled]: (state, { payload }) => {
+            if (payload.status === true) {
+                state.msg = payload.msg;
+                state.agentTypesList = payload.data;
+                state.status = 'success';
+            }
+            if (payload.status === false) {
+                state.msg = payload.msg || 'Network Error';
+                state.status = 'failed';
+            }
+        },
+        [getAgentTypesWithIdList.rejected]: (state) => {
             state.status = 'failed';
             state.msg = 'Something went wrong. Please try again.';
         },

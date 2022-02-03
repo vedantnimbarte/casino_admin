@@ -1,6 +1,5 @@
 import {
     Box,
-    TextField,
     MenuItem,
     Grid,
     Button,
@@ -16,16 +15,25 @@ import { IconDeviceFloppy as SaveIcon, IconRefresh as ResetIcon, IconX as Cancel
 import { useFormik } from 'formik';
 import propTypes from 'prop-types';
 import { useEffect } from 'react';
-import playerSchema from 'schema/player.schema';
-import { createPlayer, getStoreList } from 'store/thunk/player.thunk';
+import { updatePlayerSchema } from 'schema/player.schema';
+import { createPlayer, updatePlayer } from 'store/thunk/player.thunk';
 
-function NewPlayerForm({ dispatch, onClose, openModal, players }) {
+function UpdatePlayerForm({ dispatch, onClose, openModal, playerIndex, players }) {
     const theme = useTheme();
     const isMobileDevice = useMediaQuery(theme.breakpoints.down('sm'));
 
     const formik = useFormik({
-        initialValues: { username: '', name: '', email: '', password: '', confirm_password: '', phone_no: '', agent: '' },
-        validationSchema: playerSchema,
+        initialValues: {
+            username: players.data[playerIndex].PLAYER_USERNAME || '',
+            name: players.data[playerIndex].PLAYER_NAME || '',
+            email: players.data[playerIndex].PLAYER_EMAIL || '',
+            // password: '',
+            // confirm_password: '',
+            phone_no: players.data[playerIndex].PLAYER_PHONE || '',
+            agent: players.data[playerIndex].AGENT_ID || '',
+            id: players.data[playerIndex].PLAYER_ID
+        },
+        validationSchema: updatePlayerSchema,
         onSubmit: (values) => {
             const data = {};
             Object.assign(data, {
@@ -36,14 +44,12 @@ function NewPlayerForm({ dispatch, onClose, openModal, players }) {
                 PLAYER_PHONE: values.phone_no,
                 AGENT_ID: values.agent
             });
-            dispatch(createPlayer(data));
+            dispatch(updatePlayer({ data, id: values.id }));
             console.log(values);
         }
     });
 
-    useEffect(() => {
-        dispatch(getStoreList());
-    }, []);
+    useEffect(() => {}, []);
 
     return (
         <Box style={{ display: 'flex', flexDirection: 'column' }}>
@@ -238,7 +244,7 @@ function NewPlayerForm({ dispatch, onClose, openModal, players }) {
                             paddingRight: 20
                         }}
                         startIcon={!isMobileDevice && <SaveIcon />}
-                        disabled={!(formik.isValid && formik.dirty)}
+                        // disabled={!(formik.isValid && formik.dirty)}
                     >
                         Submit
                     </Button>
@@ -248,10 +254,10 @@ function NewPlayerForm({ dispatch, onClose, openModal, players }) {
     );
 }
 
-NewPlayerForm.propTypes = {
+UpdatePlayerForm.propTypes = {
     formik: propTypes.object,
     openModal: propTypes.string,
     onClose: propTypes.func
 };
 
-export default NewPlayerForm;
+export default UpdatePlayerForm;
